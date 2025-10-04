@@ -16,7 +16,6 @@ func AddItem(item: Item) -> bool:
     else:
         _items[item.name] = [item]
 
-    print("Inventory changed (add)")
     changed.emit()
 
     _item_count += 1
@@ -36,7 +35,6 @@ func RemoveItem(item: Item) -> Item:
 
         _item_count -= 1
 
-        print("Inventory changed (remove)")
         changed.emit()
 
     return result
