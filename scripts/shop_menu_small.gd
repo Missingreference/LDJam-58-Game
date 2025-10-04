@@ -1,19 +1,18 @@
 class_name ShopMenuSmall
-extends Node2D
+extends ColorRect
+
+@onready var item_1: HBoxContainer = $MarginContainer/VBoxContainer/Item1
+@onready var item_2: HBoxContainer = $MarginContainer/VBoxContainer/Item2
+@onready var item_3: HBoxContainer = $MarginContainer/VBoxContainer/Item3
+@onready var item_4: HBoxContainer = $MarginContainer/VBoxContainer/Item4
+@onready var item_5: HBoxContainer = $MarginContainer/VBoxContainer/Item5
 
 
-@onready var item_1: HBoxContainer = $ColorRect/MarginContainer/VBoxContainer/Item1
-@onready var item_2: HBoxContainer = $ColorRect/MarginContainer/VBoxContainer/Item2
-@onready var item_3: HBoxContainer = $ColorRect/MarginContainer/VBoxContainer/Item3
-@onready var item_4: HBoxContainer = $ColorRect/MarginContainer/VBoxContainer/Item4
-@onready var item_5: HBoxContainer = $ColorRect/MarginContainer/VBoxContainer/Item5
-
-
-@onready var item_label_1: Label = $ColorRect/MarginContainer/VBoxContainer/Item1/Label
-@onready var item_label_2: Label = $ColorRect/MarginContainer/VBoxContainer/Item2/Label
-@onready var item_label_3: Label = $ColorRect/MarginContainer/VBoxContainer/Item3/Label
-@onready var item_label_4: Label = $ColorRect/MarginContainer/VBoxContainer/Item4/Label
-@onready var item_label_5: Label = $ColorRect/MarginContainer/VBoxContainer/Item5/Label
+@onready var item_label_1: Label = $MarginContainer/VBoxContainer/Item1/Label
+@onready var item_label_2: Label = $MarginContainer/VBoxContainer/Item2/Label
+@onready var item_label_3: Label = $MarginContainer/VBoxContainer/Item3/Label
+@onready var item_label_4: Label = $MarginContainer/VBoxContainer/Item4/Label
+@onready var item_label_5: Label = $MarginContainer/VBoxContainer/Item5/Label
 
 @onready var display_items = [
     item_1,
@@ -30,6 +29,10 @@ extends Node2D
     item_label_4,
     item_label_5,
 ]
+
+@onready var highlight_color_rect: ColorRect = $HighlightColorRect
+
+var _game_data: GameData
 
 
 func _ready():
@@ -49,17 +52,24 @@ func _ready():
         var potions = []
         potions.resize(10)
         potions.fill(Item.Create("Potion"))
-        var shop_items = {
+        self._game_data = GameData.new()
+        self._game_data.shop_items = {
             "Sword": [Item.Create("Sword")],
             # "Armor": [Item.Create("Armor"), Item.Create("Armor")],
             "Bows": [Item.Create("Bow"), Item.Create("Bow"), Item.Create("Bow")],
             "Potion":  potions,
         }
-        self.update(shop_items)
+        self._update_shop_display()
 
 
-func update(shop_items: Dictionary):
+func set_game_data(game_data):
+    self._game_data = game_data
+    game_data.shop_items.changed.connect(self._update_shop_display)
+
+
+func _update_shop_display():
     print("Updating shop item display")
+    var shop_items = self._game_data.shop_items
 
     var shop_item_names = shop_items.keys()
 
@@ -76,3 +86,40 @@ func update(shop_items: Dictionary):
             # There are not enough items to fill the display
             # Hide display item
             self.display_items[display_index].visible = false
+
+
+func _on_mouse_entered():
+    self.highlight_color_rect.color.a = 0.5
+
+
+func _on_mouse_exited():
+    self.highlight_color_rect.color.a = 0.0
+
+
+func _on_gui_input(event: InputEvent):
+    if event.is_pressed():
+        self._open_shop_menu_edit()
+
+
+func _open_shop_menu_edit():
+    # Disable UI
+    self.mouse_entered.disconnect(self._on_mouse_entered)
+    self.mouse_exited.disconnect(self._on_mouse_exited)
+    self.gui_input.disconnect(self._on_gui_input)
+    self.highlight_color_rect.color.a = 0.0
+
+    # Open shop edit scene
+    var shop_edit = self.shop_edit_scene.instantiate()
+    shop_edit.game_data = self.game_data
+    shop_edit.closed.connect(self._close_shop_menu_edit.bind(shop_edit))
+    self.add_child(shop_edit)
+
+
+func _close_shop_menu_edit(shop_edit):
+    # Close shop edit scene
+    self.remove_child(shop_edit)
+
+    # Enable UI
+    self.mouse_entered.connect(self._on_mouse_entered)
+    self.mouse_exited.connect(self._on_mouse_exited)
+    self.gui_input.connect(self._on_gui_input)

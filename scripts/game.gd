@@ -3,11 +3,13 @@ extends Node2D
 
 @onready var finish_button: Button = $FinishButton
 @onready var phase_label: Label = $PhaseLabel
+@onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 
 var game_data = GameData.new()
 
 
 func _ready():
+    self.shop_menu.set_game_data(self.game_data)
     self._start_phase_one()
 
 
@@ -18,12 +20,14 @@ func _start_phase_one():
     self.game_data.phase = GameData.GamePhase.one
     self.finish_button.pressed.connect(self._finish_phase_one)
     self.finish_button.visible = true
+    self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _finish_phase_one():
     print("Finished phase one")
 
     self.finish_button.pressed.disconnect(self._finish_phase_one)
+    self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
     self._start_phase_two()
 
 

@@ -1,65 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=3 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://wouky70rg5pj" path="res://scenes/shop_menu_small.tscn" id="2_yqjtg"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_uwrxv")
 
-[node name="Stall" type="ColorRect" parent="."]
-offset_left = 223.0
-offset_top = 355.0
-offset_right = 546.0
-offset_bottom = 561.0
+[node name="Shop" type="ColorRect" parent="."]
+offset_left = 225.0
+offset_top = 357.0
+offset_right = 548.0
+offset_bottom = 563.0
 
-[node name="SaleSign" type="BoxContainer" parent="Stall"]
-layout_mode = 0
-offset_left = -95.0
-offset_top = -60.0
-offset_right = 114.0
-offset_bottom = 38.0
-
-[node name="HFlowContainer" type="HFlowContainer" parent="Stall/SaleSign"]
-layout_mode = 2
-
-[node name="VFlowContainer" type="VFlowContainer" parent="Stall/SaleSign/HFlowContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="Stall/SaleSign/HFlowContainer/VFlowContainer"]
-layout_mode = 2
-text = "Swords"
-
-[node name="Button2" type="Button" parent="Stall/SaleSign/HFlowContainer/VFlowContainer"]
-layout_mode = 2
-text = "<"
-
-[node name="Label" type="Label" parent="Stall/SaleSign/HFlowContainer/VFlowContainer"]
-layout_mode = 2
-text = "0"
-
-[node name="Button" type="Button" parent="Stall/SaleSign/HFlowContainer/VFlowContainer"]
-layout_mode = 2
-text = ">"
-
-[node name="Label2" type="Label" parent="Stall/SaleSign/HFlowContainer"]
-visible = false
-layout_mode = 2
-text = "foo"
-
-[node name="Label3" type="Label" parent="Stall/SaleSign/HFlowContainer"]
-visible = false
-layout_mode = 2
-text = "foo"
-
-[node name="Button" type="Button" parent="Stall/SaleSign/HFlowContainer"]
-layout_mode = 2
-text = "+"
+[node name="ShopMenuSmall" parent="." instance=ExtResource("2_yqjtg")]
+offset_left = 93.0
+offset_top = 357.0
+offset_right = 218.0
+offset_bottom = 507.0
 
 [node name="FinishButton" type="Button" parent="."]
-offset_left = 936.0
-offset_top = 544.0
-offset_right = 1086.0
-offset_bottom = 575.0
+offset_left = 981.0
+offset_top = 603.0
+offset_right = 1131.0
+offset_bottom = 634.0
 text = "Finish Preparation"
 
 [node name="PhaseLabel" type="Label" parent="."]

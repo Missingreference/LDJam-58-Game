@@ -2,29 +2,18 @@
 
 [ext_resource type="Script" uid="uid://bhfxmachxx35w" path="res://scripts/shop_menu_small.gd" id="1_cx56u"]
 
-[node name="ShopMenuSmall" type="Node2D"]
+[node name="ShopMenuSmall" type="ColorRect"]
+custom_minimum_size = Vector2(125, 175)
+color = Color(0.7921569, 0.48235294, 0.14117648, 1)
 script = ExtResource("1_cx56u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-clip_contents = true
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -62.5
-offset_top = -75.0
-offset_right = 62.5
-offset_bottom = 75.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.790294, 0.48249447, 0.13936883, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
@@ -32,84 +21,105 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 0
 alignment = 1
 
-[node name="Item1" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8817906, 0, 0.11837267, 1)
+text = "For Sale"
+horizontal_alignment = 1
+
+[node name="Item1" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer/Item1"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item1"]
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/Item1"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Swords: 1"
 clip_text = true
 
-[node name="Item2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Item2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer/Item2"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item2"]
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/Item2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Potions: 10"
 clip_text = true
 
-[node name="Item3" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Item3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer/Item3"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item3"]
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/Item3"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Armour: 10"
 clip_text = true
 
-[node name="Item4" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Item4" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer/Item4"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item4"]
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/Item4"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item4"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Bows: 3"
 clip_text = true
 
-[node name="Item5" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Item5" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 clip_contents = true
 layout_mode = 2
 alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer/Item5"]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item5"]
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/Item5"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "HP Potions: 13"
 clip_text = true
+
+[node name="HighlightColorRect" type="ColorRect" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
