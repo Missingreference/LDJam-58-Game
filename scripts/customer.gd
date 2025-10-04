@@ -9,9 +9,7 @@ var small_items: Array[Item]
 
 var base_attr: Attributes = Attributes.new()
 
-func _init():
-    print("Created: %s" % self)
-
+static var _customer_scene = preload("res://scenes/customer.tscn")
 
 func _to_string() -> String:
     return "Customer(name: %s, coins: %d, weapon: %s, armor: %s, small_items: %s) \n %s" % [
@@ -22,6 +20,18 @@ func _to_string() -> String:
         self.small_items,
         self.base_attr
     ]
+
+
+static func create_default_customers() -> Array[Customer]:
+    # Generate a random set of starting customers
+    var result: Array[Customer] = []
+    for i in range(10):
+        var customer = Customer._customer_scene.instantiate()
+        customer.customer_name = Names.generate_customer_name()
+
+        result.append(customer)
+
+    return result
 
 
 class Attributes:

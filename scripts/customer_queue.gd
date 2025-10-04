@@ -12,7 +12,6 @@ var game_data: GameData
 @onready var _test_add_button = $TestAddButton
 @onready var _test_remove_button = $TestRemoveButton
 
-var _customer_scene = preload("res://scenes/customer.tscn")
 var _test_customers: Array[Customer] = []
 
 
@@ -23,10 +22,7 @@ func _ready():
     self._queue.remove_child(self._placeholder_3)
 
     if get_tree().current_scene == self:
-        for i in range(0, 10):
-            var customer = self._customer_scene.instantiate()
-            customer.customer_name = "Foo%d" % i
-            self._test_customers.append(customer)
+        self._test_customers = Customer.create_default_customers()
 
         self.enqueue_customers(self._test_customers)
     else:
@@ -42,13 +38,12 @@ func enqueue_customers(customers: Array[Customer], min_count: int = 3, max_count
     # Constain based on number of available customers
     customer_count = min(customer_count, customers.size())
 
-    print("Enqueuing %d customers" % customer_count)
 
     # Pick N random customers from the pool
     var chosen_customers = RandomUtils.pick_random_count(customers, customer_count)
 
     var customer_names = chosen_customers.map(func(c): return c.customer_name)
-    print("Picked %s" % ",".join(customer_names))
+    print("Enqueuing %d customers: %s" % [customer_count, ", ".join(customer_names)])
 
     # Enqueue
     for customer in chosen_customers:
