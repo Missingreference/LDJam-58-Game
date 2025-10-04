@@ -34,7 +34,10 @@ func _on_plus_button_pressed():
     inventory_ui.SetMode(InventoryUI.Mode.Picker)
     inventory_ui.SetTargetInventory(self.game_data.inventory)
     inventory_ui.itemChosen.connect(self._inventory_item_chosen.bind(inventory_ui))
-    inventory_ui.exited.connect(func(): self.remove_child(inventory_ui))
+    inventory_ui.exited.connect(func():
+        self.remove_child(inventory_ui)
+        self._enable_controls()
+    )
 
 
 func _inventory_item_chosen(item: Item, inventory_ui):
@@ -46,6 +49,10 @@ func _inventory_item_chosen(item: Item, inventory_ui):
     # TODO check if we actually need to make a new edit item
     self._add_edit_item_node(item, 1)
 
+    self._enable_controls()
+
+
+func _enable_controls():
     # Restore UI controls
     self._plus_button.pressed.connect(self._on_plus_button_pressed)
 
@@ -90,6 +97,10 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
 
     if edit_item.quantity <= 0:
         self._edit_item_list.remove_child(edit_item)
+
+    # Check if at max capacity
+    if self._edit_item_list.get_child_count() < 5:
+        self._plus_button.visible = true
 
 
 func _on_close_button_pressed():

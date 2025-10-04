@@ -88,8 +88,8 @@ func SetTargetInventory(inventory: Inventory):
     var columnCount = floor(self.size.x / (SLOT_PIXEL_SIZE + SLOT_SPACING))
     var remainingSpace = self.size.x - ((columnCount * SLOT_PIXEL_SIZE) + ((columnCount-1) * SLOT_SPACING))
     gridContainer.columns = columnCount
-    gridContainer.add_theme_constant_override("h_eparation", SLOT_SPACING)
-    marginContainer.offset_left = remainingSpace * 0.
+    gridContainer.add_theme_constant_override("h_separation", SLOT_SPACING)
+    marginContainer.offset_left = remainingSpace * 0.5
     
     Refresh()
 

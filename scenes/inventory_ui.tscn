@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7m3rejc7uk6v"]
+[gd_scene load_steps=2 format=3 uid="uid://cwasakcao8et1"]
 
-[ext_resource type="Script" uid="uid://dgh7sv6nu6ab3" path="res://scripts/inventoryUI.gd" id="1_tahbm"]
+[ext_resource type="Script" path="res://scripts/inventoryUI.gd" id="1_tahbm"]
 
 [node name="Inventory" type="ColorRect"]
 anchors_preset = 8
