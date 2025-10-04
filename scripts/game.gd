@@ -9,6 +9,7 @@ var game_data = GameData.new()
 
 
 func _ready():
+    self.game_data.inventory = Inventory.create_default_inventory()
     self.shop_menu.set_game_data(self.game_data)
     self._start_phase_one()
 
