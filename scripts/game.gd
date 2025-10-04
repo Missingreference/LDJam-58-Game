@@ -1,18 +1,22 @@
 class_name Game
-extends Node2D
+extends Control
 
+@onready var inventory_button: Button = $InventoryButton
+@onready var settings_button: Button = $SettingsButton
+@onready var gold_label: Label = $GoldLabel
 @onready var finish_button: Button = $FinishButton
 @onready var phase_label: Label = $PhaseLabel
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 
 var game_data = GameData.new()
 
+var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
+var settings_menu_scene = preload("res://scenes/settings_menu.gd")
 
 func _ready():
     self.game_data.inventory = Inventory.create_default_inventory()
     self.shop_menu.set_game_data(self.game_data)
     self._start_phase_one()
-
 
 func _start_phase_one():
     print("Starting phase one")
@@ -78,3 +82,44 @@ func _finish_phase_four():
 
     self.finish_button.pressed.disconnect(self._finish_phase_four)
     self._start_phase_one()
+
+func _process(deltaTime):
+    #temporary
+    gold_label.text = "Gold: %d" % game_data.coins
+
+func _inventory_button_pressed():
+    _disable_controls()
+    
+    var inventoryUI: InventoryUI = inventory_ui_scene.instantiate()
+    self.add_child(inventoryUI)
+    inventoryUI.global_position = get_viewport_rect().size / 2.0
+    inventoryUI.SetMode(InventoryUI.Mode.Manage)
+    inventoryUI.SetTargetInventory(game_data.inventory)
+    inventoryUI.exited.connect(func():
+        self.remove_child(inventoryUI)
+        _enable_controls()
+    )
+
+func _settings_button_pressed():
+    _disable_controls()
+    
+    var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
+    self.add_child(settingsMenu)
+    settingsMenu.global_position = get_viewport_rect().size / 2.0
+    settingsMenu.exited.connect(func():
+        self.remove_child(settingsMenu)
+        _enable_controls()
+    )
+
+func _enable_controls():
+    inventory_button.disabled = false
+    settings_button.disabled = false
+    finish_button.disabled = false
+    if game_data.phase == GameData.GamePhase.one:
+        self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
+
+func _disable_controls():
+    inventory_button.disabled = true
+    settings_button.disabled = true
+    finish_button.disabled = true
+    self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
