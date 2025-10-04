@@ -50,30 +50,30 @@ func _ready():
         var game_data = GameData.new()
         set_game_data(game_data)
 
-        game_data.inventory = Inventory.create_default_inventory()
-        var potion = game_data.inventory.RemoveItem(Item.Create("Potion"))
+        game_data.warehouse_inventory = Inventory.create_default_inventory()
+        var potion = game_data.warehouse_inventory.RemoveItem(Item.Create("Potion"))
         print("Adding shop item")
-        game_data.shop_items.AddItem(potion)
+        game_data.shop_inventory.AddItem(potion)
 
 
 
 func set_game_data(game_data: GameData):
     self._game_data = game_data
-    self._game_data.shop_items.changed.connect(self._update_shop_display)
+    self._game_data.shop_inventory.changed.connect(self._update_shop_display)
 
 
 func _update_shop_display():
     print("Updating shop item display")
-    var shop_items = self._game_data.shop_items.GetItems()
+    var shop_inventory = self._game_data.shop_inventory.GetItems()
 
-    var shop_item_names = shop_items.keys()
+    var shop_item_names = shop_inventory.keys()
 
     # Loop over display slots and either populate it an item name and count,
     # or hide if there are not enough items to fill the display
     for display_index in range(display_items.size()):
         if display_index < shop_item_names.size():
             var item_name = shop_item_names[display_index]
-            var item_count = shop_items[item_name].size()
+            var item_count = shop_inventory[item_name].size()
             # Update the display label
             self.display_labels[display_index].text = "%s: %d" % [item_name, item_count]
             self.display_items[display_index].visible = true

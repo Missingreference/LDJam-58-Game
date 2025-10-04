@@ -22,11 +22,11 @@ func _ready():
 
         # Test data
         self.game_data = GameData.new()
-        self.game_data.inventory = Inventory.create_default_inventory()
-        self.game_data.inventory.max_item_count = 10
+        self.game_data.warehouse_inventory = Inventory.create_default_inventory()
+        self.game_data.warehouse_inventory.max_item_count = 10
 
-    var shop_items = self.game_data.shop_items.GetItems()
-    for items_array in shop_items.values():
+    var shop_inventory = self.game_data.shop_inventory.GetItems()
+    for items_array in shop_inventory.values():
         for item in items_array:
             self._add_edit_item_node(item)
 
@@ -40,7 +40,7 @@ func _on_plus_button_pressed():
     self.add_child(inventory_ui)
     inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Picker)
-    inventory_ui.SetTargetInventory(self.game_data.inventory)
+    inventory_ui.SetTargetInventory(self.game_data.warehouse_inventory)
     inventory_ui.itemChosen.connect(self._inventory_item_chosen.bind(inventory_ui))
     inventory_ui.exited.connect(func():
         self.remove_child(inventory_ui)
@@ -50,9 +50,9 @@ func _on_plus_button_pressed():
 
 func _inventory_item_chosen(item: Item, inventory_ui):
     self.remove_child(inventory_ui)
-    var success = self.game_data.inventory.RemoveItem(item)
+    var success = self.game_data.warehouse_inventory.RemoveItem(item)
     assert(success, "Tried to remove item that didn't exist!")
-    self.game_data.shop_items.AddItem(item)
+    self.game_data.shop_inventory.AddItem(item)
 
     self._add_edit_item_node(item)
     self._enable_controls()
@@ -65,14 +65,14 @@ func _enable_controls():
 
 func _update_buttons_state(edit_item: ShopMenuEditItem, item: Item):
     # Update plus button state based on item count available
-    var item_count = self.game_data.inventory.GetItemCount(item)
+    var item_count = self.game_data.warehouse_inventory.GetItemCount(item)
     if item_count <= 0:
         edit_item.plus_button.disabled = true
     else:
         edit_item.plus_button.disabled = false
 
     # Update minus button state based on inventory count
-    if self.game_data.inventory.IsFull():
+    if self.game_data.warehouse_inventory.IsFull():
         # TODO: show tooltip to inform user that inventory is full
         for i in self._item_name_to_edit_item.values():
             i.minus_button.disabled = true
@@ -112,13 +112,13 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
     # Update warehouse inventory
     # NOTE: assuming we only ever change by an amount of -1 or +1
     if change_amount < 0:
-        var success = self.game_data.shop_items.RemoveItem(item)
+        var success = self.game_data.shop_inventory.RemoveItem(item)
         assert(success, "Inconsistent item quantity between inventory and shop menu (1)")
-        self.game_data.inventory.AddItem(item)
+        self.game_data.warehouse_inventory.AddItem(item)
     elif change_amount > 0:
-        var success = self.game_data.inventory.RemoveItem(item)
+        var success = self.game_data.warehouse_inventory.RemoveItem(item)
         assert(success, "Inconsistent item quantity between inventory and shop menu (2)")
-        self.game_data.shop_items.AddItem(item)
+        self.game_data.shop_inventory.AddItem(item)
 
     # If quantity drops to zero for the EditItem, remove it
     if edit_item.quantity <= 0:

@@ -14,7 +14,7 @@ var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.gd")
 
 func _ready():
-    self.game_data.inventory = Inventory.create_default_inventory()
+    self.game_data.warehouse_inventory = Inventory.create_default_inventory()
     self.shop_menu.set_game_data(self.game_data)
     self._start_phase_one()
 

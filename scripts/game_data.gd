@@ -7,11 +7,11 @@ enum GamePhase {
     four
 }
 
-var inventory = Inventory.new()
+var warehouse_inventory = Inventory.new()
 
 # Items available in the shop
 # Index on the name of the item
-var shop_items = Inventory.new()
+var shop_inventory = Inventory.new()
 
 var coins = 0
 var customers: Array[Customer] = []
