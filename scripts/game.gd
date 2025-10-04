@@ -12,7 +12,7 @@ extends Control
 var game_data = GameData.new()
 
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
-var settings_menu_scene = preload("res://scenes/settings_menu.gd")
+var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
 
 
 func _ready():
