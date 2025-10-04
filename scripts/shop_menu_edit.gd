@@ -2,6 +2,7 @@ extends Control
 
 signal closed
 
+const inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 const shop_menu_edit_item = preload("res://scenes/shop_menu_edit_item.tscn")
 
 @onready var _edit_item_list = $Sprite2D/MarginContainer/VBoxContainer/VBoxContainer
@@ -24,10 +25,29 @@ func _ready():
 
 
 func _on_plus_button_pressed():
-    # TODO: fetch item from warehouse
-    var item = Item.Create("Sword")
-    self.game_data.inventory.RemoveItem(item)
+    # Disable UI controls
+    self._plus_button.pressed.disconnect(self._on_plus_button_pressed)
+
+    # Fetch item from warehouse inventory
+    var inventory_ui: InventoryUI = self.inventory_ui_scene.instantiate()
+    self.add_child(inventory_ui)
+    inventory_ui.SetMode(InventoryUI.Mode.Picker)
+    inventory_ui.SetTargetInventory(self.game_data.inventory)
+    inventory_ui.itemChosen.connect(self._inventory_item_chosen.bind(inventory_ui))
+    inventory_ui.exited.connect(func(): self.remove_child(inventory_ui))
+
+
+func _inventory_item_chosen(item: Item, inventory_ui):
+    self.remove_child(inventory_ui)
+    var success = self.game_data.inventory.RemoveItem(item)
+    assert(success, "Tried to remove item that didn't exist!")
+    self.game_data.shop_items.AddItem(item)
+
+    # TODO check if we actually need to make a new edit item
     self._add_edit_item_node(item, 1)
+
+    # Restore UI controls
+    self._plus_button.pressed.connect(self._on_plus_button_pressed)
 
 
 func _add_edit_item_node(item: Item, quantity: int):
