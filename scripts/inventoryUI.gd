@@ -31,9 +31,6 @@ enum Mode
     Manage
 }
 
-const SLOT_PIXEL_SIZE = 40
-const SLOT_SPACING = 5
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     selectionHighlighter.visible = false
@@ -86,20 +83,12 @@ func SetMode(mode):
 func SetTargetInventory(inventory: Inventory):
     _inventory = inventory
     _inventory.changed.connect(Refresh)
-
-    #Define spacing and column count
-    var columnCount = floor(self.colorRect.size.x / (SLOT_PIXEL_SIZE + SLOT_SPACING))
-    var remainingSpace = self.colorRect.size.x - ((columnCount * SLOT_PIXEL_SIZE) + ((columnCount-1) * SLOT_SPACING))
-    gridContainer.columns = columnCount
-    gridContainer.add_theme_constant_override("h_separation", SLOT_SPACING)
-    marginContainer.offset_left = remainingSpace * 0.5
-
+    
     Refresh()
 
 func _createSlot(item: Item) -> ItemSlot:
     var newSlot: ItemSlot = item_slot_scene.instantiate()
     newSlot.item = item
-    newSlot.custom_minimum_size = Vector2(SLOT_PIXEL_SIZE, SLOT_PIXEL_SIZE)
 
     if _mode == Mode.Manage:
         newSlot.manageable = true
@@ -121,7 +110,6 @@ func _onSlotSelected(slot: ItemSlot):
     chooseButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
-    print(selectionHighlighter.global_position)
 
 func _onSlotDeleted(slot: ItemSlot):
     _inventory.RemoveItem(slot.item)
@@ -133,3 +121,4 @@ func _onChooseButtonPressed():
 
 func _onExitButtonPressed():
     exited.emit()
+    
