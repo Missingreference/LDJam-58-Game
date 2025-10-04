@@ -16,6 +16,10 @@ var quantity: int = 1
 
 
 func _ready():
+    self.update_labels()
+
+
+func update_labels():
     self._qty_label.text = "%d" % self.quantity
     self._name_label.text = self.item_name
     self._price_label.text = "%d" % self.price

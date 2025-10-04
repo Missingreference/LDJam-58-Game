@@ -2,7 +2,6 @@ extends Node2D
 
 signal closed
 
-const test_scene = preload("res://scenes/test.tscn")
 const inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 const shop_menu_edit_item = preload("res://scenes/shop_menu_edit_item.tscn")
 
@@ -11,6 +10,8 @@ const shop_menu_edit_item = preload("res://scenes/shop_menu_edit_item.tscn")
 
 var max_edit_item_count: int = 5
 var game_data: GameData
+
+var _item_name_to_edit_item: Dictionary[String, ShopMenuEditItem] = {}
 
 
 func _ready():
@@ -22,8 +23,8 @@ func _ready():
 
     var shop_items = self.game_data.shop_items.GetItems()
     for items_array in shop_items.values():
-        var quantity = items_array.size()
-        self._add_edit_item_node(items_array[0], quantity)
+        for item in items_array:
+            self._add_edit_item_node(item)
 
 
 func _on_plus_button_pressed():
@@ -49,10 +50,7 @@ func _inventory_item_chosen(item: Item, inventory_ui):
     assert(success, "Tried to remove item that didn't exist!")
     self.game_data.shop_items.AddItem(item)
 
-    # TODO check if we actually need to make a new edit item
-
-    self._add_edit_item_node(item, 1)
-
+    self._add_edit_item_node(item)
     self._enable_controls()
 
 
@@ -61,19 +59,30 @@ func _enable_controls():
     self._plus_button.pressed.connect(self._on_plus_button_pressed)
 
 
-func _add_edit_item_node(item: Item, quantity: int):
-    var edit_item = shop_menu_edit_item.instantiate()
-    edit_item.item_name = item.name
-    edit_item.price = 10
-    edit_item.quantity = quantity
-    self._edit_item_list.add_child(edit_item)
-
+func _update_edit_item_button_state(edit_item: ShopMenuEditItem, item: Item):
     # Update button state based on item count available
     var item_count = self.game_data.inventory.GetItemCount(item)
     if item_count <= 0:
         edit_item.plus_button.disabled = true
 
-    edit_item.quantity_changed.connect(self._item_quantity_changed.bind(edit_item, item))
+
+func _add_edit_item_node(item: Item):
+    # Check if we already have an edit item
+    var edit_item: ShopMenuEditItem
+    if self._item_name_to_edit_item.has(item.name):
+        edit_item = self._item_name_to_edit_item[item.name]
+        edit_item.quantity += 1
+    else:
+        edit_item = shop_menu_edit_item.instantiate()
+        edit_item.item_name = item.name
+        edit_item.price = 10
+        edit_item.quantity = 1
+        edit_item.quantity_changed.connect(self._item_quantity_changed.bind(edit_item, item))
+        self._edit_item_list.add_child(edit_item)
+        self._item_name_to_edit_item[item.name] = edit_item
+
+    edit_item.update_labels()
+    self._update_edit_item_button_state(edit_item, item)
 
     # Check if at max capacity
     if self._edit_item_list.get_child_count() >= self.max_edit_item_count:
@@ -101,6 +110,7 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
 
     if edit_item.quantity <= 0:
         self._edit_item_list.remove_child(edit_item)
+        self._item_name_to_edit_item.erase(edit_item.item_name)
 
     # Check if at max capacity
     if self._edit_item_list.get_child_count() < self.max_edit_item_count:
