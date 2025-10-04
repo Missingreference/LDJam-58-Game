@@ -112,8 +112,18 @@ func _onSlotSelected(slot: ItemSlot):
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
 
 func _onSlotDeleted(slot: ItemSlot):
-    _inventory.RemoveItem(slot.item)
-    Refresh()
+    var popupMenu: GamePopupMenu = GamePopupMenu.Create("Throw away " + slot.item.name + "?", "This item will be lost.")
+    self.add_child(popupMenu)
+    print(popupMenu.global_position)
+    print(popupMenu.anchor_left)
+    popupMenu.confirmed.connect(func():
+        self.remove_child(popupMenu)
+        _inventory.RemoveItem(slot.item)
+        Refresh()
+    )
+    popupMenu.cancelled.connect(func():
+        self.remove_child(popupMenu)
+    )
 
 func _onChooseButtonPressed():
     chooseButton.disabled = true
