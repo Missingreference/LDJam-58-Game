@@ -7,7 +7,7 @@ enum GamePhase {
     four
 }
 
-var inventory = {}
+var inventory = Inventory.new()
 
 # Items available in the shop
 # Index on the name of the item

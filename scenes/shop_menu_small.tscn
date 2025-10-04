@@ -1,23 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://wouky70rg5pj"]
+[gd_scene load_steps=3 format=3 uid="uid://wouky70rg5pj"]
 
 [ext_resource type="Script" uid="uid://bhfxmachxx35w" path="res://scripts/shop_menu_small.gd" id="1_cx56u"]
+[ext_resource type="Texture2D" uid="uid://cbdvh7agg2px" path="res://assets/sprites/sale_board.png" id="2_2nc26"]
 
 [node name="ShopMenuSmall" type="ColorRect"]
-custom_minimum_size = Vector2(125, 175)
+custom_minimum_size = Vector2(80, 160)
 color = Color(0.7921569, 0.48235294, 0.14117648, 1)
 script = ExtResource("1_cx56u")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2nc26")
+centered = false
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -0.5
-offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
@@ -38,6 +42,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item1"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -45,7 +50,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item1"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Swords: 1"
+theme_override_font_sizes/font_size = 10
+text = "Sword: 1"
 clip_text = true
 
 [node name="Item2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -53,6 +59,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item2"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -60,7 +67,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Potions: 10"
+theme_override_font_sizes/font_size = 10
+text = "Potion: 10"
 clip_text = true
 
 [node name="Item3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -68,6 +76,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item3"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -75,7 +84,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Armour: 10"
+theme_override_font_sizes/font_size = 10
+text = "Armor: 10"
 clip_text = true
 
 [node name="Item4" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -83,6 +93,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item4"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -90,7 +101,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item4"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Bows: 3"
+theme_override_font_sizes/font_size = 10
+text = "Bow: 3"
 clip_text = true
 
 [node name="Item5" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -99,6 +111,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Item5"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -106,7 +119,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item5"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "HP Potions: 13"
+theme_override_font_sizes/font_size = 10
+text = "HP Potion: 13"
 clip_text = true
 
 [node name="HighlightColorRect" type="ColorRect" parent="."]
