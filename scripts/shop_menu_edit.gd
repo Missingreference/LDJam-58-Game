@@ -1,3 +1,4 @@
+class_name ShopMenuEdit
 extends Node2D
 
 signal closed

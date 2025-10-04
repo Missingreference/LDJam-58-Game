@@ -30,7 +30,7 @@ func _start_phase_one():
     self.game_data.phase = GameData.GamePhase.one
     self.finish_button.pressed.connect(self._finish_phase_one)
     self.finish_button.visible = true
-    self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
+    self.shop_menu.start()
 
 
 func _finish_phase_one():
@@ -38,7 +38,7 @@ func _finish_phase_one():
 
     self.finish_button.pressed.disconnect(self._finish_phase_one)
     self.finish_button.visible = false
-    self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    self.shop_menu.stop()
     self._start_phase_two()
 
 
@@ -74,7 +74,6 @@ func _finish_phase_three():
     self.finish_button.pressed.disconnect(self._finish_phase_three)
     self.finish_button.visible = false
     self._start_phase_four()
-
 
 
 func _start_phase_four():

@@ -35,6 +35,21 @@ var shop_menu_edit_scene = preload("res://scenes/shop_menu_edit.tscn")
 @onready var highlight_color_rect: ColorRect = $HighlightColorRect
 
 var _game_data: GameData
+var _shop_edit: ShopMenuEdit
+
+
+func set_game_data(game_data: GameData):
+    self._game_data = game_data
+    self._game_data.shop_inventory.changed.connect(self._update_shop_display)
+
+
+func start():
+    self.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+func stop():
+    self.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    self._close_shop_menu_edit()
 
 
 func _ready():
@@ -50,16 +65,11 @@ func _ready():
         var game_data = GameData.new()
         set_game_data(game_data)
 
-        game_data.warehouse_inventory = Inventory.create_default_inventory()
         var potion = game_data.warehouse_inventory.RemoveItem(Item.Create("Potion"))
         print("Adding shop item")
         game_data.shop_inventory.AddItem(potion)
 
-
-
-func set_game_data(game_data: GameData):
-    self._game_data = game_data
-    self._game_data.shop_inventory.changed.connect(self._update_shop_display)
+        self.start()
 
 
 func _update_shop_display():
@@ -104,16 +114,20 @@ func _open_shop_menu_edit():
     self.highlight_color_rect.color.a = 0.0
 
     # Open shop edit scene
-    var shop_edit = self.shop_menu_edit_scene.instantiate()
-    shop_edit.game_data = self._game_data
-    shop_edit.closed.connect(self._close_shop_menu_edit.bind(shop_edit))
-    self.add_child(shop_edit)
-    shop_edit.global_position = get_viewport_rect().size / 2.0
+    self._shop_edit = self.shop_menu_edit_scene.instantiate()
+    self._shop_edit.game_data = self._game_data
+    self._shop_edit.closed.connect(self._close_shop_menu_edit)
+    self.add_child(self._shop_edit)
+    self._shop_edit.global_position = get_viewport_rect().size / 2.0
 
 
-func _close_shop_menu_edit(shop_edit):
+func _close_shop_menu_edit():
+    if self._shop_edit == null:
+        return
+
     # Close shop edit scene
-    self.remove_child(shop_edit)
+    self.remove_child(self._shop_edit)
+    self._shop_edit = null
 
     # Enable UI
     self.mouse_entered.connect(self._on_mouse_entered)
