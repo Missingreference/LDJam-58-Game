@@ -1,7 +1,7 @@
 class_name ItemDatabase
 
 #Sprites
-static var potionSprite = preload("res://assets/sprites/potion_placeholder.png")
+static var potionSprite = preload("res://assets/sprites/icon_potion.png")
 static var swordSprite = preload("res://assets/sprites/sword_placeholder.png")
 
 static var _allItems: Array[ItemData] = []
