@@ -1,6 +1,8 @@
 class_name ShopMenuSmall
 extends ColorRect
 
+var shop_menu_edit_scene = preload("res://scenes/shop_menu_edit.tscn")
+
 @onready var item_1: HBoxContainer = $MarginContainer/VBoxContainer/Item1
 @onready var item_2: HBoxContainer = $MarginContainer/VBoxContainer/Item2
 @onready var item_3: HBoxContainer = $MarginContainer/VBoxContainer/Item3
@@ -45,31 +47,27 @@ func _ready():
     # If running scene standalone
     if get_tree().current_scene == self:
         # Center in viewport
-        var viewport_center = get_viewport().get_visible_rect().size / 2.0
-        self.global_position = viewport_center
+        # var viewport_center = get_viewport().get_visible_rect().size / 2.0
+        # self.global_position = viewport_center
 
         # Test data
-        var potions = []
-        potions.resize(10)
-        potions.fill(Item.Create("Potion"))
-        self._game_data = GameData.new()
-        self._game_data.shop_items = {
-            "Sword": [Item.Create("Sword")],
-            # "Armor": [Item.Create("Armor"), Item.Create("Armor")],
-            "Bows": [Item.Create("Bow"), Item.Create("Bow"), Item.Create("Bow")],
-            "Potion":  potions,
-        }
-        self._update_shop_display()
+        var game_data = GameData.new()
+        set_game_data(game_data)
+
+        game_data.inventory = Inventory.create_default_inventory()
+        var potion = game_data.inventory.RemoveItem(Item.Create("Potion"))
+        game_data.shop_items.AddItem(potion)
 
 
-func set_game_data(game_data):
+
+func set_game_data(game_data: GameData):
     self._game_data = game_data
-    game_data.shop_items.changed.connect(self._update_shop_display)
+    self._game_data.shop_items.changed.connect(self._update_shop_display)
 
 
 func _update_shop_display():
     print("Updating shop item display")
-    var shop_items = self._game_data.shop_items
+    var shop_items = self._game_data.shop_items.GetItems()
 
     var shop_item_names = shop_items.keys()
 
@@ -109,10 +107,11 @@ func _open_shop_menu_edit():
     self.highlight_color_rect.color.a = 0.0
 
     # Open shop edit scene
-    var shop_edit = self.shop_edit_scene.instantiate()
-    shop_edit.game_data = self.game_data
+    var shop_edit = self.shop_menu_edit_scene.instantiate()
+    shop_edit.game_data = self._game_data
     shop_edit.closed.connect(self._close_shop_menu_edit.bind(shop_edit))
     self.add_child(shop_edit)
+    shop_edit.global_position = Vector2(0, 0)
 
 
 func _close_shop_menu_edit(shop_edit):
