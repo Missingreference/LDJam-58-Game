@@ -25,4 +25,10 @@ offset_right = 39.0
 offset_bottom = 132.0
 text = "Add"
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Sold out!"
+size = Vector2i(203, 100)
+dialog_text = "Shop inventory is empty"
+
 [connection signal="pressed" from="TestAddButton" to="." method="_on_test_add_button_pressed"]

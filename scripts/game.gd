@@ -13,7 +13,6 @@ var game_data = GameData.new()
 
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
-var customer_offer_ui_scene: CustomerOfferUI = preload("res://scenes/customer_offer_ui.tscn")
 
 
 func _ready():
@@ -47,16 +46,8 @@ func _start_phase_two():
     print("Starting phase two")
     self.phase_label.text = "Phase Two"
     self.game_data.phase = GameData.GamePhase.two
-    self.customer_queue.customer_selected.connect(self._handle_customer_offer)
     self.customer_queue.queue_emptied.connect(self._finish_phase_two)
     self.customer_queue.start()
-
-
-func _handle_customer_offer(customer: Customer):
-    var customer_offer_ui = self.customer_offer_ui_scene.instantiate()
-    customer_offer_ui.set_customer_offer(offer)
-    self.add_child(customer_offer_ui)
-    customer_offer_ui.position = customer.position - Vector2(customer_off_ui.size().x, 0)
 
 
 

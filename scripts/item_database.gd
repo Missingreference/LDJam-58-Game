@@ -7,9 +7,9 @@ static var swordSprite = preload("res://assets/sprites/sword_placeholder.png")
 static var _allItems: Array[ItemData] = []
 
 static func _static_init() -> void:
-    RegisterItem("Potion", Item.ItemType.Consumable, potionSprite)
-    RegisterItem("Sword", Item.ItemType.Equipment, swordSprite)
-    RegisterItem("Bow", Item.ItemType.Equipment, null)
+    RegisterItem("Potion", Item.ItemType.Consumable, 10, potionSprite)
+    RegisterItem("Sword", Item.ItemType.Equipment, 50, swordSprite)
+    RegisterItem("Bow", Item.ItemType.Equipment, 30, null)
 
 static func GetName(id) -> String:
    return _allItems[id].name
@@ -27,6 +27,7 @@ static func FindID(name) -> int:
 static func GetType(id) -> Item.ItemType:
     return _allItems[id].type
 
+
 static func FindType(name):
     for itemData in _allItems:
         if name == itemData:
@@ -34,6 +35,9 @@ static func FindType(name):
 
     #Not found
     return null
+
+static func GetValue(id) -> int:
+    return _allItems[id].value
 
 static func GetSprite(id) -> Texture:
     return _allItems[id].sprite
@@ -48,13 +52,15 @@ static func FindSprite(name) -> Texture:
 
 class ItemData:
     var name
-    var sprite
     var type
+    var value
+    var sprite
 
-static func RegisterItem(name, type, sprite):
+static func RegisterItem(name, type, value, sprite):
     var newItem:ItemData = ItemData.new()
     newItem.name = name
     newItem.type = type
+    newItem.value = value
     newItem.sprite = sprite
 
     _allItems.append(newItem)

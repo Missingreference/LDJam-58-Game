@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jgfcho3q7dju"
-path="res://.godot/imported/icon_staff.png-232002b05379a01f0ce3c9366afd41e8.ctex"
+uid="uid://bdmrwqp463mj4"
+path="res://.godot/imported/haggle.png-82b320b7a7a41114447217404d916436.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icon_staff.png"
-dest_files=["res://.godot/imported/icon_staff.png-232002b05379a01f0ce3c9366afd41e8.ctex"]
+source_file="res://assets/sprites/haggle.png"
+dest_files=["res://.godot/imported/haggle.png-82b320b7a7a41114447217404d916436.ctex"]
 
 [params]
 

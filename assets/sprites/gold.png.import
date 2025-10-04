@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jgfcho3q7dju"
-path="res://.godot/imported/icon_staff.png-232002b05379a01f0ce3c9366afd41e8.ctex"
+uid="uid://c586anala5q2f"
+path="res://.godot/imported/gold.png-c9486b6d2b144dc0f2b6faa5d7a615d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/icon_staff.png"
-dest_files=["res://.godot/imported/icon_staff.png-232002b05379a01f0ce3c9366afd41e8.ctex"]
+source_file="res://assets/sprites/gold.png"
+dest_files=["res://.godot/imported/gold.png-c9486b6d2b144dc0f2b6faa5d7a615d4.ctex"]
 
 [params]
 

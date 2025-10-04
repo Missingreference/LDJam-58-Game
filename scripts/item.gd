@@ -38,3 +38,16 @@ func GetType() -> ItemType:
 
 func GetSprite() -> Texture:
     return ItemDatabase.GetSprite(ID)
+
+func GetBaseValue() -> int:
+    return ItemDatabase.GetValue(ID)
+
+func GetValue() -> int:
+    var base_value = self.GetBaseValue()
+    if self.rarity == Rarity.Rare:
+        base_value *= 1.2
+    elif self.rarity == Rarity.Legendary:
+        base_value *= 1.5
+
+    return base_value
+    

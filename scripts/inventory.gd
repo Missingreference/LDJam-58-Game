@@ -74,6 +74,13 @@ func GetItemCount(item: Item) -> int:
         return 0
 
 
+func GetRandomItem() -> Item:
+    var key = RandomUtils.pick_random(self._items.keys())
+    if key == null:
+        return null
+    return RandomUtils.pick_random(self._items[key])
+
+
 static func create_default_inventory() -> Inventory:
     var inventory = Inventory.new()
 

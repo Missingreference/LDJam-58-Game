@@ -1,18 +1,20 @@
 class_name CustomerQueue
 extends Node2D
 
-signal customer_selected(Customer)
 signal queue_emptied
 
 var _game_data: GameData
 
 @onready var _queue: HBoxContainer = $Queue
 
+var _customer_offer_ui_scene = preload("res://scenes/customer_offer_ui.tscn")
+
 # Debug properties
 @onready var _placeholder_1 = $Queue/CustomerPlaceholder1
 @onready var _placeholder_2 = $Queue/CustomerPlaceholder2
 @onready var _placeholder_3 = $Queue/CustomerPlaceholder3
 @onready var _test_add_button = $TestAddButton
+@onready var _accept_dialog: AcceptDialog = $AcceptDialog
 
 
 func set_game_data(game_data: GameData):
@@ -34,7 +36,15 @@ func _ready():
     self._queue.remove_child(self._placeholder_3)
 
     if get_tree().current_scene == self:
+        # Center in view
+        self.global_position = get_viewport_rect().size / 2
+
+        # Test data
         self.set_game_data(GameData.new())
+        # Add some items to the shop inventory
+        self._game_data.shop_inventory.AddItem(Item.Create("Sword"))
+        self._game_data.shop_inventory.AddItem(Item.Create("Bow"))
+        self._game_data.shop_inventory.AddItem(Item.Create("Potion"))
         self.start()
     else:
         # Remove test buttons
@@ -47,7 +57,6 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
 
     # Constain based on number of available customers
     customer_count = min(customer_count, customers.size())
-
 
     # Pick N random customers from the pool
     var chosen_customers = RandomUtils.pick_random_count(customers, customer_count)
@@ -72,30 +81,67 @@ func _enable_next_customer_selection():
     # Connect signals for the customer at the front of the queue
     var next_customer: Customer = queued_customers.front()
     if next_customer != null:
-        if not next_customer.selected.is_connected(self._pop_front):
-            next_customer.selected.connect(self._pop_front)
+        if not next_customer.selected.is_connected(self._do_customer_offer):
+            next_customer.selected.connect(self._do_customer_offer)
             next_customer.enable_selection()
 
 
-# Remove and return the customer at the front of the line
-# Returns null if there are no more customers in the queue
-func _pop_front() -> Customer:
+func _do_customer_offer():
     var customer = self._queue.get_children().front()
     assert(customer != null)
 
-    customer.selected.disconnect(self._pop_front)
+    customer.selected.disconnect(self._do_customer_offer)
     customer.disable_selection()
-    self._queue.remove_child(customer)
-    self.customer_selected.emit(customer)
-    self._enable_next_customer_selection()
 
-    return customer
+    # Pick an item from the shop
+    var item = self._game_data.shop_inventory.GetRandomItem()
+
+    # If we don't have any more items, then notify the user and evacuate the queue
+    if item == null:
+        self._accept_dialog.popup_centered()
+        if not self._accept_dialog.confirmed.is_connected(self._clear):
+            self._accept_dialog.confirmed.connect(self._clear)
+        if not self._accept_dialog.canceled.is_connected(self._clear):
+            self._accept_dialog.canceled.connect(self._clear)
+        return
+
+    # Generate an offer
+    var offer = CustomerOffer.create_random_offer(customer, item)
+
+    # Display the offer to the user
+    var customer_offer_ui = self._customer_offer_ui_scene.instantiate()
+    self.add_child(customer_offer_ui)
+    customer_offer_ui.set_customer_offer(offer)
+    var ui_size = customer_offer_ui.size()
+    customer_offer_ui.global_position = customer.global_position + Vector2(ui_size.x / 2, -(ui_size.y / 2) - 20)
+
+    print("Prepared customer offer, awaiting user input")
+
+    # Wait for user
+    var result = await customer_offer_ui.offer_result
+
+    # Process offer result
+    if result[0] == CustomerOfferUI.OfferResult.accepted:
+        var final_price = result[1]
+        self._game_data.shop_inventory.RemoveItem(item)
+        # TODO: customer.add_item(item)
+        self._game_data.add_gold(final_price)
+
+    self.remove_child(customer_offer_ui)
+
+    # TODO: animate customer walking away
+
+    self._queue.remove_child(customer)
+    self._enable_next_customer_selection()
 
 
 # Clear out any remaining customers waiting in the queue
 func _clear():
+    # TODO: animate
     for child in self._queue.get_children():
         self._queue.remove_child(child)
+
+    self.queue_emptied.emit()
 
 
 

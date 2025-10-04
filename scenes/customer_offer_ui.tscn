@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b70domcv1pdrc"]
+[gd_scene load_steps=4 format=3 uid="uid://b7hyugc3ib55t"]
 
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_51q1o"]
 [ext_resource type="Script" uid="uid://y46wopdtkesi" path="res://scripts/customer_offer_ui.gd" id="1_r1vgh"]
@@ -41,7 +41,7 @@ theme_override_constants/separation = 7
 
 [node name="CustomerNameLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Character name"
+text = "Customer name"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -51,9 +51,12 @@ layout_mode = 2
 texture = ExtResource("1_51q1o")
 stretch_mode = 2
 
-[node name="SpeechLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="FlavorLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Let me take a look at your wares..."
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Let me take a look at your wares...fjadsadjflakdjf fjalkdsjf a dflkjad fad asdf ajdfasdflja sdflkadsfj asdlfjalsdfjalsdk fjaldjfalksdjflaksdjfalkd ksjfalsd fjladsfj aldkfj aldfj asdf"
+autowrap_mode = 2
 
 [node name="Line" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 2)
@@ -76,6 +79,7 @@ text = "For:"
 [node name="ItemIcon" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 texture = ExtResource("2_r1vgh")
+expand_mode = 2
 
 [node name="ItemName" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -92,7 +96,7 @@ alignment = 1
 
 [node name="AcceptButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 0
 text = "Accept"
 
 [node name="HaggleButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
@@ -101,6 +105,9 @@ text = "Haggle"
 
 [node name="DeclineButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
 text = "Decline
 "
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer/DeclineButton" to="." method="_on_decline_button_pressed"]
