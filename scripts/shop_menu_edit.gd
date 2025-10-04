@@ -51,11 +51,15 @@ func _add_edit_item_node(item: Item, quantity: int):
 
 func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: Item):
     # Update warehouse inventory
+    # NOTE: assuming we only ever change by an amount of -1 or +1
     if change_amount < 0:
+        var success = self.game_data.shop_items.RemoveItem(item)
+        assert(success, "Inconsistent item quantity between inventory and shop menu (1)")
         self.game_data.inventory.AddItem(item)
     elif change_amount > 0:
         var success = self.game_data.inventory.RemoveItem(item)
-        assert(success, "Inconsistent item quantity between inventory and shop menu")
+        assert(success, "Inconsistent item quantity between inventory and shop menu (2)")
+        self.game_data.shop_items.AddItem(item)
 
     # Update button state based on item count available
     var item_count = self.game_data.inventory.GetItemCount(item)

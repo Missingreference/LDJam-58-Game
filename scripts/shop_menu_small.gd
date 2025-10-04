@@ -46,16 +46,13 @@ func _ready():
 
     # If running scene standalone
     if get_tree().current_scene == self:
-        # Center in viewport
-        # var viewport_center = get_viewport().get_visible_rect().size / 2.0
-        # self.global_position = viewport_center
-
         # Test data
         var game_data = GameData.new()
         set_game_data(game_data)
 
         game_data.inventory = Inventory.create_default_inventory()
         var potion = game_data.inventory.RemoveItem(Item.Create("Potion"))
+        print("Adding shop item")
         game_data.shop_items.AddItem(potion)
 
 
