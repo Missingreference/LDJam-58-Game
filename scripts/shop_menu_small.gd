@@ -108,7 +108,7 @@ func _open_shop_menu_edit():
     shop_edit.game_data = self._game_data
     shop_edit.closed.connect(self._close_shop_menu_edit.bind(shop_edit))
     self.add_child(shop_edit)
-    shop_edit.global_position = Vector2(0, 0)
+    shop_edit.global_position = get_viewport_rect().size / 2.0
 
 
 func _close_shop_menu_edit(shop_edit):

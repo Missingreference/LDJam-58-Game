@@ -3,15 +3,16 @@
 #-Call SetInventory
 #-Listen for signals
 class_name InventoryUI
-extends ColorRect
+extends Node2D
 var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 
-@onready var titleLabel: Label = $Title
-@onready var marginContainer: MarginContainer = $MarginContainer
-@onready var gridContainer: GridContainer = $MarginContainer/GridContainer
-@onready var selectionHighlighter: ColorRect = $"Selection Highlighter"
-@onready var exitButton: Button = $"Exit Button"
-@onready var chooseButton: Button = $"Choose Button"
+@onready var colorRect: ColorRect = $ColorRect
+@onready var titleLabel: Label = $ColorRect/Title
+@onready var marginContainer: MarginContainer = $ColorRect/MarginContainer
+@onready var gridContainer: GridContainer = $ColorRect/MarginContainer/GridContainer
+@onready var selectionHighlighter: ColorRect = $ColorRect/"Selection Highlighter"
+@onready var exitButton: Button = $"ColorRect/Exit Button"
+@onready var chooseButton: Button = $"ColorRect/Choose Button"
 
 signal itemChosen
 signal exited
@@ -36,13 +37,16 @@ const SLOT_SPACING = 5
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     selectionHighlighter.visible = false
-    
+
     SetMode(Mode.Readonly)
-    
+
     if get_tree().current_scene == self:
+        # Center in viewport
+        self.global_position = get_viewport_rect().size / 2.0
+
         #Debug
         SetMode(Mode.Manage)
-        
+
         var debugInventory = Inventory.new()
         debugInventory.maxItemCount = 10
         debugInventory.AddItem(Item.Create("Potion"))
@@ -53,15 +57,15 @@ func Refresh():
     #Note: It would be better to resuse these item slots
     for i in gridContainer.get_child_count():
         var child = gridContainer.get_child(i)
-        child.queue_free()
-        
+        gridContainer.remove_child(child)
+
     var itemCountSoFar = 0
     var inventoryItems = _inventory.GetItems().values()
     for itemArray in inventoryItems:
         for item in itemArray:
             gridContainer.add_child(_createSlot(item))
             itemCountSoFar += 1
-    
+
     while itemCountSoFar < _inventory.maxItemCount:
         gridContainer.add_child(_createSlot(null))
         itemCountSoFar += 1
@@ -77,27 +81,27 @@ func SetMode(mode):
     elif mode == Mode.Manage:
         titleLabel.text = "Inventory"
         chooseButton.visible = false
-        
+
     _mode = mode
 
 func SetTargetInventory(inventory: Inventory):
     _inventory = inventory
     _inventory.changed.connect(Refresh)
-        
+
     #Define spacing and column count
-    var columnCount = floor(self.size.x / (SLOT_PIXEL_SIZE + SLOT_SPACING))
-    var remainingSpace = self.size.x - ((columnCount * SLOT_PIXEL_SIZE) + ((columnCount-1) * SLOT_SPACING))
+    var columnCount = floor(self.colorRect.size.x / (SLOT_PIXEL_SIZE + SLOT_SPACING))
+    var remainingSpace = self.colorRect.size.x - ((columnCount * SLOT_PIXEL_SIZE) + ((columnCount-1) * SLOT_SPACING))
     gridContainer.columns = columnCount
     gridContainer.add_theme_constant_override("h_separation", SLOT_SPACING)
     marginContainer.offset_left = remainingSpace * 0.5
-    
+
     Refresh()
 
 func _createSlot(item: Item) -> ItemSlot:
     var newSlot: ItemSlot = item_slot_scene.instantiate()
     newSlot.item = item
     newSlot.custom_minimum_size = Vector2(SLOT_PIXEL_SIZE, SLOT_PIXEL_SIZE)
-    
+
     if _mode == Mode.Manage:
         newSlot.manageable = true
         newSlot.selectable = false
@@ -110,16 +114,16 @@ func _createSlot(item: Item) -> ItemSlot:
     else:
         newSlot.manageable = false
         newSlot.selectable = false
-        
+
     return newSlot
-    
+
 func _onSlotSelected(slot: ItemSlot):
     _selectedSlot = slot
     chooseButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
     print(selectionHighlighter.global_position)
-    
+
 func _onSlotDeleted(slot: ItemSlot):
     _inventory.RemoveItem(slot.item)
     Refresh()
@@ -127,6 +131,6 @@ func _onSlotDeleted(slot: ItemSlot):
 func _onChooseButtonPressed():
     chooseButton.disabled = true
     itemChosen.emit(_selectedSlot.item)
-    
+
 func _onExitButtonPressed():
     exited.emit()

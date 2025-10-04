@@ -1,7 +1,8 @@
-extends Control
+extends Node2D
 
 signal closed
 
+const test_scene = preload("res://scenes/test.tscn")
 const inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 const shop_menu_edit_item = preload("res://scenes/shop_menu_edit_item.tscn")
 
@@ -31,6 +32,7 @@ func _on_plus_button_pressed():
     # Fetch item from warehouse inventory
     var inventory_ui: InventoryUI = self.inventory_ui_scene.instantiate()
     self.add_child(inventory_ui)
+    inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Picker)
     inventory_ui.SetTargetInventory(self.game_data.inventory)
     inventory_ui.itemChosen.connect(self._inventory_item_chosen.bind(inventory_ui))
