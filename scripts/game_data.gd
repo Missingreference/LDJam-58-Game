@@ -1,5 +1,4 @@
 class_name GameData
-extends Node
 
 enum GamePhase {
     one,
