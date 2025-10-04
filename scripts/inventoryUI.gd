@@ -75,7 +75,7 @@ func SetMode(mode):
         chooseButton.visible = true
         chooseButton.disabled = true
     elif mode == Mode.Manage:
-        titleLabel.text == "Inventory"
+        titleLabel.text = "Inventory"
         chooseButton.visible = false
         
     _mode = mode
