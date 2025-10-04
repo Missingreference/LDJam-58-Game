@@ -13,10 +13,14 @@ var game_data = GameData.new()
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.gd")
 
+
 func _ready():
     self.game_data.warehouse_inventory = Inventory.create_default_inventory()
+    self.game_data.gold_changed.connect(self._update_gold_label)
+    self._update_gold_label(self.game_data.get_gold())
     self.shop_menu.set_game_data(self.game_data)
     self._start_phase_one()
+
 
 func _start_phase_one():
     print("Starting phase one")
@@ -83,20 +87,21 @@ func _finish_phase_four():
     self.finish_button.pressed.disconnect(self._finish_phase_four)
     self._start_phase_one()
 
-func _process(deltaTime):
-    #temporary
-    gold_label.text = "Gold: %d" % game_data.coins
+
+func _update_gold_label(value: int):
+    self.gold_label.text = "Gold: %d" % value
+
 
 func _inventory_button_pressed():
     _disable_controls()
 
-    var inventoryUI: InventoryUI = inventory_ui_scene.instantiate()
-    self.add_child(inventoryUI)
-    inventoryUI.global_position = get_viewport_rect().size / 2.0
-    inventoryUI.SetMode(InventoryUI.Mode.Manage)
-    inventoryUI.SetTargetInventory(game_data.warehouse_inventory)
-    inventoryUI.exited.connect(func():
-        self.remove_child(inventoryUI)
+    var inventory_ui: InventoryUI = inventory_ui_scene.instantiate()
+    self.add_child(inventory_ui)
+    inventory_ui.global_position = get_viewport_rect().size / 2.0
+    inventory_ui.SetMode(InventoryUI.Mode.Manage)
+    inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
+    inventory_ui.exited.connect(func():
+        self.remove_child(inventory_ui)
         _enable_controls()
     )
 
