@@ -54,7 +54,7 @@ func _start_phase_two():
 func _finish_phase_two():
     print("Finished phase two")
 
-    self.finish_button.pressed.disconnect(self._finish_phase_two)
+    self.customer_queue.queue_emptied.disconnect(self._finish_phase_two)
     self.customer_queue.stop()
     self._start_phase_three()
 
