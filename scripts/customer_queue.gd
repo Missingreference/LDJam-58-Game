@@ -1,7 +1,7 @@
 class_name CustomerQueue
 extends Node2D
 
-var game_data: GameData
+var _game_data: GameData
 
 @onready var _queue: HBoxContainer = $Queue
 
@@ -10,9 +10,18 @@ var game_data: GameData
 @onready var _placeholder_2 = $Queue/CustomerPlaceholder2
 @onready var _placeholder_3 = $Queue/CustomerPlaceholder3
 @onready var _test_add_button = $TestAddButton
-@onready var _test_remove_button = $TestRemoveButton
 
-var _test_customers: Array[Customer] = []
+
+func set_game_data(game_data: GameData):
+    self._game_data = game_data
+
+
+func start():
+    self._enqueue_customers(self._game_data.customers)
+
+
+func stop():
+    self._clear()
 
 
 func _ready():
@@ -22,17 +31,15 @@ func _ready():
     self._queue.remove_child(self._placeholder_3)
 
     if get_tree().current_scene == self:
-        self._test_customers = Customer.create_default_customers()
-
-        self.enqueue_customers(self._test_customers)
+        self.set_game_data(GameData.new())
+        self.start()
     else:
         # Remove test buttons
         self.remove_child(self._test_add_button)
-        self.remove_child(self._test_remove_button)
 
 
 # Enqueue a random number of customers from the game data pool
-func enqueue_customers(customers: Array[Customer], min_count: int = 3, max_count: int = 7):
+func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_count: int = 7):
     var customer_count = Globals.rng.randi_range(min_count, max_count)
 
     # Constain based on number of available customers
@@ -49,22 +56,41 @@ func enqueue_customers(customers: Array[Customer], min_count: int = 3, max_count
     for customer in chosen_customers:
         self._queue.add_child(customer)
 
+    self._enable_next_customer_selection()
+
+
+func _enable_next_customer_selection():
+    # Connect signals for the customer at the front of the queue
+    var next_customer: Customer = self._queue.get_children().front()
+    if next_customer != null:
+        if not next_customer.selected.is_connected(self._pop_front):
+            next_customer.selected.connect(self._pop_front)
+            next_customer.enable_selection()
+
 
 # Remove and return the customer at the front of the line
 # Returns null if there are no more customers in the queue
-func pop_front() -> Customer:
+func _pop_front() -> Customer:
     var customer = self._queue.get_children().front()
 
     if customer != null:
+        customer.selected.disconnect(self._pop_front)
+        customer.disable_selection()
         self._queue.remove_child(customer)
+
+
+    self._enable_next_customer_selection()
 
     return customer
 
 
+# Clear out any remaining customers waiting in the queue
+func _clear():
+    for child in self._queue.get_children():
+        self._queue.remove_child(child)
+
+
+
 func _on_test_add_button_pressed():
-    var available_customers = self._test_customers.filter(func(c): return not self._queue.get_children().has(c))
-    self.enqueue_customers(available_customers, 1, 1)
-
-
-func _on_test_remove_button_pressed():
-    self.pop_front()
+    var available_customers = self._game_data.customers.filter(func(c): return not self._queue.get_children().has(c))
+    self._enqueue_customers(available_customers, 1, 1)

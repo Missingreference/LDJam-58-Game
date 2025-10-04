@@ -7,6 +7,7 @@ extends Control
 @onready var finish_button: Button = $FinishButton
 @onready var phase_label: Label = $PhaseLabel
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
+@onready var customer_queue: CustomerQueue = $CustomerQueue
 
 var game_data = GameData.new()
 
@@ -15,10 +16,10 @@ var settings_menu_scene = preload("res://scenes/settings_menu.gd")
 
 
 func _ready():
-    self.game_data.warehouse_inventory = Inventory.create_default_inventory()
     self.game_data.gold_changed.connect(self._update_gold_label)
     self._update_gold_label(self.game_data.get_gold())
     self.shop_menu.set_game_data(self.game_data)
+    self.customer_queue.set_game_data(self.game_data)
     self._start_phase_one()
 
 
@@ -46,12 +47,14 @@ func _start_phase_two():
     self.game_data.phase = GameData.GamePhase.two
     self.finish_button.pressed.connect(self._finish_phase_two)
     self.finish_button.visible = true
+    self.customer_queue.start()
 
 
 func _finish_phase_two():
     print("Finished phase two")
 
     self.finish_button.pressed.disconnect(self._finish_phase_two)
+    self.customer_queue.stop()
     self._start_phase_three()
 
 

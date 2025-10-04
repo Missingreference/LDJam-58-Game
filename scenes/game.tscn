@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=4 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://wouky70rg5pj" path="res://scenes/shop_menu_small.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bet1qdes2tl41" path="res://scenes/customer_queue.tscn" id="3_lnu2h"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -88,6 +89,9 @@ offset_bottom = 45.0
 grow_horizontal = 0
 text = "Gold: 9999999999"
 horizontal_alignment = 2
+
+[node name="CustomerQueue" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(574, 517)
 
 [connection signal="pressed" from="InventoryButton" to="." method="_inventory_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_SettingsButtonPressed"]

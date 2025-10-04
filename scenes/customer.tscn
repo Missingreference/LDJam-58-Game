@@ -4,6 +4,18 @@
 [ext_resource type="Script" uid="uid://dc54a7ltcpkyt" path="res://scripts/customer.gd" id="2_xss0h"]
 
 [node name="Customer" type="TextureRect"]
+clip_contents = true
 size_flags_horizontal = 3
 texture = ExtResource("1_ktfjk")
 script = ExtResource("2_xss0h")
+
+[node name="Highlight" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

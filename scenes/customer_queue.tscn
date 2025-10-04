@@ -25,13 +25,4 @@ offset_right = 39.0
 offset_bottom = 132.0
 text = "Add"
 
-[node name="TestRemoveButton" type="Button" parent="."]
-offset_left = 54.0
-offset_top = 101.0
-offset_right = 125.0
-offset_bottom = 132.0
-text = "Remove
-"
-
 [connection signal="pressed" from="TestAddButton" to="." method="_on_test_add_button_pressed"]
-[connection signal="pressed" from="TestRemoveButton" to="." method="_on_test_remove_button_pressed"]
