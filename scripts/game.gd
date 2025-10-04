@@ -11,13 +11,6 @@ func _ready():
     self._start_phase_one()
 
 
-func _finish_phase_one():
-    print("Finished phase one")
-
-    self.finish_button.pressed.disconnect(self._finish_phase_one)
-    self._start_phase_two()
-
-
 func _start_phase_one():
     print("Starting phase one")
 
@@ -25,6 +18,13 @@ func _start_phase_one():
     self.game_data.phase = GameData.GamePhase.one
     self.finish_button.pressed.connect(self._finish_phase_one)
     self.finish_button.visible = true
+
+
+func _finish_phase_one():
+    print("Finished phase one")
+
+    self.finish_button.pressed.disconnect(self._finish_phase_one)
+    self._start_phase_two()
 
 
 func _start_phase_two():
