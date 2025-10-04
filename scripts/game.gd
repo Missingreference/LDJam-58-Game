@@ -115,8 +115,8 @@ func _settings_button_pressed():
 
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
-    settingsMenu.global_position = get_viewport_rect().size / 2.0
-    settingsMenu.exited.connect(func():
+    #settingsMenu.global_position = get_viewport_rect().size / 2.0
+    settingsMenu.closed.connect(func():
         self.remove_child(settingsMenu)
         _enable_controls()
     )

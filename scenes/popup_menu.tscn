@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://npnl2hmblkin"]
+
+[ext_resource type="Script" uid="uid://44k18tpo0r5x" path="res://scripts/game_popup_menu.gd" id="1_1s2af"]
+
+[node name="PopupMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1s2af")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 397.0
+offset_top = 160.0
+offset_right = 687.0
+offset_bottom = 355.0
+color = Color(0.19793725, 0.19793722, 0.19793722, 1)
+
+[node name="Title" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -22.5
+offset_right = 22.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "[Title]"
+
+[node name="Message" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -32.5
+offset_right = 24.0
+offset_bottom = -9.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "[Message]"
+
+[node name="ConfirmButton" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = -64.0
+offset_right = 102.0
+offset_bottom = -33.0
+grow_vertical = 0
+text = "Confirm"
+
+[node name="CancelButton" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -91.0
+offset_top = -64.0
+offset_right = -31.0
+offset_bottom = -33.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Cancel"

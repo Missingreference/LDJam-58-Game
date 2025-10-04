@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://delan87hbwk6k"]
+[gd_scene load_steps=3 format=3 uid="uid://delan87hbwk6k"]
 
-[ext_resource type="Script" uid="uid://663vaucrfb4d" path="res://scenes/settings_menu.gd" id="1_05p07"]
+[ext_resource type="Script" uid="uid://663vaucrfb4d" path="res://settings_menu.gd" id="1_05p07"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05p07"]
 
 [node name="SettingsMenu" type="Control"]
 layout_mode = 3
@@ -26,53 +28,62 @@ color = Color(0.15487596, 0.154876, 0.15487596, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.15
-anchor_top = 0.075
+anchor_top = 0.19
 anchor_right = 0.85
 anchor_bottom = 0.88500005
+offset_left = 0.87997437
+offset_top = -0.20799255
+offset_right = 0.87994385
+offset_bottom = -0.20800781
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="VolumeContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="ColorRect/VBoxContainer/VolumeContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Volume"
+horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="ColorRect/VBoxContainer/VolumeContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="VolumeSlider" type="HSlider" parent="ColorRect/VBoxContainer/VolumeContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 
 [node name="VolumePercentLabel" type="Label" parent="ColorRect/VBoxContainer/VolumeContainer"]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "100%"
 
-[node name="ResolutionContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
+[node name="FullscreenContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="ColorRect/VBoxContainer/ResolutionContainer"]
+[node name="Label" type="Label" parent="ColorRect/VBoxContainer/FullscreenContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "Resolution"
+text = "Fullscreen"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="ColorRect/VBoxContainer/ResolutionContainer"]
+[node name="Spacer" type="Control" parent="ColorRect/VBoxContainer/FullscreenContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="ColorRect/VBoxContainer/ResolutionContainer"]
+[node name="CheckButton" type="CheckButton" parent="ColorRect/VBoxContainer/FullscreenContainer"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "Test Element 1"
-popup/item_0/id = 0
-popup/item_1/text = "Test Element 2"
-popup/item_1/id = 1
+theme_override_styles/focus = SubResource("StyleBoxEmpty_05p07")
+
+[node name="Spacer2" type="Control" parent="ColorRect/VBoxContainer/FullscreenContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
 
 [node name="Title" type="Label" parent="ColorRect"]
 layout_mode = 1
@@ -111,3 +122,8 @@ offset_bottom = -27.599976
 grow_horizontal = 2
 grow_vertical = 0
 text = "Quit Game"
+
+[connection signal="value_changed" from="ColorRect/VBoxContainer/VolumeContainer/VolumeSlider" to="." method="_volume_changed"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/FullscreenContainer/CheckButton" to="." method="_fullscreen_checkbutton_pressed"]
+[connection signal="pressed" from="ColorRect/CloseButton" to="." method="_close_button_pressed"]
+[connection signal="pressed" from="ColorRect/QuitButton" to="." method="_quit_button_pressed"]
