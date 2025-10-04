@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8pvwlfmfghud"]
+
+[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_ktfjk"]
+[ext_resource type="Script" uid="uid://dc54a7ltcpkyt" path="res://scripts/customer.gd" id="2_xss0h"]
+
+[node name="Customer" type="TextureRect"]
+size_flags_horizontal = 3
+texture = ExtResource("1_ktfjk")
+script = ExtResource("2_xss0h")

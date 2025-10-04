@@ -13,7 +13,7 @@ var inventory = Inventory.new()
 # Index on the name of the item
 var shop_items = Inventory.new()
 
-var coins = -1
-var adventurers = []
+var coins = 0
+var customers: Array[Customer] = []
 var phase: GamePhase = GamePhase.one
 var is_tutorial: bool = true
