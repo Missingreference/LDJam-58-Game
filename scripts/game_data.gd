@@ -8,6 +8,11 @@ enum GamePhase {
 }
 
 var inventory = {}
+
+# Items available in the shop
+# Index on the name of the item
+var shop_items: Dictionary[String, Item] = {}
+
 var coins = -1
 var adventurers = []
 var phase: GamePhase = GamePhase.one
