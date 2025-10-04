@@ -55,8 +55,7 @@ func _ready() -> void:
 func Refresh():
     #Remove old slots
     #Note: It would be better to resuse these item slots
-    for i in gridContainer.get_child_count():
-        var child = gridContainer.get_child(i)
+    for child in gridContainer.get_children():
         gridContainer.remove_child(child)
 
     var itemCountSoFar = 0
