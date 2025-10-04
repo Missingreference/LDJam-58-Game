@@ -48,7 +48,7 @@ func _ready() -> void:
         SetMode(Mode.Manage)
 
         var debugInventory = Inventory.new()
-        debugInventory.maxItemCount = 10
+        debugInventory.max_item_count = 10
         debugInventory.AddItem(Item.Create("Potion"))
         SetTargetInventory(debugInventory)
 
@@ -65,7 +65,7 @@ func Refresh():
             gridContainer.add_child(_createSlot(item))
             itemCountSoFar += 1
 
-    while itemCountSoFar < _inventory.maxItemCount:
+    while itemCountSoFar < _inventory.max_item_count:
         gridContainer.add_child(_createSlot(null))
         itemCountSoFar += 1
 

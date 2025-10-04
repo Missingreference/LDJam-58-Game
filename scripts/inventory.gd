@@ -1,13 +1,13 @@
 class_name Inventory
 
 signal changed
-var maxItemCount: int = -1
+var max_item_count: int = -1
 
 var _items: Dictionary # Dict[String, Array[Item]]
 var _item_count = 0
 
 func AddItem(item: Item) -> bool:
-    if _item_count == maxItemCount:
+    if self.IsFull():
         print("Cannot add item. Inventory is full.")
         return false
 
@@ -61,6 +61,10 @@ func GetItems() -> Dictionary:
 
 func HasItem(item: Item) -> bool:
     return self._items.has(item.name)
+
+
+func IsFull() -> bool:
+    return self.max_item_count >=0 and self._item_count >= self.max_item_count
 
 
 func GetItemCount(item: Item) -> int:

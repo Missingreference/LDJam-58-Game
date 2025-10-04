@@ -17,9 +17,13 @@ var _item_name_to_edit_item: Dictionary[String, ShopMenuEditItem] = {}
 func _ready():
     # If running scene standalone
     if get_tree().current_scene == self:
+        # Center in view
+        self.global_position = get_viewport_rect().size / 2
+
         # Test data
         self.game_data = GameData.new()
         self.game_data.inventory = Inventory.create_default_inventory()
+        self.game_data.inventory.max_item_count = 10
 
     var shop_items = self.game_data.shop_items.GetItems()
     for items_array in shop_items.values():
@@ -59,11 +63,26 @@ func _enable_controls():
     self._plus_button.pressed.connect(self._on_plus_button_pressed)
 
 
-func _update_edit_item_button_state(edit_item: ShopMenuEditItem, item: Item):
-    # Update button state based on item count available
+func _update_buttons_state(edit_item: ShopMenuEditItem, item: Item):
+    # Update plus button state based on item count available
     var item_count = self.game_data.inventory.GetItemCount(item)
     if item_count <= 0:
         edit_item.plus_button.disabled = true
+    else:
+        edit_item.plus_button.disabled = false
+
+    # Update minus button state based on inventory count
+    if self.game_data.inventory.IsFull():
+        # TODO: show tooltip to inform user that inventory is full
+        for i in self._item_name_to_edit_item.values():
+            i.minus_button.disabled = true
+    else:
+        for i in self._item_name_to_edit_item.values():
+            i.minus_button.disabled = false
+
+    # Check if at max capacity
+    if self._edit_item_list.get_child_count() < self.max_edit_item_count:
+        self._plus_button.visible = true
 
 
 func _add_edit_item_node(item: Item):
@@ -82,7 +101,7 @@ func _add_edit_item_node(item: Item):
         self._item_name_to_edit_item[item.name] = edit_item
 
     edit_item.update_labels()
-    self._update_edit_item_button_state(edit_item, item)
+    self._update_buttons_state(edit_item, item)
 
     # Check if at max capacity
     if self._edit_item_list.get_child_count() >= self.max_edit_item_count:
@@ -101,20 +120,13 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
         assert(success, "Inconsistent item quantity between inventory and shop menu (2)")
         self.game_data.shop_items.AddItem(item)
 
-    # Update button state based on item count available
-    var item_count = self.game_data.inventory.GetItemCount(item)
-    if item_count <= 0:
-        edit_item.plus_button.disabled = true
-    else:
-        edit_item.plus_button.disabled = false
-
+    # If quantity drops to zero for the EditItem, remove it
     if edit_item.quantity <= 0:
         self._edit_item_list.remove_child(edit_item)
         self._item_name_to_edit_item.erase(edit_item.item_name)
 
-    # Check if at max capacity
-    if self._edit_item_list.get_child_count() < self.max_edit_item_count:
-        self._plus_button.visible = true
+    self._update_buttons_state(edit_item, item)
+
 
 
 func _on_close_button_pressed():
