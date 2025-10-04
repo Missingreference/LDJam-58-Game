@@ -9,6 +9,7 @@ const shop_menu_edit_item = preload("res://scenes/shop_menu_edit_item.tscn")
 @onready var _edit_item_list = $Sprite2D/MarginContainer/VBoxContainer/VBoxContainer
 @onready var _plus_button = $Sprite2D/MarginContainer/VBoxContainer/PlusButton
 
+var max_edit_item_count: int = 5
 var game_data: GameData
 
 
@@ -49,6 +50,7 @@ func _inventory_item_chosen(item: Item, inventory_ui):
     self.game_data.shop_items.AddItem(item)
 
     # TODO check if we actually need to make a new edit item
+
     self._add_edit_item_node(item, 1)
 
     self._enable_controls()
@@ -74,7 +76,7 @@ func _add_edit_item_node(item: Item, quantity: int):
     edit_item.quantity_changed.connect(self._item_quantity_changed.bind(edit_item, item))
 
     # Check if at max capacity
-    if self._edit_item_list.get_child_count() >= 5:
+    if self._edit_item_list.get_child_count() >= self.max_edit_item_count:
         self._plus_button.visible = false
 
 
@@ -101,7 +103,7 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
         self._edit_item_list.remove_child(edit_item)
 
     # Check if at max capacity
-    if self._edit_item_list.get_child_count() < 5:
+    if self._edit_item_list.get_child_count() < self.max_edit_item_count:
         self._plus_button.visible = true
 
 
