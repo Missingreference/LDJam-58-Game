@@ -12,7 +12,9 @@ signal closed
 func _ready() -> void:
     #Volume Slider
     var currentVolume = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
-    volumePercentLabel.text = str(ceili(currentVolume)) + "%"
+    currentVolume = min(ceili(currentVolume), 100)
+    volumeSlider.set_value_no_signal(currentVolume)
+    volumePercentLabel.text = str(currentVolume) + "%"
     
     #Fullscreen toggle
     if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN:
