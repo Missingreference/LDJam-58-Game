@@ -3,7 +3,7 @@
 #-Call SetInventory
 #-Listen for signals
 class_name InventoryUI
-extends Node2D
+extends Control
 var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 
 @onready var colorRect: ColorRect = $ColorRect

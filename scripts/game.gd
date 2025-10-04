@@ -102,7 +102,7 @@ func _inventory_button_pressed():
 
     var inventory_ui: InventoryUI = inventory_ui_scene.instantiate()
     self.add_child(inventory_ui)
-    inventory_ui.global_position = get_viewport_rect().size / 2.0
+    #inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Manage)
     inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
     inventory_ui.exited.connect(func():
