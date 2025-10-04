@@ -1,0 +1,106 @@
+[gd_scene load_steps=4 format=3 uid="uid://b70domcv1pdrc"]
+
+[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_51q1o"]
+[ext_resource type="Script" uid="uid://y46wopdtkesi" path="res://scripts/customer_offer_ui.gd" id="1_r1vgh"]
+[ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_r1vgh"]
+
+[node name="CustomerOfferUI" type="Node2D"]
+script = ExtResource("1_r1vgh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(360, 220)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -80.0
+offset_right = 180.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7433094, 0.12752602, 0.94793516, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="CustomerNameLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Character name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CustomerIcon" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_51q1o")
+stretch_mode = 2
+
+[node name="SpeechLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Let me take a look at your wares..."
+
+[node name="Line" type="ColorRect" parent="ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="OfferLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Offer: 100gp"
+horizontal_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "For:"
+
+[node name="ItemIcon" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("2_r1vgh")
+
+[node name="ItemName" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Sword"
+
+[node name="ValueLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "(value: 125gp)"
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="AcceptButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Accept"
+
+[node name="HaggleButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+text = "Haggle"
+
+[node name="DeclineButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Decline
+"
