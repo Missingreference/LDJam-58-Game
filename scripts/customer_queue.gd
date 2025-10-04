@@ -1,6 +1,9 @@
 class_name CustomerQueue
 extends Node2D
 
+signal customer_selected(Customer)
+signal queue_emptied
+
 var _game_data: GameData
 
 @onready var _queue: HBoxContainer = $Queue
@@ -60,8 +63,14 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
 
 
 func _enable_next_customer_selection():
+    var queued_customers = self._queue.get_children()
+    if queued_customers.size() == 0:
+        print("No more queued customers")
+        self.queue_emptied.emit()
+        return
+
     # Connect signals for the customer at the front of the queue
-    var next_customer: Customer = self._queue.get_children().front()
+    var next_customer: Customer = queued_customers.front()
     if next_customer != null:
         if not next_customer.selected.is_connected(self._pop_front):
             next_customer.selected.connect(self._pop_front)
@@ -72,13 +81,12 @@ func _enable_next_customer_selection():
 # Returns null if there are no more customers in the queue
 func _pop_front() -> Customer:
     var customer = self._queue.get_children().front()
+    assert(customer != null)
 
-    if customer != null:
-        customer.selected.disconnect(self._pop_front)
-        customer.disable_selection()
-        self._queue.remove_child(customer)
-
-
+    customer.selected.disconnect(self._pop_front)
+    customer.disable_selection()
+    self._queue.remove_child(customer)
+    self.customer_selected.emit(customer)
     self._enable_next_customer_selection()
 
     return customer

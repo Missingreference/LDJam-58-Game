@@ -37,6 +37,7 @@ func _finish_phase_one():
     print("Finished phase one")
 
     self.finish_button.pressed.disconnect(self._finish_phase_one)
+    self.finish_button.visible = false
     self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
     self._start_phase_two()
 
@@ -45,9 +46,9 @@ func _start_phase_two():
     print("Starting phase two")
     self.phase_label.text = "Phase Two"
     self.game_data.phase = GameData.GamePhase.two
-    self.finish_button.pressed.connect(self._finish_phase_two)
-    self.finish_button.visible = true
+    self.customer_queue.queue_emptied.connect(self._finish_phase_two)
     self.customer_queue.start()
+
 
 
 func _finish_phase_two():
@@ -71,6 +72,7 @@ func _finish_phase_three():
     print("Finished phase three")
 
     self.finish_button.pressed.disconnect(self._finish_phase_three)
+    self.finish_button.visible = false
     self._start_phase_four()
 
 
@@ -88,6 +90,7 @@ func _finish_phase_four():
     print("Finished phase four")
 
     self.finish_button.pressed.disconnect(self._finish_phase_four)
+    self.finish_button.visible = false
     self._start_phase_one()
 
 
