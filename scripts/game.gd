@@ -89,12 +89,12 @@ func _process(deltaTime):
 
 func _inventory_button_pressed():
     _disable_controls()
-    
+
     var inventoryUI: InventoryUI = inventory_ui_scene.instantiate()
     self.add_child(inventoryUI)
     inventoryUI.global_position = get_viewport_rect().size / 2.0
     inventoryUI.SetMode(InventoryUI.Mode.Manage)
-    inventoryUI.SetTargetInventory(game_data.inventory)
+    inventoryUI.SetTargetInventory(game_data.warehouse_inventory)
     inventoryUI.exited.connect(func():
         self.remove_child(inventoryUI)
         _enable_controls()
@@ -102,7 +102,7 @@ func _inventory_button_pressed():
 
 func _settings_button_pressed():
     _disable_controls()
-    
+
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
     settingsMenu.global_position = get_viewport_rect().size / 2.0
