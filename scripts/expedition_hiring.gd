@@ -50,7 +50,7 @@ func start():
     # Pick some random adventurers
     self._customers = RandomUtils.pick_random_count(self._game_data.customers, 5)
     var customer_names = self._customers.map(func(c): return c.customer_name)
-    print("Customers: %s" % ", ".join(customer_names))
+    print("Customers for hire: %s" % ", ".join(customer_names))
 
     assert(self._customers.size() <= self._placeholders.size())
 
@@ -63,8 +63,10 @@ func stop():
     self.mouse_filter = Control.MOUSE_FILTER_IGNORE
     self.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
 
+    # Undo any state changes to customers and remove them from the scene
     for customer in self._customers:
         customer.persist_customer_info(false)
+        customer.modulate = Color(1, 1, 1, 1)
         self.remove_child(customer)
 
     # Hide buttons
@@ -105,7 +107,7 @@ func _animate_customer_entry():
         customer.global_position = end_position
         customer.global_position.x = -10
 
-        print("Positioning customer (%d) '%s', from %s to %s" % [i, customer.customer_name, customer.global_position, end_position])
+        # print("Positioning customer (%d) '%s', from %s to %s" % [i, customer.customer_name, customer.global_position, end_position])
 
         var tween_time = abs(customer.global_position.x - end_position.x) / tween_speed
 
@@ -151,18 +153,25 @@ func _compute_hire_price(customer: Customer):
     price += total_attr_points * 10
 
     # Increase price based on equipment
-    if customer.weapon != null:
+    var weapon = customer.get_weapon()
+    if weapon != null:
         @warning_ignore("integer_division")
-        price += customer.weapon.GetValue() / 2
-    if customer.armor != null:
+        price += weapon.GetValue() / 2
+
+    var armor = customer.get_armor()
+    if armor != null:
         @warning_ignore("integer_division")
-        price += customer.armor.GetValue() / 2
-    if customer.small_item_1 != null:
+        price += armor.GetValue() / 2
+
+    var small_item_1 = customer.get_small_item_1()
+    if small_item_1 != null:
         @warning_ignore("integer_division")
-        price += customer.small_item_1.GetValue() / 2
-    if customer.small_item_2 != null:
+        price += small_item_1.GetValue() / 2
+
+    var small_item_2 = customer.get_small_item_2()
+    if small_item_2 != null:
         @warning_ignore("integer_division")
-        price += customer.small_item_2.GetValue() / 2
+        price += small_item_2.GetValue() / 2
 
     # TODO: increase / decrease price based on traits
 
