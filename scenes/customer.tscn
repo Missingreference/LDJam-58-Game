@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b8pvwlfmfghud"]
 
-[ext_resource type="PackedScene" uid="uid://oeh705y8kklc" path="res://scenes/customer_info.tscn" id="1_8qg4y"]
+[ext_resource type="PackedScene" uid="uid://danknk0tngaei" path="res://scenes/customer_info.tscn" id="1_8qg4y"]
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_ktfjk"]
 [ext_resource type="Script" uid="uid://dc54a7ltcpkyt" path="res://scripts/customer.gd" id="2_xss0h"]
 

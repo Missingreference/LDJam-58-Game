@@ -1,9 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://danknk0tngaei"]
 
 [ext_resource type="Script" uid="uid://ccvk0guxkrjt7" path="res://scripts/customer_info.gd" id="1_gp64s"]
-[ext_resource type="Texture2D" uid="uid://bubvadtl1uwyv" path="res://assets/sprites/icon_armor.png" id="2_gp64s"]
-[ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_o24yi"]
-[ext_resource type="Texture2D" uid="uid://bqk5ovdt3m8s1" path="res://assets/sprites/icon_potion.png" id="3_o24yi"]
 [ext_resource type="Texture2D" uid="uid://1uyth4ibddmo" path="res://assets/sprites/customer_info.png" id="2_07xkx"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="3_07xkx"]
 [ext_resource type="FontFile" uid="uid://quoywp2m68kn" path="res://assets/fonts/CompassGold.otf" id="4_0o4lw"]

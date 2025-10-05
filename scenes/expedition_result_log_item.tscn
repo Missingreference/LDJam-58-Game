@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlcqq57870oyo"]
+
+[ext_resource type="Script" uid="uid://b4u7qxfu1k0m2" path="res://scripts/expedition_result_log_item.gd" id="1_rm8fe"]
+
+[node name="ExpeditionResultLogItem" type="MarginContainer"]
+offset_right = 766.0
+offset_bottom = 23.0
+script = ExtResource("1_rm8fe")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(1, 1, 1, 0.6627451)
+
+[node name="Container" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="EventDescLabel" type="Label" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description of what was encountered"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "->"
+horizontal_alignment = 1
+
+[node name="OutcomeFlavorLabel" type="Label" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description of what happened"
+horizontal_alignment = 1
+
+[node name="ItemLabel" type="Label" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lost <Item>, Gained <Item>"
+horizontal_alignment = 1

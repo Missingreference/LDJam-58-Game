@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3 uid="uid://dyitlt8f2cfaa"]
+
+[ext_resource type="Texture2D" uid="uid://1uyth4ibddmo" path="res://assets/sprites/customer_info.png" id="1_ceil3"]
+[ext_resource type="Script" uid="uid://dqrhvpsascevp" path="res://scripts/expedition_result.gd" id="1_ovv06"]
+[ext_resource type="Theme" uid="uid://bs46eli71xw45" path="res://scenes/info.tres" id="3_v1osh"]
+[ext_resource type="Theme" uid="uid://ds8hcehsxq50d" path="res://scenes/title.tres" id="3_xost8"]
+[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="4_n5ycx"]
+[ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="6_e1ry0"]
+[ext_resource type="StyleBox" uid="uid://cu8vbrtxmdiek" path="res://assets/themes/button_hover.tres" id="8_bn0fi"]
+[ext_resource type="PackedScene" uid="uid://dlcqq57870oyo" path="res://scenes/expedition_result_log_item.tscn" id="8_fw3at"]
+[ext_resource type="Texture2D" uid="uid://bd54rge5vfdch" path="res://assets/sprites/accept.png" id="8_h01h8"]
+[ext_resource type="StyleBox" uid="uid://ckron3xxc2osc" path="res://assets/themes/button_theme.tres" id="9_fw3at"]
+[ext_resource type="StyleBox" uid="uid://bepxyyuwrxp16" path="res://assets/themes/button_pressed.tres" id="10_s67uv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c07rq"]
+
+[sub_resource type="Theme" id="Theme_4hyo6"]
+Button/styles/focus = SubResource("StyleBoxEmpty_c07rq")
+Button/styles/hover = ExtResource("8_bn0fi")
+Button/styles/normal = ExtResource("9_fw3at")
+Button/styles/pressed = ExtResource("10_s67uv")
+
+[node name="ExpeditionResult" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ovv06")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(750, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -375.0
+offset_top = -250.0
+offset_right = 375.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ceil3")
+patch_margin_left = 54
+patch_margin_top = 82
+patch_margin_right = 15
+patch_margin_bottom = 48
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_xost8")
+text = "Expedition Result"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CustomerTexture" type="TextureRect" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_n5ycx")
+
+[node name="CustomerNameLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_v1osh")
+text = "Customer name"
+
+[node name="SuccessFailLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.16685617, 0.64309925, 1.92523e-07, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6_e1ry0")
+theme_override_font_sizes/font_size = 64
+text = "Success"
+horizontal_alignment = 1
+
+[node name="LogLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_v1osh")
+text = "Expedition Log"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Log" type="VBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ExpeditionResultLogItem" parent="NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/Log" instance=ExtResource("8_fw3at")]
+visible = false
+layout_mode = 2
+
+[node name="Container" parent="NinePatchRect/MarginContainer/VBoxContainer/ScrollContainer/Log" instance=ExtResource("8_fw3at")]
+visible = false
+layout_mode = 2
+
+[node name="AcceptButton" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = SubResource("Theme_4hyo6")
+theme_override_constants/icon_max_width = 32
+icon = ExtResource("8_h01h8")
+
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]

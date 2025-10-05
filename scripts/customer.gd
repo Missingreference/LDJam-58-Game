@@ -20,6 +20,9 @@ static var _customer_scene = preload("res://scenes/customer.tscn")
 # TODO: replace rectangle highlight with texture shader
 @onready var _highlight: ColorRect = $TextureRect/Highlight
 @onready var _customer_info: CustomerInfo = $CustomerInfo
+@onready var _texture_rect: TextureRect = $TextureRect
+
+@onready var texture = _texture_rect.texture
 
 var _persist_customer_info: bool = false
 var _selection_enabled: bool = false

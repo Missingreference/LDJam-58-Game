@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bjkeh0voyud5"]
+
+[ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="1_madu4"]
+[ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_ud04e"]
+
+[resource]
+default_font = ExtResource("2_ud04e")
+default_font_size = 16
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 8
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_madu4")

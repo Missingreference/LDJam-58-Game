@@ -102,7 +102,7 @@ static func create_default_inventory() -> Inventory:
     inventory.AddItem(Item.Create("Bow"))
 
     var potions = []
-    potions.resize(10)
+    potions.resize(5)
     potions.fill(Item.Create("Potion"))
     for pot in potions:
         inventory.AddItem(pot)

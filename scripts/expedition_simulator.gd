@@ -31,16 +31,21 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
         # Check if we need to end the expedition
         if customer_resolve <= 0:
             print("    %s has lost all resolve" % customer.customer_name)
+            report.result = ExpeditionReport.Result.failure
             break
 
     # If the character made it to the end of the dungeon
     # Provide a bonus outcome
     if customer_resolve > 0:
         print("    Dungeon completed")
+
+        report.result = ExpeditionReport.Result.success
+
         var complete_event = Dungeon.Event.new(
             "Dungeon complete",
             Customer.Attr.wis, 0, Dungeon.Outcome.new(), Dungeon.Outcome.new()
         )
+
         # Gain three items
         var bonus_outcome = Dungeon.Outcome.new()
         bonus_outcome.gain_item(Item.CreateRandom())

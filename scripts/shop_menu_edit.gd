@@ -24,7 +24,11 @@ func _ready():
         # Test data
         self.game_data = GameData.new()
         self.game_data.warehouse_inventory = Inventory.create_default_inventory()
-        self.game_data.warehouse_inventory.max_item_count = 10
+        self.game_data.warehouse_inventory.max_item_count = 18
+        self.game_data.warehouse_inventory.AddItem(Item.Create("Bow", Item.Rarity.Rare, "Rare Bow"))
+        self.game_data.warehouse_inventory.AddItem(Item.Create("Bow", Item.Rarity.Legendary, "Legendary Bow"))
+        self.game_data.warehouse_inventory.AddItem(Item.Create("Sword", Item.Rarity.Rare, "Rare Sword"))
+        self.game_data.warehouse_inventory.AddItem(Item.Create("Sword", Item.Rarity.Legendary, "Legendary Sword"))
 
     var shop_inventory = self.game_data.shop_inventory.GetItems()
     for items_array in shop_inventory.values():
