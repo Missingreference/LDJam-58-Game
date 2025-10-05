@@ -43,19 +43,21 @@ class Event:
         if roll_value < skill_check:
 
             # Check if we can use an item to save
-            if customer.small_item_1 != null:
-                var item_value = customer.small_item_1.attributes.get_attr(self.skill)
+            var small_item_1 = customer.get_small_item_1()
+            if small_item_1 != null:
+                var item_value = small_item_1.attributes.get_attr(self.skill)
                 if (roll_value + item_value) >= skill_check:
-                    success.lose_item(self.customer.small_item_1)
-                    self.customer.small_item_1 = null
+                    success.lose_item(small_item_1)
+                    self.customer.set_small_item_1(null)
                     return success
 
             # Check if we can use an item to save
-            if customer.small_item_2 != null:
-                var item_value = customer.small_item_2.attributes.get_attr(self.skill)
+            var small_item_2 = customer.get_small_item_2()
+            if small_item_2 != null:
+                var item_value = small_item_2.attributes.get_attr(self.skill)
                 if (roll_value + item_value) >= skill_check:
-                    success.lose_item(self.customer.small_item_2)
-                    self.customer.small_item_2 = null
+                    success.lose_item(small_item_2)
+                    self.customer.set_small_item_2(null)
                     return success
 
             return fail

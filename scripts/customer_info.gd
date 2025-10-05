@@ -30,27 +30,31 @@ func set_customer_info(customer: Customer):
 
     # TODO: customer traits
 
-    if customer.weapon != null:
-        self._weapon_icon.texture = customer.weapon.GetSprite()
-        self._weapon_icon.tooltip_text = customer.weapon.name
+    var weapon = customer.get_weapon()
+    if weapon != null:
+        self._weapon_icon.texture = weapon.GetSprite()
+        self._weapon_icon.tooltip_text = weapon.name
     else:
         self._weapon_icon.texture = NoiseTexture2D.new()
 
-    if customer.armor != null:
-        self._armor_icon.texture = customer.armor.GetSprite()
-        self._armor_icon.tooltip_text = customer.armor.name
+    var armor = customer.get_armor()
+    if armor != null:
+        self._armor_icon.texture = armor.GetSprite()
+        self._armor_icon.tooltip_text = armor.name
     else:
         self._armor_icon.texture = NoiseTexture2D.new()
 
-    if customer.small_item_1 != null:
-        self._item_1_icon.texture = customer.small_item_1.GetSprite()
-        self._item_1_icon.tooltip_text = customer.small_item_1.name
+    var small_item_1 = customer.get_small_item_1()
+    if small_item_1 != null:
+        self._item_1_icon.texture = small_item_1.GetSprite()
+        self._item_1_icon.tooltip_text = small_item_1.name
     else:
         self._item_1_icon.texture = NoiseTexture2D.new()
 
-    if customer.small_item_2 != null:
-        self._item_2_icon.texture = customer.small_item_2.GetSprite()
-        self._item_2_icon.tooltip_text = customer.small_item_2.name
+    var small_item_2 = customer.get_small_item_2()
+    if small_item_2 != null:
+        self._item_2_icon.texture = small_item_2.GetSprite()
+        self._item_2_icon.tooltip_text = small_item_2.name
     else:
         self._item_2_icon.texture = NoiseTexture2D.new()
 

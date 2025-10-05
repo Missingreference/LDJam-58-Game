@@ -2,13 +2,16 @@ class_name Customer
 extends Control
 
 signal selected
+signal info_changed(Customer)
 
 var customer_name: String
 var gold: int
-var weapon: Item
-var armor: Item
-var small_item_1: Item
-var small_item_2: Item
+
+# Use setters for these to trigger info_changed signal
+var _weapon: Item
+var _armor: Item
+var _small_item_1: Item
+var _small_item_2: Item
 
 var base_attr: Attributes = Attributes.create_for_customer()
 
@@ -35,6 +38,42 @@ static func create_default_customers() -> Array[Customer]:
     return result
 
 
+func set_weapon(item: Item):
+    self._weapon = item
+    self.info_changed.emit(self)
+
+
+func get_weapon() -> Item:
+    return self._weapon
+
+
+func set_armor(item: Item):
+    self._armor = item
+    self.info_changed.emit(self)
+
+
+func get_armor() -> Item:
+    return self._armor
+
+
+func set_small_item_1(item: Item):
+    self._small_item_1 = item
+    self.info_changed.emit(self)
+
+
+func get_small_item_1() -> Item:
+    return self._small_item_1
+
+
+func set_small_item_2(item: Item):
+    self._small_item_2 = item
+    self.info_changed.emit(self)
+
+
+func get_small_item_2() -> Item:
+    return self._small_item_2
+
+
 func enable_selection():
     self._selection_enabled = true
     self._highlight.color.a = 0.5
@@ -58,21 +97,33 @@ func persist_customer_info(enable: bool):
 # Get base skill for a particular attribute plus any modifiers
 func get_skill(attribute: Attr) -> int:
     var value = self.base_attr.get_attr(attribute)
-    if self.weapon != null:
-        value += self.weapon.attributes.get_attr(attribute)
-    if self.armor != null:
-        value += self.armor.attributes.get_attr(attribute)
+    if self._weapon != null:
+        value += self._weapon.attributes.get_attr(attribute)
+    if self._armor != null:
+        value += self._armor.attributes.get_attr(attribute)
     return value
+
+
+func add_item(item: Item):
+    var item_type = item.GetType()
+    if item_type == Item.ItemType.Weapon:
+        self.set_weapon(item)
+    elif item_type == Item.ItemType.Armor:
+        self.set_armor(item)
+    elif self._small_item_1 == null:
+        self.set_small_item_1(item)
+    else:
+        self.set_small_item_2(item)
 
 
 func _to_string() -> String:
     return "Customer(name: %s, gold: %d, weapon: %s, armor: %s, small_item_1: %s, small_item_2: %s) \n %s" % [
         self.customer_name,
         self.gold,
-        self.weapon,
-        self.armor,
-        self.small_item_1,
-        self.small_item_2,
+        self._weapon.name,
+        self._armor.name,
+        self._small_item_1.name,
+        self._small_item_2.name,
         self.base_attr
     ]
 
@@ -89,11 +140,12 @@ func _ready():
         # Test
         self.customer_name = "Long John Silver"
         self.gold = 9999999
-        self.weapon = Item.Create("Sword", Item.Rarity.Normal)
-        self.small_item_2 = Item.Create("Potion", Item.Rarity.Normal)
+        self._weapon = Item.Create("Sword")
+        self._small_item_2 = Item.Create("Potion")
         self.enable_selection()
 
-    self._customer_info.set_customer_info(self)
+    self.info_changed.connect(self._customer_info.set_customer_info)
+    self.info_changed.emit(self)
 
 
 func _on_mouse_entered():

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://oeh705y8kklc"]
 
-[ext_resource type="Script" path="res://scripts/customer_info.gd" id="1_gp64s"]
+[ext_resource type="Script" uid="uid://ccvk0guxkrjt7" path="res://scripts/customer_info.gd" id="1_gp64s"]
 [ext_resource type="Texture2D" uid="uid://bubvadtl1uwyv" path="res://assets/sprites/icon_armor.png" id="2_gp64s"]
 [ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_o24yi"]
 [ext_resource type="Texture2D" uid="uid://bqk5ovdt3m8s1" path="res://assets/sprites/icon_potion.png" id="3_o24yi"]
