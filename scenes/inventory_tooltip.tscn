@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://bslos7gu2t634"]
+
+[ext_resource type="Script" uid="uid://dd6wb8pbaedn8" path="res://scripts/inventory_tooltip.gd" id="1_3d63a"]
+
+[node name="Inventory Tooltip" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_3d63a")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Item Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Potion"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Item Description" type="Label" parent="VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.79, 0.79, 0.79, 1)
+text = "asdasdasdasdasdasdasdasdasdASDASDASDASDASDasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+autowrap_mode = 1

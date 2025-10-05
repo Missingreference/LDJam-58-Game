@@ -121,7 +121,6 @@ func _inventory_button_pressed():
 
     var inventory_ui: InventoryUI = inventory_ui_scene.instantiate()
     self.add_child(inventory_ui)
-    #inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Manage)
     inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
     inventory_ui.exited.connect(func():
@@ -134,7 +133,6 @@ func _settings_button_pressed():
 
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
-    #settingsMenu.global_position = get_viewport_rect().size / 2.0
     settingsMenu.closed.connect(func():
         self.remove_child(settingsMenu)
         _enable_controls()

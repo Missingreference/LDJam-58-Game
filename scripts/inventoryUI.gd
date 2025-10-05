@@ -6,13 +6,14 @@ class_name InventoryUI
 extends Control
 var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 
-@onready var colorRect: ColorRect = $ColorRect
-@onready var titleLabel: Label = $ColorRect/Title
-@onready var marginContainer: MarginContainer = $ColorRect/MarginContainer
-@onready var gridContainer: GridContainer = $ColorRect/MarginContainer/GridContainer
-@onready var selectionHighlighter: ColorRect = $ColorRect/"Selection Highlighter"
-@onready var exitButton: Button = $"ColorRect/Exit Button"
-@onready var chooseButton: Button = $"ColorRect/Choose Button"
+@onready var aspect_layout_control: Control = $"AspectRatioContainer/AspectLayoutControl"
+@onready var background: TextureRect = $"AspectRatioContainer/AspectLayoutControl/Background"
+@onready var titleLabel: Label = $"AspectRatioContainer/AspectLayoutControl/Background/Title"
+@onready var selectionHighlighter: ColorRect = $"AspectRatioContainer/AspectLayoutControl/Background/Selection Highlighter"
+@onready var exitButton: Button = $"AspectRatioContainer/AspectLayoutControl/Background/Exit Button"
+@onready var chooseButton: Button = $"AspectRatioContainer/AspectLayoutControl/Background/Choose Button"
+
+var itemSlots: Array[ItemSlot] = []
 
 signal itemChosen
 signal exited
@@ -20,6 +21,8 @@ signal exited
 var _inventory: Inventory
 var _mode: Mode
 var _selectedSlot: ItemSlot
+var _inventory_tooltip_scene = preload("res://scenes/inventory_tooltip.tscn")
+var _tooltip: InventoryTooltip
 
 enum Mode
 {
@@ -31,39 +34,52 @@ enum Mode
     Manage
 }
 
-# Called when the node enters the scene tree for the first time.
+func _init() -> void:
+    _tooltip = _inventory_tooltip_scene.instantiate()
+    self.add_child(_tooltip)
+    _tooltip.visible = false
+
 func _ready() -> void:
     selectionHighlighter.visible = false
 
     SetMode(Mode.Readonly)
+    
+    assert(aspect_layout_control != null)
+    
+    for i in 18:
+        var itemSlot: ItemSlot = aspect_layout_control.find_child("ItemSlot" + str(i+1), false)
+        assert(itemSlot != null)
+        itemSlots.append(itemSlot)
+        itemSlot.deleted.connect(_onSlotDeleted.bind(itemSlot))
+        itemSlot.connect("mouse_entered", _on_mouse_enter_slot.bind(itemSlot))
+        itemSlot.connect("mouse_exited", _on_mouse_exit_slot.bind())
+        itemSlot.selected.connect(_onSlotSelected.bind(itemSlot))
+        itemSlot.chosen.connect(_on_slot_chosen.bind(itemSlot))
+        
 
     if get_tree().current_scene == self:
         # Center in viewport
-        self.global_position = get_viewport_rect().size / 2.0
+        #self.global_position = get_viewport_rect().size / 2.0
 
         #Debug
-        SetMode(Mode.Manage)
+        SetMode(Mode.Picker)
 
         var debugInventory = Inventory.new()
-        debugInventory.max_item_count = 10
-        debugInventory.AddItem(Item.Create("Potion"))
+        debugInventory.max_item_count = 18
+        for i in 18:
+            debugInventory.AddItem(Item.Create("Potion"))
         SetTargetInventory(debugInventory)
 
 func Refresh():
-    #Remove old slots
-    #Note: It would be better to resuse these item slots
-    for child in gridContainer.get_children():
-        gridContainer.remove_child(child)
-
     var itemCountSoFar = 0
     var inventoryItems = _inventory.GetItems().values()
     for itemArray in inventoryItems:
         for item in itemArray:
-            gridContainer.add_child(_createSlot(item))
+            _get_slot(itemCountSoFar, item)
             itemCountSoFar += 1
 
-    while itemCountSoFar < _inventory.max_item_count:
-        gridContainer.add_child(_createSlot(null))
+    while itemCountSoFar < 18: #_inventory.max_item_count:
+        _get_slot(itemCountSoFar, null)
         itemCountSoFar += 1
 
 func SetMode(mode):
@@ -86,49 +102,65 @@ func SetTargetInventory(inventory: Inventory):
     
     Refresh()
 
-func _createSlot(item: Item) -> ItemSlot:
-    var newSlot: ItemSlot = item_slot_scene.instantiate()
-    newSlot.item = item
+func _get_slot(slotIndex: int, item: Item) -> ItemSlot:
+    var itemSlot: ItemSlot = itemSlots[slotIndex]
 
     if _mode == Mode.Manage:
-        newSlot.manageable = true
-        newSlot.selectable = false
-        newSlot.deleted.connect(_onSlotDeleted.bind(newSlot))
+        itemSlot.manageable = true
+        itemSlot.selectable = false
     elif _mode == Mode.Picker:
-        newSlot.manageable = false
-        newSlot.selected.connect(_onSlotSelected.bind(newSlot))
+        itemSlot.manageable = false
         if item != null:
-            newSlot.selectable = true
+            itemSlot.selectable = true
     else:
-        newSlot.manageable = false
-        newSlot.selectable = false
+        itemSlot.manageable = false
+        itemSlot.selectable = false
+        
+    itemSlot.set_item(item)
 
-    return newSlot
+    return itemSlot
 
 func _onSlotSelected(slot: ItemSlot):
+    if _mode != Mode.Picker: return
     _selectedSlot = slot
     chooseButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
 
 func _onSlotDeleted(slot: ItemSlot):
-    var popupMenu: GamePopupMenu = GamePopupMenu.Create("Throw away " + slot.item.name + "?", "This item will be lost.")
+    if _mode != Mode.Manage: return
+    var popupMenu: GamePopupMenu = GamePopupMenu.Create("Throw away " + slot.get_item().name + "?", "This item will be lost.")
     self.add_child(popupMenu)
     print(popupMenu.global_position)
     print(popupMenu.anchor_left)
     popupMenu.confirmed.connect(func():
         self.remove_child(popupMenu)
-        _inventory.RemoveItem(slot.item)
+        _inventory.RemoveItem(slot.get_item())
         Refresh()
     )
     popupMenu.cancelled.connect(func():
         self.remove_child(popupMenu)
     )
 
+func _on_slot_chosen(slot: ItemSlot):
+    if _mode != Mode.Picker: return
+    _onSlotSelected(slot)
+    _onChooseButtonPressed()
+
 func _onChooseButtonPressed():
     chooseButton.disabled = true
-    itemChosen.emit(_selectedSlot.item)
+    itemChosen.emit(_selectedSlot.get_item())
 
 func _onExitButtonPressed():
     exited.emit()
+    
+func _on_mouse_enter_slot(slot: ItemSlot):
+    if slot.get_item() == null: return
+    _tooltip.visible = true
+    _tooltip.move_to_front()
+    _tooltip.item_title.text = slot.get_item().name
+    _tooltip.item_description.text = "Type: " + str(slot.get_item().GetType()) + "\n" + "Rarity: " + str(slot.get_item().rarity) + "\n" + "Value: " + str(20)
+    
+func _on_mouse_exit_slot():
+    _tooltip.visible = false
     

@@ -4,12 +4,22 @@
 [ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_l0xgl"]
 [ext_resource type="Texture2D" uid="uid://caa6u5x8qmdcu" path="res://assets/sprites/trash_placeholder.png" id="3_fa8gv"]
 
-[node name="ItemSlot" type="ColorRect"]
-custom_minimum_size = Vector2(80, 80)
-offset_right = 80.0
-offset_bottom = 80.0
-color = Color(0.24705882, 0.06666667, 0.14901961, 1)
+[node name="ItemSlot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
 script = ExtResource("1_567tv")
+
+[node name="Debug Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.19, 0.032300003, 0.16108832, 0)
 
 [node name="Placeholder Label" type="Label" parent="."]
 layout_mode = 1
@@ -37,7 +47,7 @@ offset_right = -4.0
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
+mouse_filter = 2
 texture = ExtResource("2_l0xgl")
 expand_mode = 1
 
@@ -69,5 +79,4 @@ grow_vertical = 2
 texture = ExtResource("3_fa8gv")
 expand_mode = 1
 
-[connection signal="gui_input" from="TextureRect" to="." method="_on_texture_rect_gui_input"]
 [connection signal="pressed" from="Delete Button" to="." method="_on_delete_button_pressed"]
