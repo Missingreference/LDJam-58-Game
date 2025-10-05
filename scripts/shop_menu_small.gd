@@ -32,10 +32,11 @@ var shop_menu_edit_scene = preload("res://scenes/shop_menu_edit.tscn")
     item_label_5,
 ]
 
-@onready var highlight_color_rect: ColorRect = $HighlightColorRect
+@onready var _highlight: ColorRect = $HighlightColorRect
 
 var _game_data: GameData
 var _shop_edit: ShopMenuEdit
+var _highlight_animation: Tween
 
 
 func set_game_data(game_data: GameData):
@@ -45,15 +46,26 @@ func set_game_data(game_data: GameData):
 
 func start():
     self.mouse_filter = Control.MOUSE_FILTER_STOP
+    self._highlight.color.a = 0.5
+    self._highlight_animation.play()
 
 
 func stop():
     self.mouse_filter = Control.MOUSE_FILTER_IGNORE
     self._close_shop_menu_edit()
+    self._highlight_animation.stop()
+    self._highlight.color.a = 0.0
 
 
 func _ready():
     assert(display_items.size() == display_labels.size())
+
+    # Initialize the passive animation
+    self._highlight_animation = create_tween()
+    self._highlight_animation.tween_property(self._highlight, "color:a", 0.1, 1.0)
+    self._highlight_animation.tween_property(self._highlight, "color:a", 0.5, 1.0)
+    self._highlight_animation.set_loops()
+    self._highlight_animation.stop()
 
     # Hide display items
     for item in display_items:
@@ -94,15 +106,19 @@ func _update_shop_display():
 
 
 func _on_mouse_entered():
-    self.highlight_color_rect.color.a = 0.5
+    self._highlight_animation.stop()
+    self._highlight.color.a = 0.5
 
 
 func _on_mouse_exited():
-    self.highlight_color_rect.color.a = 0.0
+    self._highlight.color.a = 0.5
+    self._highlight_animation.play()
 
 
 func _on_gui_input(event: InputEvent):
     if event.is_pressed():
+        self._highlight_animation.stop()
+        self._highlight.color.a = 0.0
         self._open_shop_menu_edit()
 
 
@@ -111,7 +127,7 @@ func _open_shop_menu_edit():
     self.mouse_entered.disconnect(self._on_mouse_entered)
     self.mouse_exited.disconnect(self._on_mouse_exited)
     self.gui_input.disconnect(self._on_gui_input)
-    self.highlight_color_rect.color.a = 0.0
+    self._highlight.color.a = 0.0
 
     # Open shop edit scene
     self._shop_edit = self.shop_menu_edit_scene.instantiate()
@@ -128,6 +144,10 @@ func _close_shop_menu_edit():
     # Close shop edit scene
     self.remove_child(self._shop_edit)
     self._shop_edit = null
+
+    # Start animation
+    self._highlight.color.a = 0.5
+    self._highlight_animation.play()
 
     # Enable UI
     self.mouse_entered.connect(self._on_mouse_entered)
