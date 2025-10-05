@@ -127,7 +127,7 @@ class Attributes:
     func _init():
         # Modify attributes randomly by +0, +1, +2, or +3
         self.strength = max(self.strength + Globals.rng.randi_range(-2, 3), 1)
-        self.constitution+= max(self.constitution + Globals.rng.randi_range(-2, 3), 1)
+        self.constitution = max(self.constitution + Globals.rng.randi_range(-2, 3), 1)
         self.dexterity = max(self.dexterity + Globals.rng.randi_range(-2, 3), 1)
         self.intelligence = max(self.intelligence + Globals.rng.randi_range(-2, 3), 1)
         self.wisdom = max(self.wisdom + Globals.rng.randi_range(-2, 3), 1)
