@@ -1,0 +1,57 @@
+class_name CustomerInfo
+extends ColorRect
+
+@onready var _name_label: Label = $MarginContainer/VBoxContainer/NameLabel
+@onready var _str_label: Label = $MarginContainer/VBoxContainer/Attributes/StrLabel
+@onready var _con_label: Label = $MarginContainer/VBoxContainer/Attributes/ConLabel
+@onready var _dex_label: Label = $MarginContainer/VBoxContainer/Attributes/DexLabel
+@onready var _int_label: Label = $MarginContainer/VBoxContainer/Attributes/IntLabel
+@onready var _wis_label: Label = $MarginContainer/VBoxContainer/Attributes/WisLabel
+@onready var _cha_label: Label = $MarginContainer/VBoxContainer/Attributes/ChaLabel
+@onready var _traits: = $MarginContainer/VBoxContainer/Traits
+@onready var _weapon_icon: TextureRect = $MarginContainer/VBoxContainer/GridContainer/WeaponSlot
+@onready var _armor_icon: TextureRect = $MarginContainer/VBoxContainer/GridContainer/ArmorSlot
+@onready var _item_1_icon: TextureRect = $MarginContainer/VBoxContainer/GridContainer/ItemSlot1
+@onready var _item_2_icon: TextureRect = $MarginContainer/VBoxContainer/GridContainer/ItemSlot2
+@onready var _gold_label: Label = $MarginContainer/VBoxContainer/HBoxContainer/Label
+
+
+func set_customer_info(customer: Customer):
+    self._name_label.text = customer.customer_name
+    self._str_label.text = "STR %d" % customer.base_attr.strength
+    self._con_label.text = "CON %d" % customer.base_attr.constitution
+    self._dex_label.text = "DEX %d" % customer.base_attr.dexterity
+    self._int_label.text = "INT %d" % customer.base_attr.intelligence
+    self._wis_label.text = "WIS %d" % customer.base_attr.wisdom
+    self._cha_label.text = "CHA %d" % customer.base_attr.charisma
+
+    for child in self._traits.get_children():
+        self._traits.remove_child(child)
+
+    # TODO: customer traits
+
+    if customer.weapon != null:
+        self._weapon_icon.texture = customer.weapon.GetSprite()
+        self._weapon_icon.tooltip_text = customer.weapon.name
+    else:
+        self._weapon_icon.texture = NoiseTexture2D.new()
+
+    if customer.armor != null:
+        self._armor_icon.texture = customer.armor.GetSprite()
+        self._armor_icon.tooltip_text = customer.armor.name
+    else:
+        self._armor_icon.texture = NoiseTexture2D.new()
+
+    if customer.small_item_1 != null:
+        self._item_1_icon.texture = customer.small_item_1.GetSprite()
+        self._item_1_icon.tooltip_text = customer.small_item_1.name
+    else:
+        self._item_1_icon.texture = NoiseTexture2D.new()
+
+    if customer.small_item_2 != null:
+        self._item_2_icon.texture = customer.small_item_2.GetSprite()
+        self._item_2_icon.tooltip_text = customer.small_item_2.name
+    else:
+        self._item_2_icon.texture = NoiseTexture2D.new()
+
+    self._gold_label.text = "%d" % customer.gold

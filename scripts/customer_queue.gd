@@ -6,8 +6,9 @@ signal queue_emptied
 var _game_data: GameData
 
 @onready var _queue: HBoxContainer = $Queue
+@onready var _customer_offer_ui: CustomerOfferUI = $CustomerOfferUI
 
-var _customer_offer_ui_scene = preload("res://scenes/customer_offer_ui.tscn")
+# var _customer_offer_ui_scene = preload("res://scenes/customer_offer_ui.tscn")
 
 # Debug properties
 @onready var _placeholder_1 = $Queue/CustomerPlaceholder1
@@ -109,16 +110,15 @@ func _do_customer_offer():
     var offer = CustomerOffer.create_random_offer(customer, item)
 
     # Display the offer to the user
-    var customer_offer_ui = self._customer_offer_ui_scene.instantiate()
-    self.add_child(customer_offer_ui)
-    customer_offer_ui.set_customer_offer(offer)
-    var ui_size = customer_offer_ui.size()
-    customer_offer_ui.global_position = customer.global_position + Vector2(ui_size.x / 2, -(ui_size.y / 2) - 20)
+    self._customer_offer_ui.set_customer_offer(offer)
+    self._customer_offer_ui.visible = true
+    # var ui_size = customer_offer_ui.size()
+    # customer_offer_ui.global_position = customer.global_position + Vector2(ui_size.x / 2, -(ui_size.y / 2) - 20)
 
     print("Prepared customer offer, awaiting user input")
 
     # Wait for user
-    var result = await customer_offer_ui.offer_result
+    var result = await self._customer_offer_ui.offer_result
 
     # Process offer result
     if result[0] == CustomerOfferUI.OfferResult.accepted:
@@ -127,7 +127,7 @@ func _do_customer_offer():
         # TODO: customer.add_item(item)
         self._game_data.add_gold(final_price)
 
-    self.remove_child(customer_offer_ui)
+    self._customer_offer_ui.visible = false
 
     # TODO: animate customer walking away
 

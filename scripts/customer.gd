@@ -1,21 +1,24 @@
 class_name Customer
-extends TextureRect
+extends Control
 
 signal selected
 
 var customer_name: String
-var coins: int
+var gold: int
 var weapon: Item
 var armor: Item
-var small_items: Array[Item]
+var small_item_1: Item
+var small_item_2: Item
 
 var base_attr: Attributes = Attributes.new()
 
 static var _customer_scene = preload("res://scenes/customer.tscn")
 
 # TODO: replace rectangle highlight with texture shader
-@onready var _highlight: ColorRect = $Highlight
+@onready var _highlight: ColorRect = $TextureRect/Highlight
+@onready var _customer_info: CustomerInfo = $CustomerInfo
 
+var _selection_enabled: bool = false
 var _highlight_animation: Tween
 
 
@@ -32,12 +35,13 @@ static func create_default_customers() -> Array[Customer]:
 
 
 func _to_string() -> String:
-    return "Customer(name: %s, coins: %d, weapon: %s, armor: %s, small_items: %s) \n %s" % [
+    return "Customer(name: %s, gold: %d, weapon: %s, armor: %s, small_item_1: %s, small_item_2: %s) \n %s" % [
         self.customer_name,
-        self.coins,
+        self.gold,
         self.weapon,
         self.armor,
-        self.small_items,
+        self.small_item_1,
+        self.small_item_2,
         self.base_attr
     ]
 
@@ -50,42 +54,53 @@ func _ready():
     self._highlight_animation.stop()
 
     if get_tree().current_scene == self:
+        self.position = get_viewport_rect().size / 2
         # Test
+        self.customer_name = "Long John Silver"
+        self.gold = 9999999
+        self.weapon = Item.Create("Sword")
+        self.small_item_2 = Item.Create("Potion")
         self.enable_selection()
+
+    self._customer_info.set_customer_info(self)
 
 
 func enable_selection():
-    if not self._highlight.mouse_entered.is_connected(self._on_highlight_mouse_entered):
-        self._highlight.mouse_entered.connect(self._on_highlight_mouse_entered)
-    if not self._highlight.mouse_exited.is_connected(self._on_highlight_mouse_exited):
-        self._highlight.mouse_exited.connect(self._on_highlight_mouse_exited)
-    if not self._highlight.gui_input.is_connected(self._on_highlight_gui_event):
-        self._highlight.gui_input.connect(self._on_highlight_gui_event)
+    self._selection_enabled = true
     self._highlight.color.a = 0.5
     self._highlight_animation.play()
 
 
 func disable_selection():
+    self._selection_enabled = false
     self._highlight_animation.stop()
-    self._highlight.mouse_entered.disconnect(self._on_highlight_mouse_entered)
-    self._highlight.mouse_exited.disconnect(self._on_highlight_mouse_exited)
-    self._highlight.gui_input.disconnect(self._on_highlight_gui_event)
     self._highlight.color.a = 0.0
 
 
-func _on_highlight_mouse_entered():
-    self._highlight_animation.stop()
-    self._highlight.color.a = 0.5
+func _on_mouse_entered():
+    if self._selection_enabled:
+        self._highlight_animation.stop()
+        self._highlight.color.a = 0.5
+
+    self._customer_info.visible = true
 
 
-func _on_highlight_mouse_exited():
-    self._highlight.color.a = 0.5
-    self._highlight_animation.play()
+func _on_mouse_exited():
+    if self._selection_enabled:
+        self._highlight.color.a = 0.5
+        self._highlight_animation.play()
+
+    self._customer_info.visible = false
 
 
-func _on_highlight_gui_event(event: InputEvent):
+func _on_gui_input(event: InputEvent):
     if event.is_pressed():
-        self.selected.emit()
+        print("Customer pressed")
+        if self._selection_enabled:
+            self.selected.emit()
+        else:
+            # TODO: persist info box?
+            pass
 
 
 class Attributes:

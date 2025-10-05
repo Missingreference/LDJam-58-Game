@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bet1qdes2tl41"]
+[gd_scene load_steps=4 format=3 uid="uid://bet1qdes2tl41"]
 
 [ext_resource type="Script" uid="uid://ccjwpudd47bw4" path="res://scripts/customer_queue.gd" id="1_106ch"]
 [ext_resource type="PackedScene" uid="uid://b8pvwlfmfghud" path="res://scenes/customer.tscn" id="1_gpoa4"]
+[ext_resource type="PackedScene" uid="uid://b7hyugc3ib55t" path="res://scenes/customer_offer_ui.tscn" id="3_106ch"]
 
 [node name="CustomerQueue" type="Node2D"]
 script = ExtResource("1_106ch")
@@ -24,6 +25,10 @@ offset_top = 101.0
 offset_right = 39.0
 offset_bottom = 132.0
 text = "Add"
+
+[node name="CustomerOfferUI" parent="." instance=ExtResource("3_106ch")]
+visible = false
+position = Vector2(-176, -117)
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
