@@ -10,6 +10,7 @@ extends Control
 @onready var phase_texture: TextureRect = $PhaseTexture
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 @onready var customer_queue: CustomerQueue = $CustomerQueue
+@onready var expedition_hiring: ExpeditionHiring = $ExpeditionHiring
 @onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
 
 var game_data = GameData.new()
@@ -38,6 +39,7 @@ func _ready():
     self._update_gold_label(self.game_data.get_gold())
     self.shop_menu.set_game_data(self.game_data)
     self.customer_queue.set_game_data(self.game_data)
+    self.expedition_hiring.set_game_data(self.game_data)
     self._start_phase_one()
 
 
@@ -100,22 +102,30 @@ func _start_phase_three():
     self.game_data.phase = GameData.GamePhase.three
     self.finish_button.pressed.connect(self._finish_phase_three)
     self.finish_button.visible = true
+    self.expedition_hiring.customer_hired.connect(self._finish_phase_three)
+    self.expedition_hiring.start()
 
 
-func _finish_phase_three():
+func _finish_phase_three(hired_customer: Customer):
     print("Finished phase three")
     
     self.phase_title.text = ""
     self.finish_button.pressed.disconnect(self._finish_phase_three)
     self.finish_button.visible = false
-    self._start_phase_four()
+    self.expedition_hiring.customer_hired.disconnect(self._finish_phase_three)
+    self.expedition_hiring.stop()
+    self._start_phase_four(hired_customer)
 
 
-func _start_phase_four():
+func _start_phase_four(hired_customer: Customer):
     print("Starting phase four")
     
     self.phase_title.text = "End Day Report"
     self.phase_texture.texture = phase_4_sprite
+    
+    if hired_customer != null:
+        print("Hired %s" % hired_customer.customer_name)
+
     self.game_data.phase = GameData.GamePhase.four
     self.finish_button.pressed.connect(self._finish_phase_four)
     self.finish_button.visible = true
@@ -139,6 +149,7 @@ func _inventory_button_pressed():
 
     var inventory_ui: InventoryUI = inventory_ui_scene.instantiate()
     self.add_child(inventory_ui)
+    #inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Manage)
     inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
     inventory_ui.exited.connect(func():
@@ -159,6 +170,7 @@ func _settings_button_pressed():
 
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
+    #settingsMenu.global_position = get_viewport_rect().size / 2.0
     settingsMenu.closed.connect(func():
         self.remove_child(settingsMenu)
         _enable_controls()

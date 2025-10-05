@@ -16,10 +16,10 @@ script = ExtResource("2_xss0h")
 visible = false
 z_index = 10
 layout_mode = 0
-offset_left = 25.0
-offset_top = -307.0
-offset_right = 225.0
-offset_bottom = -7.0
+offset_left = -83.0
+offset_top = -311.0
+offset_right = 117.0
+offset_bottom = -11.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 clip_contents = true
