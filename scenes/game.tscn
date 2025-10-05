@@ -1,8 +1,56 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=22 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
+[ext_resource type="Texture2D" uid="uid://dkobwp36wkohm" path="res://assets/sprites/stall.png" id="2_p57ef"]
 [ext_resource type="PackedScene" uid="uid://wouky70rg5pj" path="res://scenes/shop_menu_small.tscn" id="2_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://x8wj8cjp2svc" path="res://assets/sprites/inventory.png" id="3_iywne"]
+[ext_resource type="Texture2D" uid="uid://bff4i60yrj6w4" path="res://assets/sprites/settings.png" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bet1qdes2tl41" path="res://scenes/customer_queue.tscn" id="3_lnu2h"]
+[ext_resource type="FontFile" uid="uid://5lde8h0tgdoy" path="res://assets/fonts/RedeemGold.otf" id="6_gee14"]
+[ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="7_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://c586anala5q2f" path="res://assets/sprites/gold.png" id="8_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://bhbp05ppupij7" path="res://assets/sprites/phase_all_active.png" id="10_vtaks"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtaks"]
+texture = ExtResource("3_iywne")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kvpfn"]
+texture = ExtResource("3_iywne")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dinhu"]
+texture = ExtResource("3_iywne")
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+modulate_color = Color(1.1638972, 1.1638972, 1.1638972, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_trtic"]
+texture = ExtResource("3_iywne")
+modulate_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p57ef"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p57ef"]
+texture = ExtResource("3_lbhrr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gee14"]
+texture = ExtResource("3_lbhrr")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u5sy4"]
+texture = ExtResource("3_lbhrr")
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+modulate_color = Color(1.1638972, 1.1638972, 1.1638972, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0tnpc"]
+texture = ExtResource("3_lbhrr")
+modulate_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gee14"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -13,23 +61,40 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uwrxv")
 
-[node name="PhaseLabel" type="Label" parent="."]
+[node name="PhaseTitle" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -32.0
-offset_right = 32.0
-offset_bottom = 23.0
+offset_left = -55.0
+offset_top = 141.0
+offset_right = 55.0
+offset_bottom = 168.0
 grow_horizontal = 2
-text = "Phase: 1"
+theme_override_fonts/font = ExtResource("2_kvpfn")
+theme_override_font_sizes/font_size = 30
+text = "[PHASE TITLE]"
 
-[node name="Shop" type="ColorRect" parent="."]
+[node name="PhaseTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -168.0
+offset_right = 166.9397
+offset_bottom = 139.0
+grow_horizontal = 2
+texture = ExtResource("10_vtaks")
+
+[node name="Shop" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 225.0
 offset_top = 357.0
-offset_right = 548.0
-offset_bottom = 563.0
+offset_right = 432.0
+offset_bottom = 554.0
+texture = ExtResource("2_p57ef")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ShopMenuSmall" parent="." instance=ExtResource("2_yqjtg")]
 layout_mode = 0
@@ -60,10 +125,14 @@ anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -174.0
 offset_top = 18.0
-offset_right = -91.0
-offset_bottom = 49.0
+offset_right = -110.0
+offset_bottom = 82.0
 grow_horizontal = 0
-text = "Inventory"
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtaks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kvpfn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dinhu")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_trtic")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p57ef")
 
 [node name="SettingsButton" type="Button" parent="."]
 layout_mode = 1
@@ -72,22 +141,49 @@ anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -89.0
 offset_top = 18.0
-offset_right = -19.0
-offset_bottom = 49.0
+offset_right = -25.0
+offset_bottom = 82.0
 grow_horizontal = 0
-text = "Settings"
+theme_override_styles/normal = SubResource("StyleBoxTexture_p57ef")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_gee14")
+theme_override_styles/hover = SubResource("StyleBoxTexture_u5sy4")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_0tnpc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_gee14")
+
+[node name="GoldTexture" type="TextureRect" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 18.0
+offset_right = 39.999985
+offset_bottom = 46.0
+mouse_filter = 2
+texture = ExtResource("8_0tnpc")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="GoldLabel" type="Label" parent="."]
+layout_mode = 1
+offset_left = 44.0
+offset_top = 19.0
+offset_right = 241.0
+offset_bottom = 47.0
+theme_override_fonts/font = ExtResource("6_gee14")
+theme_override_font_sizes/font_size = 30
+text = "Gold: 9999999999"
+
+[node name="InfoTooltip" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -322.0
-offset_top = 22.0
-offset_right = -186.0
-offset_bottom = 45.0
+offset_left = -146.0
+offset_top = 100.0
+offset_right = -46.0
+offset_bottom = 123.0
 grow_horizontal = 0
-text = "Gold: 9999999999"
+theme_override_fonts/font = ExtResource("7_0tnpc")
+theme_override_font_sizes/font_size = 26
+text = "[Info Tooltip]"
 horizontal_alignment = 2
 
 [node name="CustomerQueue" parent="." instance=ExtResource("3_lnu2h")]
@@ -98,5 +194,9 @@ ok_button_text = "Continue"
 dialog_text = "Warning: your shop has no inventory!"
 cancel_button_text = "Back"
 
+[connection signal="mouse_entered" from="InventoryButton" to="." method="_inventory_button_enter"]
+[connection signal="mouse_exited" from="InventoryButton" to="." method="_inventory_button_exit"]
 [connection signal="pressed" from="InventoryButton" to="." method="_inventory_button_pressed"]
+[connection signal="mouse_entered" from="SettingsButton" to="." method="_settings_button_enter"]
+[connection signal="mouse_exited" from="SettingsButton" to="." method="_settings_button_exit"]
 [connection signal="pressed" from="SettingsButton" to="." method="_settings_button_pressed"]

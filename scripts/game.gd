@@ -3,9 +3,11 @@ extends Control
 
 @onready var inventory_button: Button = $InventoryButton
 @onready var settings_button: Button = $SettingsButton
+@onready var info_tooltip_label: Label = $InfoTooltip
 @onready var gold_label: Label = $GoldLabel
 @onready var finish_button: Button = $FinishButton
-@onready var phase_label: Label = $PhaseLabel
+@onready var phase_title: Label = $PhaseTitle
+@onready var phase_texture: TextureRect = $PhaseTexture
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 @onready var customer_queue: CustomerQueue = $CustomerQueue
 @onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
@@ -15,12 +17,19 @@ var game_data = GameData.new()
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
 
+var phase_1_sprite = preload("res://assets/sprites/phase1_active.png")
+var phase_2_sprite = preload("res://assets/sprites/phase2_active.png")
+var phase_3_sprite = preload("res://assets/sprites/phase3_active.png")
+var phase_4_sprite = preload("res://assets/sprites/phase4_active.png")
+
 
 # Internal signal to know the result of the EmptyShopDialog
 signal _empty_shop_confirm(bool)
 
 
 func _ready():
+    info_tooltip_label.text = ""
+    
     # Setup empty shop dialog signals
     self.empty_shop_dialog.canceled.connect(func(): self._empty_shop_confirm.emit(false))
     self.empty_shop_dialog.confirmed.connect(func(): self._empty_shop_confirm.emit(true))
@@ -35,7 +44,8 @@ func _ready():
 func _start_phase_one():
     print("Starting phase one")
 
-    self.phase_label.text = "Phase One"
+    self.phase_title.text = "Preparation"
+    self.phase_texture.texture = phase_1_sprite
     self.game_data.phase = GameData.GamePhase.one
     self.finish_button.pressed.connect(self._finish_phase_one)
     self.finish_button.visible = true
@@ -45,6 +55,7 @@ func _finish_phase_one():
     self.finish_button.pressed.disconnect(self._finish_phase_one)
     self.finish_button.visible = false
     self.shop_menu.stop()
+    self.phase_title.text = ""
 
     # If shop inventory is empty, warn the user
     if self.game_data.shop_inventory._item_count <= 0:
@@ -63,7 +74,9 @@ func _finish_phase_one():
 
 func _start_phase_two():
     print("Starting phase two")
-    self.phase_label.text = "Phase Two"
+    
+    self.phase_title.text = "Customers"
+    self.phase_texture.texture = phase_2_sprite
     self.game_data.phase = GameData.GamePhase.two
     self.customer_queue.queue_emptied.connect(self._finish_phase_two)
     self.customer_queue.start()
@@ -72,7 +85,8 @@ func _start_phase_two():
 
 func _finish_phase_two():
     print("Finished phase two")
-
+    
+    self.phase_title.text = ""
     self.customer_queue.queue_emptied.disconnect(self._finish_phase_two)
     self.customer_queue.stop()
     self._start_phase_three()
@@ -81,7 +95,8 @@ func _finish_phase_two():
 func _start_phase_three():
     print("Starting phase three")
 
-    self.phase_label.text = "Phase Three"
+    self.phase_title.text = "Hire Adventurers"
+    self.phase_texture.texture = phase_3_sprite
     self.game_data.phase = GameData.GamePhase.three
     self.finish_button.pressed.connect(self._finish_phase_three)
     self.finish_button.visible = true
@@ -89,7 +104,8 @@ func _start_phase_three():
 
 func _finish_phase_three():
     print("Finished phase three")
-
+    
+    self.phase_title.text = ""
     self.finish_button.pressed.disconnect(self._finish_phase_three)
     self.finish_button.visible = false
     self._start_phase_four()
@@ -97,8 +113,9 @@ func _finish_phase_three():
 
 func _start_phase_four():
     print("Starting phase four")
-
-    self.phase_label.text = "Phase Four"
+    
+    self.phase_title.text = "End Day Report"
+    self.phase_texture.texture = phase_4_sprite
     self.game_data.phase = GameData.GamePhase.four
     self.finish_button.pressed.connect(self._finish_phase_four)
     self.finish_button.visible = true
@@ -106,7 +123,8 @@ func _start_phase_four():
 
 func _finish_phase_four():
     print("Finished phase four")
-
+    
+    self.phase_title.text = ""
     self.finish_button.pressed.disconnect(self._finish_phase_four)
     self.finish_button.visible = false
     self._start_phase_one()
@@ -128,6 +146,14 @@ func _inventory_button_pressed():
         _enable_controls()
     )
 
+func _inventory_button_enter():
+    info_tooltip_label.text = "Inventory"
+    pass
+    
+func _inventory_button_exit():
+    info_tooltip_label.text = ""
+    pass
+
 func _settings_button_pressed():
     _disable_controls()
 
@@ -137,6 +163,12 @@ func _settings_button_pressed():
         self.remove_child(settingsMenu)
         _enable_controls()
     )
+    
+func _settings_button_enter():
+    info_tooltip_label.text = "Settings"
+    
+func _settings_button_exit():
+    info_tooltip_label.text = ""
 
 func _enable_controls():
     inventory_button.disabled = false
