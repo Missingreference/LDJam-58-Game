@@ -55,7 +55,7 @@ func start():
     assert(self._customers.size() <= self._placeholders.size())
 
     # Animate customers coming into scene
-    self._animate_customer_entry()
+    await self._animate_customer_entry()
 
 
 func stop():

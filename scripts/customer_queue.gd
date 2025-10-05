@@ -139,6 +139,7 @@ func _do_customer_offer():
 func _clear():
     # TODO: animate
     for child in self._queue.get_children():
+        child.disable_selection()
         self._queue.remove_child(child)
 
     self.queue_emptied.emit()

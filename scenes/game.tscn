@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=26 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
@@ -9,8 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://bet1qdes2tl41" path="res://scenes/customer_queue.tscn" id="3_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://bvs76ubk1qndx" path="res://scenes/expedition_hiring.tscn" id="4_lbhrr"]
 [ext_resource type="FontFile" uid="uid://5lde8h0tgdoy" path="res://assets/fonts/RedeemGold.otf" id="6_gee14"]
+[ext_resource type="Texture2D" uid="uid://bb7yhfydxm0g4" path="res://assets/sprites/end_phase_base.png" id="6_ir15t"]
 [ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="7_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://b5mg5iobu8p6f" path="res://assets/sprites/end_phase_clicked.png" id="7_ca42v"]
 [ext_resource type="Texture2D" uid="uid://c586anala5q2f" path="res://assets/sprites/gold.png" id="8_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://cjax7my1cppyd" path="res://assets/sprites/end_phase_hover.png" id="8_rysoc"]
 [ext_resource type="Texture2D" uid="uid://bhbp05ppupij7" path="res://assets/sprites/phase_all_active.png" id="10_vtaks"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtaks"]
@@ -67,14 +70,15 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -55.0
-offset_top = 141.0
-offset_right = 55.0
-offset_bottom = 168.0
+offset_left = -93.0
+offset_top = 160.0
+offset_right = 93.0
+offset_bottom = 187.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_kvpfn")
 theme_override_font_sizes/font_size = 30
 text = "[PHASE TITLE]"
+horizontal_alignment = 1
 
 [node name="PhaseTexture" type="TextureRect" parent="."]
 layout_mode = 1
@@ -104,20 +108,16 @@ offset_top = 357.0
 offset_right = 200.0
 offset_bottom = 517.0
 
-[node name="FinishButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -648.0
-offset_top = -596.0
-offset_right = -498.0
-offset_bottom = -565.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Finish Preparation"
+[node name="EndPhaseButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 526.0
+offset_top = 139.0
+offset_right = 630.0
+offset_bottom = 156.0
+disabled = true
+texture_normal = ExtResource("6_ir15t")
+texture_pressed = ExtResource("7_ca42v")
+texture_hover = ExtResource("8_rysoc")
 
 [node name="InventoryButton" type="Button" parent="."]
 layout_mode = 1

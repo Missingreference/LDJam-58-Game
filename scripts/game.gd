@@ -5,7 +5,7 @@ extends Control
 @onready var settings_button: Button = $SettingsButton
 @onready var info_tooltip_label: Label = $InfoTooltip
 @onready var gold_label: Label = $GoldLabel
-@onready var finish_button: Button = $FinishButton
+@onready var end_phase_button: TextureButton = $EndPhaseButton
 @onready var phase_title: Label = $PhaseTitle
 @onready var phase_texture: TextureRect = $PhaseTexture
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
@@ -30,16 +30,20 @@ signal _empty_shop_confirm(bool)
 
 func _ready():
     info_tooltip_label.text = ""
-    
+
     # Setup empty shop dialog signals
     self.empty_shop_dialog.canceled.connect(func(): self._empty_shop_confirm.emit(false))
     self.empty_shop_dialog.confirmed.connect(func(): self._empty_shop_confirm.emit(true))
 
+    # Connect gold label for updates
     self.game_data.gold_changed.connect(self._update_gold_label)
     self._update_gold_label(self.game_data.get_gold())
+
+    # Pass game data to children that need it
     self.shop_menu.set_game_data(self.game_data)
     self.customer_queue.set_game_data(self.game_data)
     self.expedition_hiring.set_game_data(self.game_data)
+
     self._start_phase_one()
 
 
@@ -49,15 +53,20 @@ func _start_phase_one():
     self.phase_title.text = "Preparation"
     self.phase_texture.texture = phase_1_sprite
     self.game_data.phase = GameData.GamePhase.one
-    self.finish_button.pressed.connect(self._finish_phase_one)
-    self.finish_button.visible = true
-    self.shop_menu.start()
+
+    await self.shop_menu.start()
+
+    self.end_phase_button.pressed.connect(self._finish_phase_one)
+    self.end_phase_button.disabled = false
+
 
 func _finish_phase_one():
-    self.finish_button.pressed.disconnect(self._finish_phase_one)
-    self.finish_button.visible = false
-    self.shop_menu.stop()
-    self.phase_title.text = ""
+    print("Finishing phase one")
+
+    self.end_phase_button.pressed.disconnect(self._finish_phase_one)
+    self.end_phase_button.disabled = true
+
+    await self.shop_menu.stop()
 
     # If shop inventory is empty, warn the user
     if self.game_data.shop_inventory._item_count <= 0:
@@ -70,27 +79,32 @@ func _finish_phase_one():
             self._start_phase_one()
             return
 
-    print("Finished phase one")
     self._start_phase_two()
 
 
 func _start_phase_two():
     print("Starting phase two")
-    
+
     self.phase_title.text = "Customers"
     self.phase_texture.texture = phase_2_sprite
     self.game_data.phase = GameData.GamePhase.two
-    self.customer_queue.queue_emptied.connect(self._finish_phase_two)
-    self.customer_queue.start()
 
+    self.customer_queue.queue_emptied.connect(self._finish_phase_two)
+    await self.customer_queue.start()
+
+    self.end_phase_button.pressed.connect(self._finish_phase_two)
+    self.end_phase_button.disabled = false
 
 
 func _finish_phase_two():
     print("Finished phase two")
-    
-    self.phase_title.text = ""
+
+    self.end_phase_button.pressed.disconnect(self._finish_phase_two)
+    self.end_phase_button.disabled = true
+
     self.customer_queue.queue_emptied.disconnect(self._finish_phase_two)
-    self.customer_queue.stop()
+    await self.customer_queue.stop()
+
     self._start_phase_three()
 
 
@@ -100,43 +114,55 @@ func _start_phase_three():
     self.phase_title.text = "Hire Adventurers"
     self.phase_texture.texture = phase_3_sprite
     self.game_data.phase = GameData.GamePhase.three
-    self.finish_button.pressed.connect(self._finish_phase_three)
-    self.finish_button.visible = true
+
     self.expedition_hiring.customer_hired.connect(self._finish_phase_three)
-    self.expedition_hiring.start()
+    await self.expedition_hiring.start()
+
+    self.end_phase_button.pressed.connect(self._finish_phase_three_on_button_press)
+    self.end_phase_button.disabled = false
+
+
+func _finish_phase_three_on_button_press():
+    print("Phase three hiring skipped")
+    self._finish_phase_three(null)
 
 
 func _finish_phase_three(hired_customer: Customer):
     print("Finished phase three")
-    
-    self.phase_title.text = ""
-    self.finish_button.pressed.disconnect(self._finish_phase_three)
-    self.finish_button.visible = false
+
+    self.end_phase_button.pressed.disconnect(self._finish_phase_three_on_button_press)
+    self.end_phase_button.disabled = true
+
     self.expedition_hiring.customer_hired.disconnect(self._finish_phase_three)
-    self.expedition_hiring.stop()
+    await self.expedition_hiring.stop()
+
     self._start_phase_four(hired_customer)
 
 
 func _start_phase_four(hired_customer: Customer):
     print("Starting phase four")
-    
-    self.phase_title.text = "End Day Report"
-    self.phase_texture.texture = phase_4_sprite
-    
+
     if hired_customer != null:
         print("Hired %s" % hired_customer.customer_name)
 
+    self.phase_title.text = "End Day Report"
+    self.phase_texture.texture = phase_4_sprite
     self.game_data.phase = GameData.GamePhase.four
-    self.finish_button.pressed.connect(self._finish_phase_four)
-    self.finish_button.visible = true
+
+    # TODO
+
+    self.end_phase_button.pressed.connect(self._finish_phase_four)
+    self.end_phase_button.disabled = false
 
 
 func _finish_phase_four():
     print("Finished phase four")
-    
-    self.phase_title.text = ""
-    self.finish_button.pressed.disconnect(self._finish_phase_four)
-    self.finish_button.visible = false
+
+    self.end_phase_button.pressed.disconnect(self._finish_phase_four)
+    self.end_phase_button.disabled = true
+
+    # TODO
+
     self._start_phase_one()
 
 
@@ -160,7 +186,7 @@ func _inventory_button_pressed():
 func _inventory_button_enter():
     info_tooltip_label.text = "Inventory"
     pass
-    
+
 func _inventory_button_exit():
     info_tooltip_label.text = ""
     pass
@@ -175,22 +201,22 @@ func _settings_button_pressed():
         self.remove_child(settingsMenu)
         _enable_controls()
     )
-    
+
 func _settings_button_enter():
     info_tooltip_label.text = "Settings"
-    
+
 func _settings_button_exit():
     info_tooltip_label.text = ""
 
 func _enable_controls():
     inventory_button.disabled = false
     settings_button.disabled = false
-    finish_button.disabled = false
+    end_phase_button.disabled = false
     if game_data.phase == GameData.GamePhase.one:
         self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _disable_controls():
     inventory_button.disabled = true
     settings_button.disabled = true
-    finish_button.disabled = true
+    end_phase_button.disabled = true
     self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
