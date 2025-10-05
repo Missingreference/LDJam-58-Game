@@ -290,5 +290,3 @@ const customer_adjectives: Array[String] = [
     "Wise",
     "Warm-hearted",
 ]
-
-

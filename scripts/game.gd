@@ -142,14 +142,19 @@ func _finish_phase_three(hired_customer: Customer):
 func _start_phase_four(hired_customer: Customer):
     print("Starting phase four")
 
-    if hired_customer != null:
-        print("Hired %s" % hired_customer.customer_name)
-
     self.phase_title.text = "End Day Report"
     self.phase_texture.texture = phase_4_sprite
     self.game_data.phase = GameData.GamePhase.four
 
-    # TODO
+    var expedition_report: ExpeditionReport
+    if hired_customer !=null:
+        var dungeon = Dungeon.create_random()
+        print("Hire %s is performing expedition in %s" % [hired_customer.customer_name, dungeon.name])
+        expedition_report = ExpeditionSimulator.run(dungeon, hired_customer)
+    else:
+        expedition_report = ExpeditionReport.create_empty()
+
+    # TODO: Display report
 
     self.end_phase_button.pressed.connect(self._finish_phase_four)
     self.end_phase_button.disabled = false

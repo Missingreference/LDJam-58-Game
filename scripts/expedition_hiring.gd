@@ -147,24 +147,21 @@ func _compute_hire_price(customer: Customer):
     var price = 40
 
     # Increase price with increased attributes
-    var total_attr_points = (
-        customer.base_attr.strength +
-        customer.base_attr.constitution +
-        customer.base_attr.dexterity +
-        customer.base_attr.intelligence +
-        customer.base_attr.wisdom +
-        customer.base_attr.charisma
-    )
+    var total_attr_points = customer.base_attr._values.values().reduce(func(v, sum): return v + sum)
     price += total_attr_points * 10
 
     # Increase price based on equipment
     if customer.weapon != null:
+        @warning_ignore("integer_division")
         price += customer.weapon.GetValue() / 2
     if customer.armor != null:
+        @warning_ignore("integer_division")
         price += customer.armor.GetValue() / 2
     if customer.small_item_1 != null:
+        @warning_ignore("integer_division")
         price += customer.small_item_1.GetValue() / 2
     if customer.small_item_2 != null:
+        @warning_ignore("integer_division")
         price += customer.small_item_2.GetValue() / 2
 
     # TODO: increase / decrease price based on traits

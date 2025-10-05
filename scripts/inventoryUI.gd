@@ -43,9 +43,9 @@ func _ready() -> void:
     selectionHighlighter.visible = false
 
     SetMode(Mode.Readonly)
-    
+
     assert(aspect_layout_control != null)
-    
+
     for i in 18:
         var itemSlot: ItemSlot = aspect_layout_control.find_child("ItemSlot" + str(i+1), false)
         assert(itemSlot != null)
@@ -55,7 +55,7 @@ func _ready() -> void:
         itemSlot.connect("mouse_exited", _on_mouse_exit_slot.bind())
         itemSlot.selected.connect(_onSlotSelected.bind(itemSlot))
         itemSlot.chosen.connect(_on_slot_chosen.bind(itemSlot))
-        
+
 
     if get_tree().current_scene == self:
         # Center in viewport
@@ -67,7 +67,7 @@ func _ready() -> void:
         var debugInventory = Inventory.new()
         debugInventory.max_item_count = 18
         for i in 18:
-            debugInventory.AddItem(Item.Create("Potion"))
+            debugInventory.AddItem(Item.Create("Potion", Item.Rarity.Normal))
         SetTargetInventory(debugInventory)
 
 func Refresh():
@@ -99,7 +99,7 @@ func SetMode(mode):
 func SetTargetInventory(inventory: Inventory):
     _inventory = inventory
     _inventory.changed.connect(Refresh)
-    
+
     Refresh()
 
 func _get_slot(slotIndex: int, item: Item) -> ItemSlot:
@@ -115,7 +115,7 @@ func _get_slot(slotIndex: int, item: Item) -> ItemSlot:
     else:
         itemSlot.manageable = false
         itemSlot.selectable = false
-        
+
     itemSlot.set_item(item)
 
     return itemSlot
@@ -153,14 +153,13 @@ func _onChooseButtonPressed():
 
 func _onExitButtonPressed():
     exited.emit()
-    
+
 func _on_mouse_enter_slot(slot: ItemSlot):
     if slot.get_item() == null: return
     _tooltip.visible = true
     _tooltip.move_to_front()
     _tooltip.item_title.text = slot.get_item().name
     _tooltip.item_description.text = "Type: " + str(slot.get_item().GetType()) + "\n" + "Rarity: " + str(slot.get_item().rarity) + "\n" + "Value: " + str(20)
-    
+
 func _on_mouse_exit_slot():
     _tooltip.visible = false
-    

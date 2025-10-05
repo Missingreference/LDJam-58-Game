@@ -18,12 +18,12 @@ extends ColorRect
 
 func set_customer_info(customer: Customer):
     self._name_label.text = customer.customer_name
-    self._str_label.text = "STR %d" % customer.base_attr.strength
-    self._con_label.text = "CON %d" % customer.base_attr.constitution
-    self._dex_label.text = "DEX %d" % customer.base_attr.dexterity
-    self._int_label.text = "INT %d" % customer.base_attr.intelligence
-    self._wis_label.text = "WIS %d" % customer.base_attr.wisdom
-    self._cha_label.text = "CHA %d" % customer.base_attr.charisma
+    self._str_label.text = "STR %d" % customer.base_attr.get_attr(Customer.Attr.str)
+    self._con_label.text = "CON %d" % customer.base_attr.get_attr(Customer.Attr.con)
+    self._dex_label.text = "DEX %d" % customer.base_attr.get_attr(Customer.Attr.dex)
+    self._int_label.text = "INT %d" % customer.base_attr.get_attr(Customer.Attr.int)
+    self._wis_label.text = "WIS %d" % customer.base_attr.get_attr(Customer.Attr.wis)
+    self._cha_label.text = "CHA %d" % customer.base_attr.get_attr(Customer.Attr.cha)
 
     for child in self._traits.get_children():
         self._traits.remove_child(child)

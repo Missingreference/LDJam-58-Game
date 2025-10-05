@@ -9,8 +9,14 @@ static var _allItems: Array[ItemData] = []
 
 static func _static_init() -> void:
     RegisterItem("Potion", Item.ItemType.Consumable, 10, potionSprite)
-    RegisterItem("Sword", Item.ItemType.Equipment, 50, swordSprite)
-    RegisterItem("Bow", Item.ItemType.Equipment, 30, bowSprite)
+    RegisterItem("Sword", Item.ItemType.Weapon, 50, swordSprite)
+    RegisterItem("Bow", Item.ItemType.Weapon, 30, bowSprite)
+
+
+# Query number of items in the database
+static func GetItemCount() -> int:
+    return _allItems.size()
+
 
 static func GetName(id) -> String:
    return _allItems[id].name

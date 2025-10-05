@@ -27,6 +27,11 @@ static func pick_random_count(array: Array, count: int):
     var result = []
     var available_indexes = range(array.size())
     for i in range(0, count):
+
+        # If there are no more valid available indexes, return early
+        if available_indexes.size() == 0:
+            return result
+
         var j = Globals.rng.randi_range(0, available_indexes.size() - 1)
         var array_index = available_indexes[j]
         result.append(array[array_index])

@@ -10,7 +10,7 @@ var armor: Item
 var small_item_1: Item
 var small_item_2: Item
 
-var base_attr: Attributes = Attributes.new()
+var base_attr: Attributes = Attributes.create_for_customer()
 
 static var _customer_scene = preload("res://scenes/customer.tscn")
 
@@ -55,6 +55,14 @@ func persist_customer_info(enable: bool):
     else:
         self._customer_info.visible = false
 
+# Get base skill for a particular attribute plus any modifiers
+func get_skill(attribute: Attr) -> int:
+    var value = self.base_attr.get_attr(attribute)
+    if self.weapon != null:
+        value += self.weapon.attributes.get_attr(attribute)
+    if self.armor != null:
+        value += self.armor.attributes.get_attr(attribute)
+    return value
 
 
 func _to_string() -> String:
@@ -81,8 +89,8 @@ func _ready():
         # Test
         self.customer_name = "Long John Silver"
         self.gold = 9999999
-        self.weapon = Item.Create("Sword")
-        self.small_item_2 = Item.Create("Potion")
+        self.weapon = Item.Create("Sword", Item.Rarity.Normal)
+        self.small_item_2 = Item.Create("Potion", Item.Rarity.Normal)
         self.enable_selection()
 
     self._customer_info.set_customer_info(self)
@@ -117,28 +125,46 @@ func _on_gui_input(event: InputEvent):
 
 
 class Attributes:
-    var strength: int = 1
-    var constitution: int = 1
-    var dexterity: int = 1
-    var intelligence: int = 1
-    var wisdom: int = 1
-    var charisma: int = 1
+    var _values: Dictionary[Attr, int] = {
+        Attr.str: 0,
+        Attr.con: 0,
+        Attr.dex: 0,
+        Attr.int: 0,
+        Attr.wis: 0,
+        Attr.cha: 0
+    }
 
-    func _init():
-        # Modify attributes randomly by +0, +1, +2, or +3
-        self.strength = max(self.strength + Globals.rng.randi_range(-2, 3), 1)
-        self.constitution = max(self.constitution + Globals.rng.randi_range(-2, 3), 1)
-        self.dexterity = max(self.dexterity + Globals.rng.randi_range(-2, 3), 1)
-        self.intelligence = max(self.intelligence + Globals.rng.randi_range(-2, 3), 1)
-        self.wisdom = max(self.wisdom + Globals.rng.randi_range(-2, 3), 1)
-        self.charisma = max(self.charisma + Globals.rng.randi_range(-2, 3), 1)
+    # Ensure that the minimum value for each attribute is 1
+    static func create_for_customer() -> Attributes:
+        var result = Attributes.new()
 
-    func _to_string() -> String:
-        return "Attributes { \n    str: %d\n    con: %d\n    dex: %d\n    int: %d\n    wis: %d\n    cha: %d\n}" % [
-            self.strength,
-            self.constitution,
-            self.dexterity,
-            self.intelligence,
-            self.wisdom,
-            self.charisma
-        ]
+        # Modify attributes randomly to be 1, 2, 3, or 4
+        for attr in result._values:
+            result._values[attr] = max(Globals.rng.randi_range(-3, 4), 1)
+
+        return result
+
+
+    func get_attr(attribute: Attr) -> int:
+        return self._values[attribute]
+
+
+    func set_attr(attribute: Attr, value: int):
+        self._values[attribute] = max(value, 0)
+
+
+    # Add a value to an attribute.
+    # Cannot fall below zero
+    func add_attr(attribute: Attr, value: int):
+        self._values[attribute] += value
+        self._values[attribute] = max(self._values[attribute], 0)
+
+
+enum Attr {
+    str,
+    con,
+    dex,
+    int,
+    wis,
+    cha
+}
