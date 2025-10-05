@@ -2,14 +2,15 @@ class_name ItemDatabase
 
 #Sprites
 static var potionSprite = preload("res://assets/sprites/icon_potion.png")
-static var swordSprite = preload("res://assets/sprites/sword_placeholder.png")
+static var swordSprite = preload("res://assets/sprites/icon_sword.png")
+static var bowSprite = preload("res://assets/sprites/icon_bow.png")
 
 static var _allItems: Array[ItemData] = []
 
 static func _static_init() -> void:
     RegisterItem("Potion", Item.ItemType.Consumable, 10, potionSprite)
     RegisterItem("Sword", Item.ItemType.Equipment, 50, swordSprite)
-    RegisterItem("Bow", Item.ItemType.Equipment, 30, null)
+    RegisterItem("Bow", Item.ItemType.Equipment, 30, bowSprite)
 
 static func GetName(id) -> String:
    return _allItems[id].name
