@@ -23,12 +23,18 @@ static func create_random_offer(_customer: Customer, _item: Item) -> CustomerOff
 
 
 const flavors: Array[String] = [
-	"Let me take a look at your wares...",
-	"I'd like to make a purchase.",
-	"Where did you find this?",
-	"I must have it!",
-	"I'm sure this will come in handy",
-	"What say you?",
+	"I'd like to purchase a ",
+	"Could I trouble you for one ",
+	"I seek to buy a ",
+	"If you've got one in stock, I'd like to purchase a ",
+	"I wish to acquire a ",
+	"I wish to acquire one ",
+	"I'll take one ",
+	"I'm in need of a ",
+	"I've coin for one ",
+	"I'd like to buy one ",
+	"I'd like to purchase one ",
+	"I've gold for a "
 ]
 
 const greetings: Array[String] = [
@@ -38,4 +44,14 @@ const greetings: Array[String] = [
 	"Hey, listen!",
 	"You there!",
 	"A fine day, huzzah!",
+	"Hail, merchant!",
+	"Ah, fortune smiles upon me!",
+	"Salutations, shopkeeper.",
+	"By the gods, your wares are splendid!",
+	"Peace upon you, merchant.",
+	"Well met, friend.",
+	"Ah, I've heard fine things of your shop!"
+	
+	
+	
 ]

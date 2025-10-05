@@ -17,7 +17,7 @@ var _offer: CustomerOffer
 func set_customer_offer(offer: CustomerOffer):
 	self._offer = offer
 	self._customer_name_label.text = offer.customer.customer_name
-	self._flavor_label.text = offer.flavor_text
+	self._flavor_label.text = offer.flavor_text + offer.item_wanted.name + "."
 	self._offer_label.text = "Offer: %dgp" % offer.gold_offered
 	self._item_icon.texture = offer.item_wanted.GetSprite()
 	self._item_name_label.text = offer.item_wanted.name

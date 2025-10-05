@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_51q1o"]
 [ext_resource type="Script" uid="uid://y46wopdtkesi" path="res://scripts/customer_offer_ui.gd" id="1_r1vgh"]
+[ext_resource type="Texture2D" uid="uid://b164xu8lsqjuj" path="res://assets/sprites/haggle_chat_bubble_21.png" id="2_pbm8y"]
 [ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_r1vgh"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="3_fosc4"]
-[ext_resource type="Texture2D" uid="uid://bomshyaebfw3l" path="res://assets/sprites/haggle_chat_bubble.png" id="4_0noxd"]
 [ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="5_ep75l"]
 [ext_resource type="StyleBox" uid="uid://cu8vbrtxmdiek" path="res://assets/themes/button_hover.tres" id="7_6gpvo"]
 [ext_resource type="StyleBox" uid="uid://ckron3xxc2osc" path="res://assets/themes/button_theme.tres" id="7_nr1r6"]
@@ -71,7 +71,7 @@ offset_right = 180.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_0noxd")
+texture = ExtResource("2_pbm8y")
 
 [node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
 layout_mode = 1
@@ -82,7 +82,7 @@ offset_top = 9.0
 offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
+theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
@@ -124,7 +124,6 @@ layout_mode = 2
 
 [node name="OfferLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_ep75l")
 theme_override_font_sizes/font_size = 32
