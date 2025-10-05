@@ -121,14 +121,14 @@ func _get_slot(slotIndex: int, item: Item) -> ItemSlot:
     return itemSlot
 
 func _onSlotSelected(slot: ItemSlot):
-    if _mode != Mode.Picker: return
+    if _mode != Mode.Picker || slot.get_item() == null: return
     _selectedSlot = slot
     chooseButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
 
 func _onSlotDeleted(slot: ItemSlot):
-    if _mode != Mode.Manage: return
+    if _mode != Mode.Manage || slot.get_item() == null: return
     var popupMenu: GamePopupMenu = GamePopupMenu.Create("Throw away " + slot.get_item().name + "?", "This item will be lost.")
     self.add_child(popupMenu)
     print(popupMenu.global_position)
@@ -143,7 +143,7 @@ func _onSlotDeleted(slot: ItemSlot):
     )
 
 func _on_slot_chosen(slot: ItemSlot):
-    if _mode != Mode.Picker: return
+    if _mode != Mode.Picker || slot.get_item() == null: return
     _onSlotSelected(slot)
     _onChooseButtonPressed()
 

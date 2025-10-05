@@ -44,11 +44,12 @@ func set_item(item: Item):
             deleteButton.visible = false
         
 func _on_texture_rect_gui_input(event: InputEvent) -> void:
-    if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
-        if event.double_click:
-            chosen.emit()
-        elif event.is_pressed():
-            selected.emit()
+    if selectable:
+        if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
+            if event.double_click:
+                chosen.emit()
+            elif event.is_pressed():
+                selected.emit()
 
 func _on_delete_button_pressed() -> void:
     deleted.emit()    
