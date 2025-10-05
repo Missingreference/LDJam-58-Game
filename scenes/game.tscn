@@ -120,6 +120,7 @@ texture_pressed = ExtResource("7_ca42v")
 texture_hover = ExtResource("8_rysoc")
 
 [node name="InventoryButton" type="Button" parent="."]
+z_index = 20
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -136,6 +137,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_trtic")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p57ef")
 
 [node name="SettingsButton" type="Button" parent="."]
+z_index = 20
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

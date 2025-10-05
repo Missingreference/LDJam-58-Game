@@ -183,30 +183,33 @@ func _inventory_button_pressed():
         _enable_controls()
     )
 
+
 func _inventory_button_enter():
     info_tooltip_label.text = "Inventory"
-    pass
+
 
 func _inventory_button_exit():
     info_tooltip_label.text = ""
-    pass
+
 
 func _settings_button_pressed():
     _disable_controls()
 
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
-    #settingsMenu.global_position = get_viewport_rect().size / 2.0
     settingsMenu.closed.connect(func():
         self.remove_child(settingsMenu)
         _enable_controls()
     )
 
+
 func _settings_button_enter():
     info_tooltip_label.text = "Settings"
 
+
 func _settings_button_exit():
     info_tooltip_label.text = ""
+
 
 func _enable_controls():
     inventory_button.disabled = false
@@ -214,6 +217,7 @@ func _enable_controls():
     end_phase_button.disabled = false
     if game_data.phase == GameData.GamePhase.one:
         self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
+
 
 func _disable_controls():
     inventory_button.disabled = true

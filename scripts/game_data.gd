@@ -9,16 +9,22 @@ enum GamePhase {
     four
 }
 
+# Items stored in the warehouse
 var warehouse_inventory = Inventory.create_default_inventory()
 
 # Items available in the shop
-# Index on the name of the item
 var shop_inventory = Inventory.new()
 
+# Players gold
 var _gold: int = 100
 
+# Regulars
 var customers: Array[Customer] =  Customer.create_default_customers()
+
+# Current phase of the game
 var phase: GamePhase = GamePhase.one
+
+# If tutorial mode is enabled
 var is_tutorial: bool = true
 
 
