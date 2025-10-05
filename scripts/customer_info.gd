@@ -17,18 +17,8 @@ extends ColorRect
 
 
 func set_customer_info(customer: Customer):
-    self._name_label.text = customer.customer_name
-    self._str_label.text = "STR %d" % customer.base_attr.get_attr(Customer.Attr.str)
-    self._con_label.text = "CON %d" % customer.base_attr.get_attr(Customer.Attr.con)
-    self._dex_label.text = "DEX %d" % customer.base_attr.get_attr(Customer.Attr.dex)
-    self._int_label.text = "INT %d" % customer.base_attr.get_attr(Customer.Attr.int)
-    self._wis_label.text = "WIS %d" % customer.base_attr.get_attr(Customer.Attr.wis)
-    self._cha_label.text = "CHA %d" % customer.base_attr.get_attr(Customer.Attr.cha)
 
-    for child in self._traits.get_children():
-        self._traits.remove_child(child)
 
-    # TODO: customer traits
 
     var weapon = customer.get_weapon()
     if weapon != null:
@@ -58,4 +48,3 @@ func set_customer_info(customer: Customer):
     else:
         self._item_2_icon.texture = NoiseTexture2D.new()
 
-    self._gold_label.text = "%d" % customer.gold
