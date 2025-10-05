@@ -21,7 +21,11 @@ static var events: Array[Dungeon.Event] = [
         "A globin, and they brought friends",
         Customer.Attr.str,
         15,
-        Dungeon.Outcome.new().flavor("That was NOT easy").resolve(2),
+        (Dungeon.Outcome.new()
+            .flavor("That was NOT easy")
+            .gain_item(Item.CreateRandom())
+            .resolve(2)
+        ),
         Dungeon.Outcome.new().flavor("Overwelmed").resolve(-3),
     ),
     Dungeon.Event.new(
@@ -37,5 +41,12 @@ static var events: Array[Dungeon.Event] = [
         13,
         Dungeon.Outcome.new().flavor("Loot!").gain_item(Item.CreateRandom()).resolve(1),
         Dungeon.Outcome.new().flavor("Rats, it's a mimic").resolve(-2),
+    ),
+    Dungeon.Event.new(
+        "A dead body, ew..",
+        Customer.Attr.con,
+        10,
+        Dungeon.Outcome.new().flavor("Oooh, they had a potion").gain_item(Item.Create("Potion")),
+        Dungeon.Outcome.new().flavor("There goes my lunch").resolve(-1)
     ),
 ]
