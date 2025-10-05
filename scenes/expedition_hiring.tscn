@@ -1,7 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvs76ubk1qndx"]
+[gd_scene load_steps=17 format=3 uid="uid://bvs76ubk1qndx"]
 
 [ext_resource type="Script" uid="uid://bqwhnfh03c6kh" path="res://scripts/expedition_hiring.gd" id="1_xigjm"]
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="2_n7hjw"]
+[ext_resource type="StyleBox" uid="uid://o2ao8x6my0ao" path="res://assets/themes/hire_button_hover.tres" id="3_ixqms"]
+[ext_resource type="StyleBox" uid="uid://c5akvu86jev13" path="res://assets/themes/hire_button_base.tres" id="4_q6g2u"]
+[ext_resource type="StyleBox" uid="uid://dfl38f745qfto" path="res://assets/themes/hire_button_pressed.tres" id="5_67uu7"]
+[ext_resource type="FontFile" uid="uid://quoywp2m68kn" path="res://assets/fonts/CompassGold.otf" id="6_ixqms"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uxw38"]
+
+[sub_resource type="Theme" id="Theme_ixqms"]
+Button/styles/focus = SubResource("StyleBoxEmpty_uxw38")
+Button/styles/hover = ExtResource("3_ixqms")
+Button/styles/normal = ExtResource("4_q6g2u")
+Button/styles/pressed = ExtResource("5_67uu7")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ixqms"]
+
+[sub_resource type="Theme" id="Theme_67uu7"]
+Button/styles/focus = SubResource("StyleBoxEmpty_ixqms")
+Button/styles/hover = ExtResource("3_ixqms")
+Button/styles/normal = ExtResource("4_q6g2u")
+Button/styles/pressed = ExtResource("5_67uu7")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mogjb"]
+
+[sub_resource type="Theme" id="Theme_uxw38"]
+Button/styles/focus = SubResource("StyleBoxEmpty_mogjb")
+Button/styles/hover = ExtResource("3_ixqms")
+Button/styles/normal = ExtResource("4_q6g2u")
+Button/styles/pressed = ExtResource("5_67uu7")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1nueg"]
+
+[sub_resource type="Theme" id="Theme_m562h"]
+Button/styles/focus = SubResource("StyleBoxEmpty_1nueg")
+Button/styles/hover = ExtResource("3_ixqms")
+Button/styles/normal = ExtResource("4_q6g2u")
+Button/styles/pressed = ExtResource("5_67uu7")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h3bku"]
+
+[sub_resource type="Theme" id="Theme_lsbeg"]
+Button/styles/focus = SubResource("StyleBoxEmpty_h3bku")
+Button/styles/hover = ExtResource("3_ixqms")
+Button/styles/normal = ExtResource("4_q6g2u")
+Button/styles/pressed = ExtResource("5_67uu7")
 
 [node name="ExpeditionHiring" type="Control"]
 layout_mode = 3
@@ -46,6 +90,10 @@ stretch_mode = 3
 [node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot1"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = SubResource("Theme_ixqms")
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_ixqms")
+theme_override_font_sizes/font_size = 16
 text = "Hire 100"
 
 [node name="CustomerSlot2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -65,6 +113,9 @@ stretch_mode = 3
 [node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot2"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = SubResource("Theme_67uu7")
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_ixqms")
 text = "Hire 200"
 
 [node name="CustomerSlot3" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -84,6 +135,9 @@ stretch_mode = 3
 [node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot3"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = SubResource("Theme_uxw38")
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_ixqms")
 text = "Hire 10"
 
 [node name="CustomerSlot4" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -103,6 +157,9 @@ stretch_mode = 3
 [node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot4"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = SubResource("Theme_m562h")
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_ixqms")
 text = "Hire 1000"
 
 [node name="CustomerSlot5" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -122,4 +179,7 @@ stretch_mode = 3
 [node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot5"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = SubResource("Theme_lsbeg")
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("6_ixqms")
 text = "Hire Free"
