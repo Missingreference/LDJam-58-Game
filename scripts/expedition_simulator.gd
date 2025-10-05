@@ -47,6 +47,8 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
         bonus_outcome.gain_item(Item.CreateRandom())
         bonus_outcome.gain_item(Item.CreateRandom())
 
+        # TODO: consider modifying character stats (e.g. level up or gain traits)
+
         report.log(complete_event, bonus_outcome)
 
 

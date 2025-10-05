@@ -37,7 +37,7 @@ class Event:
         # Saving roll
         var roll_value = Globals.rng.randi_range(1, 20)
 
-        # Add innate skill
+        # Add innate skill and equipment modifiers
         roll_value += customer.get_skill(self.skill)
 
         if roll_value < skill_check:
