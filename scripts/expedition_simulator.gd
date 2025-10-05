@@ -5,6 +5,7 @@ extends Node
 static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
     print("Start expedition:")
     var report = ExpeditionReport.new()
+    report.customer = customer
 
     var customer_resolve: int = 10
 

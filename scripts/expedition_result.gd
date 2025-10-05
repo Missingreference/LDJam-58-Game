@@ -1,7 +1,7 @@
+class_name ExpeditionResult
 extends Control
 
 signal finished
-
 
 const log_item_scene = preload("res://scenes/expedition_result_log_item.tscn")
 
@@ -9,6 +9,7 @@ const log_item_scene = preload("res://scenes/expedition_result_log_item.tscn")
 @onready var customer_texture: TextureRect = $NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/CustomerTexture
 @onready var customer_name_label: Label = $NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/CustomerNameLabel
 @onready var success_fail_label: Label = $NinePatchRect/MarginContainer/VBoxContainer/SuccessFailLabel
+
 
 func set_expedition_report(report: ExpeditionReport):
     # Populate success/fail label
