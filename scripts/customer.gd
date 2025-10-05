@@ -18,6 +18,7 @@ static var _customer_scene = preload("res://scenes/customer.tscn")
 @onready var _highlight: ColorRect = $TextureRect/Highlight
 @onready var _customer_info: CustomerInfo = $CustomerInfo
 
+var _persist_customer_info: bool = false
 var _selection_enabled: bool = false
 var _highlight_animation: Tween
 
@@ -32,6 +33,28 @@ static func create_default_customers() -> Array[Customer]:
         result.append(customer)
 
     return result
+
+
+func enable_selection():
+    self._selection_enabled = true
+    self._highlight.color.a = 0.5
+    self._highlight_animation.play()
+
+
+func disable_selection():
+    self._selection_enabled = false
+    self._highlight_animation.stop()
+    self._highlight.color.a = 0.0
+
+
+func persist_customer_info(enable: bool):
+    self._persist_customer_info = enable
+    if enable:
+        # TODO: animation would be nice here
+        self._customer_info.visible = true
+    else:
+        self._customer_info.visible = false
+
 
 
 func _to_string() -> String:
@@ -65,24 +88,13 @@ func _ready():
     self._customer_info.set_customer_info(self)
 
 
-func enable_selection():
-    self._selection_enabled = true
-    self._highlight.color.a = 0.5
-    self._highlight_animation.play()
-
-
-func disable_selection():
-    self._selection_enabled = false
-    self._highlight_animation.stop()
-    self._highlight.color.a = 0.0
-
-
 func _on_mouse_entered():
     if self._selection_enabled:
         self._highlight_animation.stop()
         self._highlight.color.a = 0.5
 
-    self._customer_info.visible = true
+    if not self._persist_customer_info:
+        self._customer_info.visible = true
 
 
 func _on_mouse_exited():
@@ -90,7 +102,8 @@ func _on_mouse_exited():
         self._highlight.color.a = 0.5
         self._highlight_animation.play()
 
-    self._customer_info.visible = false
+    if not self._persist_customer_info:
+        self._customer_info.visible = false
 
 
 func _on_gui_input(event: InputEvent):
@@ -114,7 +127,7 @@ class Attributes:
     func _init():
         # Modify attributes randomly by +0, +1, +2, or +3
         self.strength = max(self.strength + Globals.rng.randi_range(-2, 3), 1)
-        self.constitution+= max(self.constitution + Globals.rng.randi_range(-2, 3), 1)
+        self.constitution = max(self.constitution + Globals.rng.randi_range(-2, 3), 1)
         self.dexterity = max(self.dexterity + Globals.rng.randi_range(-2, 3), 1)
         self.intelligence = max(self.intelligence + Globals.rng.randi_range(-2, 3), 1)
         self.wisdom = max(self.wisdom + Globals.rng.randi_range(-2, 3), 1)

@@ -1,0 +1,125 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvs76ubk1qndx"]
+
+[ext_resource type="Script" uid="uid://bqwhnfh03c6kh" path="res://scripts/expedition_hiring.gd" id="1_xigjm"]
+[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="2_n7hjw"]
+
+[node name="ExpeditionHiring" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+script = ExtResource("1_xigjm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CustomerSlot1" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/CustomerSlot1"]
+layout_mode = 2
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot1/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot1"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hire 100"
+
+[node name="CustomerSlot2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/CustomerSlot2"]
+layout_mode = 2
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot2/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot2"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hire 200"
+
+[node name="CustomerSlot3" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/CustomerSlot3"]
+layout_mode = 2
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot3/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot3"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hire 10"
+
+[node name="CustomerSlot4" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/CustomerSlot4"]
+layout_mode = 2
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot4/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot4"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hire 1000"
+
+[node name="CustomerSlot5" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/CustomerSlot5"]
+layout_mode = 2
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot5/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="HireButton" type="Button" parent="MarginContainer/HBoxContainer/CustomerSlot5"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hire Free"
