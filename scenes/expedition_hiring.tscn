@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2r06cbagtquk"]
+
+[ext_resource type="Script" uid="uid://bqwhnfh03c6kh" path="res://scripts/expedition_hiring.gd" id="1_xigjm"]
+[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="2_n7hjw"]
+
+[node name="ExpeditionHiring" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xigjm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_right = 150
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CustomerSlot1" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
+
+[node name="CustomerSlot2" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CustomerSlot3" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CustomerSlot4" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CustomerSlot5" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Placeholder" type="TextureRect" parent="MarginContainer/HBoxContainer/CustomerSlot5"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_n7hjw")
+stretch_mode = 3
