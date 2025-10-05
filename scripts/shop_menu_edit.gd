@@ -63,9 +63,9 @@ func _enable_controls():
     self._plus_button.pressed.connect(self._on_plus_button_pressed)
 
 
-func _update_buttons_state(edit_item: ShopMenuEditItem, item: Item):
+func _update_buttons_state(edit_item: ShopMenuEditItem, item_name: String):
     # Update plus button state based on item count available
-    var item_count = self.game_data.warehouse_inventory.GetItemCount(item)
+    var item_count = self.game_data.warehouse_inventory.GetItemCount(item_name)
     if item_count <= 0:
         edit_item.plus_button.disabled = true
     else:
@@ -81,8 +81,7 @@ func _update_buttons_state(edit_item: ShopMenuEditItem, item: Item):
             i.minus_button.disabled = false
 
     # Check if at max capacity
-    if self._edit_item_list.get_child_count() < self.max_edit_item_count:
-        self._plus_button.visible = true
+    self._plus_button.visible = self._edit_item_list.get_child_count() < self.max_edit_item_count
 
 
 func _add_edit_item_node(item: Item):
@@ -101,7 +100,7 @@ func _add_edit_item_node(item: Item):
         self._item_name_to_edit_item[item.name] = edit_item
 
     edit_item.update_labels()
-    self._update_buttons_state(edit_item, item)
+    self._update_buttons_state(edit_item, item.name)
 
     # Check if at max capacity
     if self._edit_item_list.get_child_count() >= self.max_edit_item_count:
@@ -125,8 +124,59 @@ func _item_quantity_changed(change_amount, edit_item: ShopMenuEditItem, item: It
         self._edit_item_list.remove_child(edit_item)
         self._item_name_to_edit_item.erase(edit_item.item_name)
 
-    self._update_buttons_state(edit_item, item)
+    self._update_buttons_state(edit_item, item.name)
 
+
+# Fill up remaining space available in shop inventory with most valuable warehouse items
+func _on_autofill_button_pressed():
+    # Sort warehouse items descending by value
+    var warehouse_items = self.game_data.warehouse_inventory.GetItemsArray()
+    warehouse_items.sort_custom(func(a, b): return a.GetValue() > b.GetValue())
+
+    # For each warehouse item, check if we can fit it in the shop inventory
+    for item in warehouse_items:
+        # If we don't already have the item type in the shop
+        if not self.game_data.shop_inventory.HasItem(item):
+            # Check if we have hit the max number of unique items
+            if self.game_data.shop_inventory.GetUniqueItemCount() >= self.max_edit_item_count:
+                # No room for item
+                continue
+
+        # Otherwise, we have room for the item
+        self.game_data.warehouse_inventory.RemoveItem(item)
+        self.game_data.shop_inventory.AddItem(item)
+
+    # Update UI
+    self._update_ui()
+
+
+# Update UI based on state of shop_inventory
+func _update_ui():
+    # Clear any existing items
+    self._item_name_to_edit_item.clear()
+    for child in self._edit_item_list.get_children():
+        self._edit_item_list.remove_child(child)
+
+    var inventory = self.game_data.shop_inventory.GetItems()
+    for item_name in inventory:
+        var item = inventory[item_name][0]
+        var item_count = inventory[item_name].size()
+
+        var edit_item = shop_menu_edit_item.instantiate()
+        edit_item.item_name = item_name
+        edit_item.price = item.GetValue()
+        edit_item.quantity = item_count
+        edit_item.quantity_changed.connect(self._item_quantity_changed.bind(edit_item, item))
+        self._edit_item_list.add_child(edit_item)
+        self._item_name_to_edit_item[item_name] = edit_item
+
+    # Update plus button
+    self._plus_button.visible = self._edit_item_list.get_child_count() >= self.max_edit_item_count
+
+    # Update item buttons
+    for item_name in self._item_name_to_edit_item:
+        var edit_item = self._item_name_to_edit_item[item_name]
+        self._update_buttons_state(edit_item, item_name)
 
 
 func _on_close_button_pressed():

@@ -59,6 +59,13 @@ func GetItems() -> Dictionary:
     return self._items
 
 
+func GetItemsArray() -> Array:
+    var result: Array = []
+    for arr in self._items.values():
+        result.append_array(arr)
+    return result
+
+
 func HasItem(item: Item) -> bool:
     return self._items.has(item.name)
 
@@ -67,11 +74,15 @@ func IsFull() -> bool:
     return self.max_item_count >=0 and self._item_count >= self.max_item_count
 
 
-func GetItemCount(item: Item) -> int:
-    if self._items.has(item.name):
-        return self._items[item.name].size()
+func GetItemCount(item_name: String) -> int:
+    if self._items.has(item_name):
+        return self._items[item_name].size()
     else:
         return 0
+
+
+func GetUniqueItemCount() -> int:
+    return self._items.size()
 
 
 func GetRandomItem() -> Item:
