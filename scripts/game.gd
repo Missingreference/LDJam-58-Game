@@ -8,6 +8,7 @@ extends Control
 @onready var phase_label: Label = $PhaseLabel
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 @onready var customer_queue: CustomerQueue = $CustomerQueue
+@onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
 
 var game_data = GameData.new()
 
@@ -15,7 +16,15 @@ var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
 
 
+# Internal signal to know the result of the EmptyShopDialog
+signal _empty_shop_confirm(bool)
+
+
 func _ready():
+    # Setup empty shop dialog signals
+    self.empty_shop_dialog.canceled.connect(func(): self._empty_shop_confirm.emit(false))
+    self.empty_shop_dialog.confirmed.connect(func(): self._empty_shop_confirm.emit(true))
+
     self.game_data.gold_changed.connect(self._update_gold_label)
     self._update_gold_label(self.game_data.get_gold())
     self.shop_menu.set_game_data(self.game_data)
@@ -32,13 +41,23 @@ func _start_phase_one():
     self.finish_button.visible = true
     self.shop_menu.start()
 
-
 func _finish_phase_one():
-    print("Finished phase one")
-
     self.finish_button.pressed.disconnect(self._finish_phase_one)
     self.finish_button.visible = false
     self.shop_menu.stop()
+
+    # If shop inventory is empty, warn the user
+    if self.game_data.shop_inventory._item_count <= 0:
+        self.empty_shop_dialog.popup_centered()
+
+        # Wait for confirmation
+        var do_continue = await self._empty_shop_confirm
+        if not do_continue:
+            # stay in phase one, redo setup
+            self._start_phase_one()
+            return
+
+    print("Finished phase one")
     self._start_phase_two()
 
 
