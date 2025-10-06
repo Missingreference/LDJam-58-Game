@@ -131,6 +131,10 @@ func GetType() -> ItemType:
     return ItemDatabase.GetType(ID)
 
 func GetSprite() -> Texture:
+    var base_name = GetBaseName()
+    if base_name == "Potion":
+        return POTION_SPRITES[rarity][strength][enchantment.attr]
+    
     return ItemDatabase.GetSprite(ID)
 
 func GetBaseValue() -> int:
@@ -166,3 +170,85 @@ class Enchantment:
         self.name = _name
         self.attr = _attr
         self.value = _value
+        
+# The nested dictionary storing all potion sprites
+const POTION_SPRITES = {
+    Rarity.Normal: {
+        0: { # Weak
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/weak_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/weak_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/weak_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/weak_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/weak_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/weak_strength_potion.png")
+        },
+        1: { # Normal
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/strength_potion.png")
+        },
+        2: { # Strong
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/strong_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/strong_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/strong_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/strong_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/strong_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/strong_strength_potion.png")
+        }
+    },
+    Rarity.Rare: {
+        0: { # Weak
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/rare_weak_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/rare_weak_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/rare_weak_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/rare_weak_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/rare_weak_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/rare_weak_strength_potion.png")
+        },
+        1: { # Normal
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/rare_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/rare_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/rare_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/rare_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/rare_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/rare_strength_potion.png")
+        },
+        2: { # Strong
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/rare_strong_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/rare_strong_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/rare_strong_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/rare_strong_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/rare_strong_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/rare_strong_strength_potion.png")
+        }
+    },
+    Rarity.Legendary: {
+        0: { # Weak
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/legendary_weak_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/legendary_weak_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/legendary_weak_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/legendary_weak_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/legendary_weak_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/legendary_weak_strength_potion.png")
+        },
+        1: { # Normal
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/legendary_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/legendary_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/legendary_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/legendary_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/legendary_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/legendary_strength_potion.png")
+        },
+        2: { # Strong
+            Customer.Attr.dex: preload("res://assets/sprites/items/potions/legendary_strong_dodge_potion.png"),
+            Customer.Attr.con: preload("res://assets/sprites/items/potions/legendary_strong_healing_potion.png"),
+            Customer.Attr.int: preload("res://assets/sprites/items/potions/legendary_strong_intellect_potion.png"),
+            Customer.Attr.wis: preload("res://assets/sprites/items/potions/legendary_strong_knowing_potion.png"),
+            Customer.Attr.cha: preload("res://assets/sprites/items/potions/legendary_strong_love_potion.png"),
+            Customer.Attr.str: preload("res://assets/sprites/items/potions/legendary_strong_strength_potion.png")
+        }
+    }
+}
