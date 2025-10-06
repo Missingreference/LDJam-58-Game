@@ -55,6 +55,23 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
         )
         report.log(complete_event, bonus_outcome)
 
+        # Chance to find a missing collectable
+        var find_roll = Globals.rng.randi(1, 100)
+        if find_roll >= 25:
+
+
+        var collectable
+        var collectable_found_outcome = Dungeon.Outcome.new()
+        bonus_outcome.gain_collectble(collectable)
+        var complete_event = Dungeon.Event.new(
+            "Dungeon complete",
+            Customer.Attr.wis, 0,
+            bonus_outcome,
+            Dungeon.Outcome.new()
+        )
+        report.log(complete_event, bonus_outcome)
+
+
         # TODO: consider modifying character stats (e.g. level up or gain traits)
 
     print("End expedition")

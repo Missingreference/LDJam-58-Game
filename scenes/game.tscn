@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=33 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bksuj82bu8nlq" path="res://assets/sprites/collection_log_colored.png" id="10_ca42v"]
 [ext_resource type="Texture2D" uid="uid://bhbp05ppupij7" path="res://assets/sprites/phase_all_active.png" id="10_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cw2lawhpldv63" path="res://assets/sprites/gold_colored.png" id="11_ir15t"]
+[ext_resource type="PackedScene" uid="uid://dujk33uae8p5" path="res://scenes/collection.tscn" id="17_rysoc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtaks"]
 texture = ExtResource("9_ca42v")
@@ -244,6 +245,10 @@ size = Vector2i(306, 100)
 ok_button_text = "Continue"
 dialog_text = "Warning: your shop has no inventory!"
 cancel_button_text = "Back"
+
+[node name="Collection" parent="." instance=ExtResource("17_rysoc")]
+visible = false
+layout_mode = 1
 
 [connection signal="mouse_entered" from="InventoryButton" to="." method="_inventory_button_enter"]
 [connection signal="mouse_exited" from="InventoryButton" to="." method="_inventory_button_exit"]

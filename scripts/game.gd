@@ -12,6 +12,7 @@ extends Control
 @onready var customer_queue: CustomerQueue = $CustomerQueue
 @onready var expedition_hiring: ExpeditionHiring = $ExpeditionHiring
 @onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
+@onready var collection: Collection = $Collection
 
 var game_data = GameData.new()
 
@@ -257,16 +258,15 @@ func _disable_controls():
 
 
 func _collectables_button_pressed() -> void:
+    print("Opening collection")
     self._disable_controls()
 
-    var collection: Collection = collection_scene.instantiate()
-    collection.set_collection(self.game_data.collection)
-    self.add_child(collection)
-
+    self.collection.visible = true
     await collection.closed
-    self.remove_child(collection)
+    self.collection.visible = false
 
     self._enable_controls()
+    print("Closing collection")
 
 
 func _collectables_button_enter() -> void:
