@@ -96,8 +96,9 @@ func _update_shop_display():
         if display_index < shop_item_names.size():
             var item_name = shop_item_names[display_index]
             var item_count = shop_inventory[item_name].size()
+            var item_display_name = shop_inventory[item_name][0].GetBaseName()
             # Update the display label
-            self.display_labels[display_index].text = "%s: %d" % [item_name, item_count]
+            self.display_labels[display_index].text = "%s: %d" % [item_display_name, item_count]
             self.display_items[display_index].visible = true
         else:
             # There are not enough items to fill the display
