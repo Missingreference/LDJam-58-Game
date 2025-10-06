@@ -1,7 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5u80hs3b3vbp"]
+[gd_scene load_steps=14 format=3 uid="uid://b5u80hs3b3vbp"]
 
 [ext_resource type="Script" uid="uid://cjxumhmdxxubr" path="res://scripts/shop_menu_edit.gd" id="1_ef4hk"]
-[ext_resource type="Texture2D" uid="uid://dv480hc50nmte" path="res://assets/sprites/scroll.png" id="2_pgh2g"]
+[ext_resource type="Texture2D" uid="uid://d4cvk0etx27pq" path="res://assets/sprites/sale_board_large.png" id="2_pgh2g"]
+[ext_resource type="FontFile" uid="uid://5lde8h0tgdoy" path="res://assets/fonts/RedeemGold.otf" id="3_lr1x7"]
+[ext_resource type="StyleBox" uid="uid://b14017sqtic88" path="res://assets/themes/shop_menu_button_hover.tres" id="4_7ruuu"]
+[ext_resource type="StyleBox" uid="uid://dsjn1hrkex38y" path="res://assets/themes/shop_menu_button_base.tres" id="5_j3yyy"]
+[ext_resource type="StyleBox" uid="uid://dvs23gaahopc1" path="res://assets/themes/shop_menu_button_pressed.tres" id="6_6l8ta"]
+[ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="7_bdp3v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6l8ta"]
+
+[sub_resource type="Theme" id="Theme_bdp3v"]
+Button/styles/focus = SubResource("StyleBoxEmpty_6l8ta")
+Button/styles/hover = ExtResource("4_7ruuu")
+Button/styles/normal = ExtResource("5_j3yyy")
+Button/styles/pressed = ExtResource("6_6l8ta")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ruuu"]
+
+[sub_resource type="Theme" id="Theme_101p3"]
+Button/styles/focus = SubResource("StyleBoxEmpty_7ruuu")
+Button/styles/hover = ExtResource("4_7ruuu")
+Button/styles/normal = ExtResource("5_j3yyy")
+Button/styles/pressed = ExtResource("6_6l8ta")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j3yyy"]
+
+[sub_resource type="Theme" id="Theme_6l8ta"]
+Button/styles/focus = SubResource("StyleBoxEmpty_j3yyy")
+Button/styles/hover = ExtResource("4_7ruuu")
+Button/styles/normal = ExtResource("5_j3yyy")
+Button/styles/pressed = ExtResource("6_6l8ta")
 
 [node name="ShopMenuEdit" type="Control"]
 layout_mode = 3
@@ -17,8 +46,8 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.0
 offset_top = -175.0
-offset_right = 175.0
-offset_bottom = 175.0
+offset_right = 250.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_pgh2g")
@@ -30,10 +59,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 46
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 53
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 90
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 79
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Sprite2D/MarginContainer"]
 layout_mode = 2
@@ -44,43 +73,68 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Sprite2D/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_lr1x7")
+theme_override_font_sizes/font_size = 32
 text = "Qty"
 
 [node name="Label2" type="Label" parent="Sprite2D/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_lr1x7")
+theme_override_font_sizes/font_size = 32
 text = "Item"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="Sprite2D/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_lr1x7")
+theme_override_font_sizes/font_size = 32
 text = "Price"
 
 [node name="Line" type="ColorRect" parent="Sprite2D/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
+color = Color(0.63529414, 0.42745098, 0.24705882, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Sprite2D/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="PlusButton" type="Button" parent="Sprite2D/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "+"
+theme = SubResource("Theme_bdp3v")
+theme_override_colors/font_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_colors/font_focus_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_fonts/font = ExtResource("7_bdp3v")
+theme_override_font_sizes/font_size = 16
+text = "Add Item"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Sprite2D/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
-theme_override_constants/separation = 23
+theme_override_constants/separation = -161
 alignment = 1
 
 [node name="AutofillButton" type="Button" parent="Sprite2D/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 6
+theme = SubResource("Theme_101p3")
+theme_override_colors/font_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_colors/font_focus_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_fonts/font = ExtResource("7_bdp3v")
+theme_override_font_sizes/font_size = 16
 text = "Autofill"
 
 [node name="CloseButton" type="Button" parent="Sprite2D/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 6
+theme = SubResource("Theme_6l8ta")
+theme_override_colors/font_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_colors/font_focus_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_fonts/font = ExtResource("7_bdp3v")
+theme_override_font_sizes/font_size = 16
 text = "Close"
 
 [connection signal="pressed" from="Sprite2D/MarginContainer/VBoxContainer/PlusButton" to="." method="_on_plus_button_pressed"]
