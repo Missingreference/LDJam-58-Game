@@ -155,11 +155,29 @@ static func set_random_character(character_animator: CharacterAnimator):
     else:
         character_animator.disable_armor()
     
-    character_animator.set_eye_expression(RandomUtils.pick_random_enum(CharacterAnimator.EyeExpression))
-    character_animator.set_facial_hair(RandomUtils.pick_random_enum(CharacterAnimator.FacialHair))
-    character_animator.set_hair(RandomUtils.pick_random_enum(CharacterAnimator.Hair))
-    character_animator.set_mouth_expression(RandomUtils.pick_random_enum(CharacterAnimator.MouthExpression))
-    character_animator.set_shirt(RandomUtils.pick_random_enum(CharacterAnimator.Shirt))
+    var safe_combination = false
+    while !safe_combination:
+        var eye_expression: CharacterAnimator.EyeExpression = RandomUtils.pick_random_enum(CharacterAnimator.EyeExpression)
+        var facial_hair: CharacterAnimator.FacialHair = RandomUtils.pick_random_enum(CharacterAnimator.FacialHair)
+        var hair: CharacterAnimator.Hair = RandomUtils.pick_random_enum(CharacterAnimator.Hair)
+        var mouth_expression: CharacterAnimator.MouthExpression = RandomUtils.pick_random_enum(CharacterAnimator.MouthExpression)
+        var shirt: CharacterAnimator.Shirt = RandomUtils.pick_random_enum(CharacterAnimator.Shirt)
+        
+        safe_combination = true
+        
+        #Check for ugly looking combination
+        if facial_hair == CharacterAnimator.FacialHair.Mustache && hair == CharacterAnimator.Hair.Ponytail:
+            safe_combination = false
+        if facial_hair == CharacterAnimator.FacialHair.Mustache && hair == CharacterAnimator.Hair.Long:
+            safe_combination = false
+        
+        if safe_combination:
+            character_animator.set_eye_expression(eye_expression)
+            character_animator.set_facial_hair(facial_hair)
+            character_animator.set_hair(hair)
+            character_animator.set_mouth_expression(mouth_expression)
+            character_animator.set_shirt(shirt)
+        
 
 static func set_random_skin_color(character_animator: CharacterAnimator):
     character_animator.set_skin_color(RandomUtils.pick_random(skin_colors))
