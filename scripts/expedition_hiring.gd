@@ -4,6 +4,10 @@ extends Control
 # Speed used for customers moving into the scene
 const tween_speed = 250  # pixels/s
 
+# Offscreen spawn position range
+const spawn_min_pos = 20
+const spawn_max_pos = 70
+
 signal customer_hired(Customer)
 
 @onready var _placeholder_1: TextureRect = $MarginContainer/HBoxContainer/CustomerSlot1/CenterContainer/Placeholder
@@ -91,12 +95,14 @@ func _ready():
     if get_tree().current_scene == self:
         # Test
         self.set_game_data(GameData.new())
+        self._game_data.add_gold(1000)
 
         # Defer call to next frame update so that layouts have a chance to update
         self.start.call_deferred()
 
 
 func _animate_customer_entry():
+
     var tweens: Array[Tween] = []
     for i in range(self._customers.size()):
         var customer = self._customers[i]
@@ -105,7 +111,10 @@ func _animate_customer_entry():
         # Tween into the position from off screen
         var end_position = self._placeholders[i].global_position
         customer.global_position = end_position
-        customer.global_position.x = -10
+        customer.global_position.x = get_viewport_rect().size.x + Globals.rng.randf_range(spawn_min_pos, spawn_max_pos)
+        customer.animator.play_walk_animation()
+        customer.animator.set_animation_frame(Globals.rng.randi_range(0,6))
+        customer.animator.set_flip_horizontal(false)
 
         # print("Positioning customer (%d) '%s', from %s to %s" % [i, customer.customer_name, customer.global_position, end_position])
 
@@ -117,9 +126,14 @@ func _animate_customer_entry():
 
     # As each customer finishes moving, display their info
     for i in range(self._customers.size()):
-        await tweens[i].finished
         var customer = self._customers[i]
         var hire_button = self._hire_buttons[i]
+
+        print("Waiting for tween to finish for %s" % customer.customer_name)
+        await tweens[i].finished
+
+        print("Stopping %s" % customer.customer_name)
+        customer.animator.reset()
 
         customer.persist_customer_info(true)
 
