@@ -2,7 +2,7 @@ class_name ExpeditionSimulator
 extends Node
 
 
-static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
+static func run(dungeon: Dungeon, customer: Customer, collection: Collection) -> ExpeditionReport:
     print("Start expedition:")
     var report = ExpeditionReport.new()
     report.customer = customer
@@ -19,7 +19,6 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
             success_string = "SUCCESS"
         else:
             success_string = "FAILURE"
-
 
         print("    %s %s: %s" % [success_string, event.description, event_outcome])
 
@@ -54,6 +53,22 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
             Dungeon.Outcome.new()
         )
         report.log(complete_event, bonus_outcome)
+
+        # Chance to find a coveted collectable
+        var find_collectable_roll = Globals.rng.randi_range(1, 100)
+        var collectable = collection.get_remaining_collectable()
+        if collectable != null and find_collectable_roll >= 85:
+            collection.add_to_collection(collectable)
+            var collectable_outcome = Dungeon.Outcome.new()
+            collectable_outcome.flavor("Found the coveted %s" % collectable.collectable_name)
+
+            var collectable_event = Dungeon.Event.new(
+                "Collectable found!",
+                Customer.Attr.wis, 0,
+                collectable_outcome,
+                Dungeon.Outcome.new()
+            )
+            report.log(collectable_event, collectable_outcome)
 
         # TODO: consider modifying character stats (e.g. level up or gain traits)
 

@@ -68,6 +68,19 @@ var remaining_collectables_b = _collection_b.duplicate()
 var remaining_collectables_c = _collection_c.duplicate()
 
 
+# Get one of the remaining collectable
+func get_remaining_collectable() -> Collectable:
+    var remaining_a = RandomUtils.pick_random(self.remaining_collectables_a)
+    if remaining_a != null:
+        return remaining_a
+
+    var remaining_b = RandomUtils.pick_random(self.remaining_collectables_b)
+    if remaining_b != null:
+        return remaining_b
+
+    return RandomUtils.pick_random(self.remaining_collectables_c)
+
+
 func add_to_collection(collectable: Collectable):
     print("Adding to collection: %s" % collectable.collectable_name)
     var index = self._collection_a.find(collectable)

@@ -159,7 +159,7 @@ func _start_phase_four(hired_customer: Customer):
     if hired_customer != null:
         var dungeon = Dungeon.create_random()
         print("Hire %s is performing expedition in %s" % [hired_customer.customer_name, dungeon.name])
-        expedition_report = ExpeditionSimulator.run(dungeon, hired_customer)
+        expedition_report = ExpeditionSimulator.run(dungeon, hired_customer, self.collection)
     else:
         expedition_report = ExpeditionReport.create_empty()
 
