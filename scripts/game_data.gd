@@ -43,3 +43,8 @@ func set_gold(value: int):
 func add_gold(value: int):
     self._gold = max(self._gold + value, 0)
     self.gold_changed.emit(self._gold)
+
+
+static var collectables: Array[Collectable] = [
+
+]
