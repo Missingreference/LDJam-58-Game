@@ -153,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_scsci")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle1",
 "speed": 5.0
 }, {
@@ -170,7 +170,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g6vko")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle2",
 "speed": 5.0
 }, {
@@ -199,7 +199,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dpi6c")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle3",
 "speed": 5.0
 }, {
@@ -234,7 +234,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_s86d4")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle4",
 "speed": 5.0
 }, {

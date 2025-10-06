@@ -85,7 +85,7 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
     print("Enqueuing %d customers: %s" % [customer_count, ", ".join(customer_names)])
 
     # While there are still customers in the queue
-    while not chosen_customers.is_empty():
+    while not self._queue.get_children().is_empty():
         # Update queue
         await self._do_queue_animation(chosen_customers)
 
@@ -110,6 +110,7 @@ func _do_queue_animation(customers):
         var customer: Customer = customers[i]
 
         # Tween into the position from off screen
+        customer.disable_random_idle_animations()
         customer.animator.play_walk_animation()
         customer.animator.set_animation_frame(Globals.rng.randi_range(0,6))
         customer.animator.set_flip_horizontal(false)
@@ -128,7 +129,7 @@ func _do_queue_animation(customers):
         if tweens[i].is_running():
             await tweens[i].finished
         print("%s done moving" % customers[i].customer_name)
-        customers[i].animator.play_idle3_animation()
+        customers[i].enable_random_idle_animations()
 
 
 func _do_customer_offer(customer) -> bool:
@@ -165,13 +166,15 @@ func _do_customer_offer(customer) -> bool:
 
         print("%s purchased %s for %d gold" % [customer.customer_name, item.name, final_price])
 
+
+
     self._customer_offer_ui.visible = false
 
     self._queue.remove_child(customer)
 
     self._do_leave_animate(customer)
 
-    return true
+    return result[0] != CustomerOfferUI.OfferResult.canceled
 
 
 func _do_leave_animate(customer: Customer):
@@ -180,6 +183,7 @@ func _do_leave_animate(customer: Customer):
 
     # Temporarily lower z-index so they walk behind other customers
     customer.z_index -= 1
+    customer.disable_random_idle_animations()
     customer.animator.play_walk_animation()
     customer.animator.set_flip_horizontal(true)
 
@@ -199,6 +203,9 @@ func _do_leave_animate(customer: Customer):
 
 # Clear out any remaining customers waiting in the queue
 func _clear():
+    # Cancel any pending offer
+    self._customer_offer_ui.cancel()
+
     for child in self._queue.get_children():
         self._queue.remove_child(child)
         self._do_leave_animate(child)

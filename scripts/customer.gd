@@ -18,14 +18,17 @@ var base_attr: Attributes = Attributes.create_for_customer()
 static var _customer_scene = preload("res://scenes/customer.tscn")
 
 # TODO: replace rectangle highlight with texture shader
-@onready var _highlight: ColorRect = $"CharacterPanel/CharacterAnimator/Highlight"
+@onready var _highlight: ColorRect = $"CharacterAnimator/Highlight"
 @onready var _customer_info: CustomerInfo = $CustomerInfo
-@onready var animator: CharacterAnimator = $CharacterPanel/CharacterAnimator
+@onready var animator: CharacterAnimator = $CharacterAnimator
 
+const MIN_RANDOM_IDLE_PLAY_TIME = 3.0
+const MAX_RANDOM_IDLE_PLAY_TIME = 6.0
 
 var _persist_customer_info: bool = false
 var _selection_enabled: bool = false
 var _highlight_animation: Tween
+var _random_idle_timer: Timer
 
 static func create_default_customers() -> Array[Customer]:
     # Generate a random set of starting customers
@@ -225,3 +228,32 @@ enum Attr {
     wis,
     cha
 }
+
+func enable_random_idle_animations():
+    if _random_idle_timer != null: return
+    
+    _random_idle_timer = Timer.new()
+    _random_idle_timer.wait_time = Globals.rng.randf_range(MIN_RANDOM_IDLE_PLAY_TIME, MAX_RANDOM_IDLE_PLAY_TIME)
+    _random_idle_timer.one_shot = true
+    _random_idle_timer.timeout.connect(func():
+        _random_idle_timer.wait_time = Globals.rng.randf_range(MIN_RANDOM_IDLE_PLAY_TIME, MAX_RANDOM_IDLE_PLAY_TIME)
+        var idle_index = Globals.rng.randi_range(0, 3)
+        if idle_index == 0:
+            animator.play_idle1_animation()
+        elif idle_index == 1:
+            animator.play_idle2_animation()
+        elif idle_index == 2:
+            animator.play_idle3_animation()
+        elif idle_index == 3:
+            animator.play_idle4_animation()
+            
+        _random_idle_timer.start()
+    )
+    self.add_child(_random_idle_timer)
+    _random_idle_timer.start()
+
+func disable_random_idle_animations():
+    if _random_idle_timer == null: return
+    _random_idle_timer.stop()
+    self.remove_child(_random_idle_timer)
+    _random_idle_timer = null

@@ -11,6 +11,7 @@ signal offer_result(OfferResult, final_price: int)
 @onready var _item_icon: TextureRect = $MarginContainer/VBoxContainer/HBoxContainer3/ItemIcon
 @onready var _item_name_label: Label = $MarginContainer/VBoxContainer/HBoxContainer3/ItemName
 @onready var _item_value_label: Label = $MarginContainer/VBoxContainer/HBoxContainer3/ValueLabel
+@onready var _character_animator: CharacterAnimator = $MarginContainer/VBoxContainer/HBoxContainer/CharacterAnimator
 
 var _offer: CustomerOffer
 
@@ -22,10 +23,15 @@ func set_customer_offer(offer: CustomerOffer):
     self._item_icon.texture = offer.item_wanted.GetSprite()
     self._item_name_label.text = offer.item_wanted.name
     self._item_value_label.text = "(value: %dgp)" % offer.item_wanted.GetValue()
+    offer.customer.animator.copy_features(self._character_animator)
 
 
 func size() -> Vector2:
-    return  self._nine_patch_rect.size
+    return self._nine_patch_rect.size
+
+
+func cancel():
+    self.offer_result.emit(OfferResult.canceled, 0)
 
 
 func _on_accept_button_pressed():
@@ -44,4 +50,5 @@ func _on_haggle_button_pressed():
 enum OfferResult {
     accepted,
     declined,
+    canceled,
 }

@@ -75,17 +75,17 @@ var _animation_expression_sad = preload("res://animations/character_expression_s
 var _animation_expression_happy = preload("res://animations/character_expression_smiling.tres")
 
 #Animators
-@onready var _head_animator: AnimatedSprite2D = $Animators/HeadAnimator
-@onready var _eyes_animator: AnimatedSprite2D = $Animators/EyesAnimator
-@onready var _iris_animator: AnimatedSprite2D = $Animators/IrisAnimator
-@onready var _mouth_animator: AnimatedSprite2D = $Animators/MouthAnimator
-@onready var _hair_animator: AnimatedSprite2D = $Animators/HairAnimator
-@onready var _pants_animator: AnimatedSprite2D = $Animators/PantsAnimator
-@onready var _shirt_animator: AnimatedSprite2D = $Animators/ShirtAnimator
-@onready var _arms_animator: AnimatedSprite2D = $Animators/ArmsAnimator
-@onready var _armor_animator: AnimatedSprite2D = $Animators/ArmorPiecesAnimator
-@onready var _facial_hair_animator: AnimatedSprite2D = $Animators/FacialHairAnimator
-@onready var _shoes_animator: AnimatedSprite2D = $Animators/ShoesAnimator
+@onready var _head_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/HeadAnimator
+@onready var _eyes_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/EyesAnimator
+@onready var _iris_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/IrisAnimator
+@onready var _mouth_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/MouthAnimator
+@onready var _hair_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/HairAnimator
+@onready var _pants_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/PantsAnimator
+@onready var _shirt_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/ShirtAnimator
+@onready var _arms_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/ArmsAnimator
+@onready var _armor_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/ArmorPiecesAnimator
+@onready var _facial_hair_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/FacialHairAnimator
+@onready var _shoes_animator: AnimatedSprite2D = $SubViewportContainer/SubViewport/Animators/ShoesAnimator
 
 var _all_animators: Array[AnimatedSprite2D]
 var _hair: Hair
@@ -130,6 +130,11 @@ func _ready() -> void:
     self.play_walk_animation()
     set_animation_speed_scale(1.0)
     reset()
+    
+    _head_animator.animation_finished.connect(func():
+        if _head_animator.animation == "idle1" || _head_animator.animation == "idle2" || _head_animator.animation == "idle3" || _head_animator.animation == "idle4":
+            reset()
+    )
     
 func reset():
     for animator in _all_animators:
