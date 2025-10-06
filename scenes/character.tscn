@@ -13,58 +13,69 @@
 [ext_resource type="SpriteFrames" uid="uid://dtyd58g6mwdt1" path="res://animations/character_short_shirt.tres" id="7_a5ia6"]
 [ext_resource type="SpriteFrames" uid="uid://mlky3723y6t" path="res://animations/character_shoes.tres" id="8_a5ia6"]
 
-[node name="Character" type="Node2D"]
-position = Vector2(138, 89)
-scale = Vector2(5, 5)
+[node name="Character" type="Control"]
+custom_minimum_size = Vector2(109.99, 169.11)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 109.99
+offset_bottom = 169.11
 script = ExtResource("1_2cgup")
 
-[node name="HeadAnimator" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_dp8ca")
-animation = &"idle1"
+[node name="Animators" type="Node2D" parent="."]
+position = Vector2(50.6, 73.6)
+scale = Vector2(5, 5)
 
-[node name="EyesAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.9999996, 0.9999996)
+[node name="HeadAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(1.0000001, 1.0000001)
+sprite_frames = ExtResource("2_dp8ca")
+animation = &"walk"
+
+[node name="EyesAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(0.9999997, 0.9999997)
 sprite_frames = ExtResource("2_0dpix")
 animation = &"walk"
 
-[node name="IrisAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.9999991, 0.9999991)
+[node name="IrisAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(0.9999992, 0.9999992)
 sprite_frames = ExtResource("3_2hyy3")
 animation = &"idle1"
 
-[node name="MouthAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.9999991, 0.9999991)
+[node name="MouthAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(0.9999992, 0.9999992)
 sprite_frames = ExtResource("3_7eonc")
 animation = &"idle1"
 
-[node name="HairAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.9999991, 0.9999991)
+[node name="HairAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(0.9999992, 0.9999992)
 sprite_frames = ExtResource("5_irmqu")
 animation = &"idle1"
 
-[node name="PantsAnimator" type="AnimatedSprite2D" parent="."]
+[node name="PantsAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(1.0000001, 1.0000001)
 sprite_frames = ExtResource("7_2cgup")
 animation = &"idle1"
 
-[node name="ArmsAnimator" type="AnimatedSprite2D" parent="."]
+[node name="ArmsAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(1.0000001, 1.0000001)
 sprite_frames = ExtResource("2_0lw5n")
 animation = &"walk"
 
-[node name="ShirtAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.99999994, 0.99999994)
+[node name="ShirtAnimator" type="AnimatedSprite2D" parent="Animators"]
 sprite_frames = ExtResource("7_a5ia6")
 animation = &"walk"
 
-[node name="ArmorPiecesAnimator" type="AnimatedSprite2D" parent="."]
+[node name="ArmorPiecesAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(1.0000001, 1.0000001)
 sprite_frames = ExtResource("7_0dpix")
 animation = &"idle1"
 
-[node name="FacialHairAnimator" type="AnimatedSprite2D" parent="."]
+[node name="FacialHairAnimator" type="AnimatedSprite2D" parent="Animators"]
 self_modulate = Color(0.49019608, 0.23921569, 0.08235294, 1)
+scale = Vector2(1.0000001, 1.0000001)
 sprite_frames = ExtResource("2_my7n2")
 animation = &"idle1"
 
-[node name="ShoesAnimator" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.9999998, 0.9999998)
+[node name="ShoesAnimator" type="AnimatedSprite2D" parent="Animators"]
+scale = Vector2(0.9999999, 0.9999999)
 sprite_frames = ExtResource("8_a5ia6")
 animation = &"walk"

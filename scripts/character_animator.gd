@@ -1,5 +1,5 @@
 class_name CharacterAnimator
-extends Node2D
+extends Control
 
 enum Hair
 {
@@ -75,19 +75,22 @@ var _animation_expression_sad = preload("res://animations/character_expression_s
 var _animation_expression_happy = preload("res://animations/character_expression_smiling.tres")
 
 #Animators
-@onready var _head_animator: AnimatedSprite2D = $HeadAnimator
-@onready var _eyes_animator: AnimatedSprite2D = $EyesAnimator
-@onready var _iris_animator: AnimatedSprite2D = $IrisAnimator
-@onready var _mouth_animator: AnimatedSprite2D = $MouthAnimator
-@onready var _hair_animator: AnimatedSprite2D = $HairAnimator
-@onready var _pants_animator: AnimatedSprite2D = $PantsAnimator
-@onready var _shirt_animator: AnimatedSprite2D = $ShirtAnimator
-@onready var _arms_animator: AnimatedSprite2D = $ArmsAnimator
-@onready var _armor_animator: AnimatedSprite2D = $ArmorPiecesAnimator
-@onready var _facial_hair_animator: AnimatedSprite2D = $FacialHairAnimator
-@onready var _shoes_animator: AnimatedSprite2D = $ShoesAnimator
+@onready var _head_animator: AnimatedSprite2D = $Animators/HeadAnimator
+@onready var _eyes_animator: AnimatedSprite2D = $Animators/EyesAnimator
+@onready var _iris_animator: AnimatedSprite2D = $Animators/IrisAnimator
+@onready var _mouth_animator: AnimatedSprite2D = $Animators/MouthAnimator
+@onready var _hair_animator: AnimatedSprite2D = $Animators/HairAnimator
+@onready var _pants_animator: AnimatedSprite2D = $Animators/PantsAnimator
+@onready var _shirt_animator: AnimatedSprite2D = $Animators/ShirtAnimator
+@onready var _arms_animator: AnimatedSprite2D = $Animators/ArmsAnimator
+@onready var _armor_animator: AnimatedSprite2D = $Animators/ArmorPiecesAnimator
+@onready var _facial_hair_animator: AnimatedSprite2D = $Animators/FacialHairAnimator
+@onready var _shoes_animator: AnimatedSprite2D = $Animators/ShoesAnimator
 
 var _all_animators: Array[AnimatedSprite2D]
+var _current_animation: String = ""
+var _flipped_horizontal = false
+var _flipped_vertical = false
 
 func _ready() -> void:
     _all_animators = [
@@ -119,7 +122,8 @@ func _ready() -> void:
     
     CharacterPresets.set_random_character(self)
     self.play_walk_animation()
-    set_animation_scale(1.0)
+    set_animation_speed_scale(1.0)
+    reset()
     
 func reset():
     for animator in _all_animators:
@@ -129,42 +133,70 @@ func reset():
     _set_animation("idle1")
     
 func _set_animation(animation: String):
+    _current_animation = animation
     for animator in _all_animators:
         animator.animation = animation
 
 func play_idle1_animation():
+    if _current_animation == "idle1": return
     reset()
     _set_animation("idle1")
     for animator in _all_animators:
         animator.play()
                 
 func play_idle2_animation():
+    if _current_animation == "idle2": return
     reset()
     _set_animation("idle2")
     for animator in _all_animators:
         animator.play()
         
 func play_idle3_animation():
+    if _current_animation == "idle3": return
     reset()
     _set_animation("idle3")
     for animator in _all_animators:
         animator.play()
         
 func play_idle4_animation():
+    if _current_animation == "idle4": return
     reset()
     _set_animation("idle4")
     for animator in _all_animators:
         animator.play()
         
 func play_walk_animation():
+    if _current_animation == "walk": return
     reset()
     _set_animation("walk")
     for animator in _all_animators:
         animator.play()
         
-func set_animation_scale(scale: float):
+func set_animation_speed_scale(speed_scale: float):
     for animator in _all_animators:
-        animator.speed_scale = scale
+        animator.speed_scale = speed_scale
+
+func set_animation_frame(frame: int):
+    for animator in _all_animators:
+        animator.frame = frame
+
+func get_flipped_horizontal() -> bool:
+    return _flipped_horizontal
+
+func set_flip_horizontal(flip: bool):
+    if _flipped_horizontal != flip:
+        _flipped_horizontal = flip
+        for animator in _all_animators:
+            animator.flip_h = _flipped_horizontal
+            
+func get_flipped_vertical() -> bool:
+    return _flipped_vertical
+            
+func set_flip_vertical(flip: bool):
+    if _flipped_vertical != flip:
+        _flipped_vertical = flip
+        for animator in _all_animators:
+            animator.flip_v = _flipped_vertical
         
 func stop_animating():
     for animator in _all_animators:
@@ -236,10 +268,10 @@ func set_shirt(shirt: Shirt):
     _shirt_animator.visible = true
     match shirt:
         Shirt.Short:
-            self.move_child(_shirt_animator, 6)
+            _shirt_animator.get_parent().move_child(_shirt_animator, 6)
             _shirt_animator.sprite_frames = _animation_shirt_short
         Shirt.Long:
-            self.move_child(_shirt_animator, 7)
+            _shirt_animator.get_parent().move_child(_shirt_animator, 7)
             _shirt_animator.sprite_frames = _animation_shirt_long
 
 func enable_armor():

@@ -18,16 +18,14 @@ var base_attr: Attributes = Attributes.create_for_customer()
 static var _customer_scene = preload("res://scenes/customer.tscn")
 
 # TODO: replace rectangle highlight with texture shader
-@onready var _highlight: ColorRect = $TextureRect/Highlight
+@onready var _highlight: ColorRect = $"CharacterPanel/CharacterAnimator/Highlight"
 @onready var _customer_info: CustomerInfo = $CustomerInfo
-@onready var _texture_rect: TextureRect = $TextureRect
+@onready var animator: CharacterAnimator = $CharacterPanel/CharacterAnimator
 
-@onready var texture = _texture_rect.texture
 
 var _persist_customer_info: bool = false
 var _selection_enabled: bool = false
 var _highlight_animation: Tween
-
 
 static func create_default_customers() -> Array[Customer]:
     # Generate a random set of starting customers
@@ -158,6 +156,7 @@ func _on_mouse_entered():
 
     if not self._persist_customer_info:
         self._customer_info.visible = true
+        
 
 
 func _on_mouse_exited():

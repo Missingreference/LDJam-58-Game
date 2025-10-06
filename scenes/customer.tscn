@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8pvwlfmfghud"]
+[gd_scene load_steps=5 format=3 uid="uid://b8pvwlfmfghud"]
 
 [ext_resource type="PackedScene" uid="uid://danknk0tngaei" path="res://scenes/customer_info.tscn" id="1_8qg4y"]
-[ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_ktfjk"]
 [ext_resource type="Script" uid="uid://dc54a7ltcpkyt" path="res://scripts/customer.gd" id="2_xss0h"]
+[ext_resource type="PackedScene" uid="uid://dov8ppblmkrii" path="res://scenes/character.tscn" id="3_rjbu2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rjbu2"]
 
 [node name="Customer" type="Control"]
 custom_minimum_size = Vector2(32, 32)
@@ -16,24 +18,28 @@ script = ExtResource("2_xss0h")
 visible = false
 z_index = 10
 layout_mode = 0
-offset_left = -83.0
-offset_top = -311.0
-offset_right = 117.0
-offset_bottom = -11.0
+offset_left = -95.0
+offset_top = -492.0
+offset_right = 105.0
+offset_bottom = -192.0
 
-[node name="TextureRect" type="TextureRect" parent="."]
-clip_contents = true
+[node name="CharacterPanel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -61.0
+offset_top = -169.0
+offset_right = 16.989998
+offset_bottom = -31.89
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-texture = ExtResource("1_ktfjk")
-stretch_mode = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rjbu2")
 
-[node name="Highlight" type="ColorRect" parent="TextureRect"]
+[node name="CharacterAnimator" parent="CharacterPanel" instance=ExtResource("3_rjbu2")]
+layout_mode = 2
+
+[node name="Highlight" type="ColorRect" parent="CharacterPanel/CharacterAnimator"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,6 +48,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
-[connection signal="gui_input" from="TextureRect/Highlight" to="." method="_on_gui_input"]
-[connection signal="mouse_entered" from="TextureRect/Highlight" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="TextureRect/Highlight" to="." method="_on_mouse_exited"]
+[connection signal="gui_input" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_mouse_exited"]
