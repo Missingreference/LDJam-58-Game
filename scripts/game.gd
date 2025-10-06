@@ -38,7 +38,7 @@ signal _empty_shop_confirm(bool)
 
 func _ready():
     info_tooltip_label.text = ""
-
+    
     # Setup empty shop dialog signals
     self.empty_shop_dialog.canceled.connect(func(): self._empty_shop_confirm.emit(false))
     self.empty_shop_dialog.confirmed.connect(func(): self._empty_shop_confirm.emit(true))
@@ -55,6 +55,21 @@ func _ready():
     self.customer_queue.set_game_data(self.game_data)
     self.expedition_hiring.set_game_data(self.game_data)
     
+    # Animate end phase button
+    var end_phase_animate_timer = Timer.new()
+    end_phase_animate_timer.wait_time = 0.4
+    end_phase_animate_timer.one_shot = false
+    var end_phase_button_normal_texture = end_phase_button.texture_normal
+    end_phase_animate_timer.timeout.connect(func():
+        if end_phase_button.texture_normal == end_phase_button_normal_texture:
+            end_phase_button.texture_normal = end_phase_button.texture_hover
+        else:
+            end_phase_button.texture_normal = end_phase_button_normal_texture
+    )
+    end_phase_button.add_child(end_phase_animate_timer)
+    end_phase_animate_timer.start()
+    end_phase_button.visible = false
+    
     self._start_phase_one()
 
 
@@ -70,6 +85,7 @@ func _start_phase_one():
     
     await _announcement_overlay.announce("Phase 1", "Preparation")
 
+    end_phase_button.visible = true
     await self.shop_menu.start()
 
     self.end_phase_button.pressed.connect(self._finish_phase_one)
