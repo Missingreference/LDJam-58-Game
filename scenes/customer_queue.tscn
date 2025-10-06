@@ -19,8 +19,10 @@ offset_bottom = 132.0
 text = "Add"
 
 [node name="CustomerOfferUI" parent="." instance=ExtResource("3_106ch")]
-visible = false
-position = Vector2(-176, -117)
+offset_left = -238.0
+offset_top = -399.0
+offset_right = 239.0
+offset_bottom = -184.0
 
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
