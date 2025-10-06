@@ -57,7 +57,7 @@ static func run(dungeon: Dungeon, customer: Customer, collection: Collection) ->
         # Chance to find a coveted collectable
         var find_collectable_roll = Globals.rng.randi_range(1, 100)
         var collectable = collection.get_remaining_collectable()
-        if collectable != null and find_collectable_roll >= 85:
+        if collectable != null and find_collectable_roll >= 70:
             collection.add_to_collection(collectable)
             var collectable_outcome = Dungeon.Outcome.new()
             collectable_outcome.flavor("Found the coveted %s" % collectable.collectable_name)
