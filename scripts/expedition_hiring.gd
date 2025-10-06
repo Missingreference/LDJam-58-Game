@@ -124,7 +124,7 @@ func _animate_customer_entry():
 
     # As each customer finishes moving, display their info
     for i in range(self._customers.size()):
-        var customer = self._customers[i]
+        var customer: Customer = self._customers[i]
         var hire_button = self._hire_buttons[i]
 
         print("Waiting for tween to finish for %s" % customer.customer_name)
@@ -132,6 +132,7 @@ func _animate_customer_entry():
 
         print("Stopping %s" % customer.customer_name)
         customer.animator.reset()
+        customer.enable_random_idle_animations()
 
         customer.persist_customer_info(true)
 
