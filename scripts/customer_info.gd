@@ -37,28 +37,28 @@ func set_customer_info(customer: Customer):
     var weapon = customer.get_weapon()
     if weapon != null:
         self._weapon_icon.texture = weapon.GetSprite()
-        self._weapon_icon.tooltip_text = weapon.name
+        self._weapon_icon.tooltip_text = "%s\n%s" % [weapon.GetName(), weapon.attributes.get_ui_string()]
     else:
         self._weapon_icon.texture = _sword_placeholder_sprite
 
     var armor = customer.get_armor()
     if armor != null:
         self._armor_icon.texture = armor.GetSprite()
-        self._armor_icon.tooltip_text = armor.name
+        self._armor_icon.tooltip_text ="%s\n%s" % [armor.GetName(), armor.attributes.get_ui_string()]
     else:
         self._armor_icon.texture = _armor_placeholder_sprite
 
     var small_item_1 = customer.get_small_item_1()
     if small_item_1 != null:
         self._item_1_icon.texture = small_item_1.GetSprite()
-        self._item_1_icon.tooltip_text = small_item_1.name
+        self._item_1_icon.tooltip_text = "%s\n%s" % [small_item_1.GetName(), small_item_1.attributes.get_ui_string()]
     else:
         self._item_1_icon.texture = _potion_placeholder_sprite
 
     var small_item_2 = customer.get_small_item_2()
     if small_item_2 != null:
         self._item_2_icon.texture = small_item_2.GetSprite()
-        self._item_2_icon.tooltip_text = small_item_2.name
+        self._item_2_icon.tooltip_text = "%s\n%s" % [small_item_2.GetName(), small_item_2.attributes.get_ui_string()]
     else:
         self._item_2_icon.texture = _potion_placeholder_sprite
 
