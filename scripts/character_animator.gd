@@ -131,6 +131,11 @@ func _ready() -> void:
     set_animation_speed_scale(1.0)
     reset()
     
+    _head_animator.animation_finished.connect(func():
+        if _head_animator.animation == "idle1" || _head_animator.animation == "idle2" || _head_animator.animation == "idle3" || _head_animator.animation == "idle4":
+            reset()
+    )
+    
 func reset():
     for animator in _all_animators:
         animator.stop()
