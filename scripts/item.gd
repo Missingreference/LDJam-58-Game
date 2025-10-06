@@ -1,10 +1,14 @@
 class_name Item
 
-var name
-var rarity = Rarity.Normal
 var ID
-
+var rarity = Rarity.Normal
+var strength: int
+var enchantment: Enchantment
+# Base attributes
 var attributes: Customer.Attributes = Customer.Attributes.new()
+
+# Here for backwards compatibility, but should really use GetName() instead
+var name
 
 enum Rarity
 {
@@ -20,19 +24,18 @@ enum ItemType
     Armor,
 }
 
-static func Create(baseName, _rarity: Rarity=Rarity.Normal, _name=baseName) -> Item:
+static func Create(baseName, _rarity: Rarity=Rarity.Normal, _strength: int=0, _enchantment: Enchantment=null) -> Item:
     var id = ItemDatabase.FindID(baseName)
     if id < 0:
         push_error("Name not found: " + baseName)
         return null
 
-    return Item.new(id, _name, _rarity)
+    return Item.new(id, _rarity, _strength, _enchantment)
 
 
 static func CreateRandom() -> Item:
     # Pick a random item from the database
     var item_id = Globals.rng.randi_range(0, ItemDatabase.GetItemCount() - 1)
-
     var item_name = ItemDatabase.GetName(item_id)
 
     # Roll for rarity
@@ -45,17 +48,36 @@ static func CreateRandom() -> Item:
     elif rarity_roll >= 70:
         item_rarity = Rarity.Rare
 
-    # TODO: Give rare and legendary items special effects and names
-    if item_rarity != Rarity.Normal:
-        pass
+    # Roll for strength
+    var item_strength: int = 0
+    var strength_roll = Globals.rng.randi_range(1, 100)
+    # 10% change for Strong
+    if strength_roll >= 90:
+        item_strength = 2
+    # 30% change for Normal
+    elif strength_roll >= 70:
+        item_strength = 1
 
-    return Item.new(item_id, item_name, item_rarity)
+    # If item is a potion, it must have an enchantment
+    var random_enchantment = Globals.rng.randi_range(0, Item.enchantments.size() - 1)
+    var item_enchantment: Enchantment
+    if item_name == "Potion":
+        item_enchantment = Item.enchantments[random_enchantment]
+    else:
+        # If the item is not a potion, give it a 20% chance of having an enchantment
+        var enchantment_roll = Globals.rng.randi_range(1, 100)
+        if enchantment_roll >= 80:
+            item_enchantment = Item.enchantments[random_enchantment]
 
 
-func _init(id, _name, _rarity) -> void:
-    ID = id
-    name = _name
-    rarity = _rarity
+    return Item.new(item_id, item_rarity, item_strength, item_enchantment)
+
+
+func _init(id, _rarity, _strength, _enchantment) -> void:
+    self.ID = id
+    self.rarity = _rarity
+    self.strength = _strength
+    self.enchantment = _enchantment
 
     # Adjust attributes based on item type and rarity
     var attr_modifier = 1
@@ -71,11 +93,30 @@ func _init(id, _name, _rarity) -> void:
         self.attributes.add_attr(Customer.Attr.dex, attr_modifier)
     elif base_name == "Armor":
         self.attributes.add_attr(Customer.Attr.con, attr_modifier)
-    elif base_name == "Potion":
-        # For potions, pick a random attribute to buff
-        var random_attribute = Globals.rng.randi_range(0, 5)
-        self.attributes.add_attr(random_attribute, attr_modifier)
 
+    self.name = GetName()
+
+
+# Generate name based on rarity, strength, and enchantment
+func GetName() -> String:
+    var _name = GetBaseName()
+    if self.strength == 0:
+        _name = "Weak " + _name
+    elif self.strength == 1:
+        _name = "Normal " + _name
+    else:
+        _name = "Strong " + _name
+
+    if self.rarity == Rarity.Rare:
+        _name = "Rare " + _name
+    elif self.rarity == Rarity.Legendary:
+        _name = "Legendary " + _name
+
+    if self.enchantment != null:
+        _name = _name + " of " + self.enchantment.name
+
+    return _name
+    
 
 func GetBaseName() -> String:
     return ItemDatabase.GetName(ID)
@@ -97,3 +138,25 @@ func GetValue() -> int:
         base_value *= 1.5
 
     return base_value
+
+
+# Enchantements add new stats to items
+static var enchantments: Array[Enchantment] = [
+    Enchantment.new("Strength", Customer.Attr.str, 2),
+    Enchantment.new("Healing", Customer.Attr.con, 2),
+    Enchantment.new("Dodge", Customer.Attr.dex, 2),
+    Enchantment.new("Intellect", Customer.Attr.int, 2),
+    Enchantment.new("Knowing", Customer.Attr.wis, 2),
+    Enchantment.new("Love", Customer.Attr.cha, 2),
+]
+
+
+class Enchantment:
+    var name: String
+    var attr: Customer.Attr
+    var value: int
+
+    func _init(_name: String, _attr: Customer.Attr, _value):
+        self.name = _name
+        self.attr = _attr
+        self.value = _value
