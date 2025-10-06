@@ -161,6 +161,7 @@ func _start_phase_two():
 
     self.end_phase_button.pressed.connect(self._finish_phase_two)
     self.end_phase_button.disabled = false
+    self.end_phase_button.visible = true
 
 
 func _finish_phase_two():
@@ -168,6 +169,7 @@ func _finish_phase_two():
 
     self.end_phase_button.pressed.disconnect(self._finish_phase_two)
     self.end_phase_button.disabled = true
+    self.end_phase_button.visible = false
 
     self.customer_queue.queue_emptied.disconnect(self._finish_phase_two)
     await self.customer_queue.stop()
@@ -189,6 +191,7 @@ func _start_phase_three():
 
     self.end_phase_button.pressed.connect(self._finish_phase_three_on_button_press)
     self.end_phase_button.disabled = false
+    self.end_phase_button.visible = true
 
 
 func _finish_phase_three_on_button_press():
@@ -201,6 +204,7 @@ func _finish_phase_three(hired_customer: Customer):
 
     self.end_phase_button.pressed.disconnect(self._finish_phase_three_on_button_press)
     self.end_phase_button.disabled = true
+    self.end_phase_button.visible = false
 
     self.expedition_hiring.customer_hired.disconnect(self._finish_phase_three)
     await self.expedition_hiring.stop()
@@ -243,6 +247,7 @@ func _start_phase_four(hired_customer: Customer):
 
     self.end_phase_button.pressed.connect(self._finish_phase_four)
     self.end_phase_button.disabled = false
+    self.end_phase_button.visible = true
 
 
 func _finish_phase_four():
@@ -250,6 +255,7 @@ func _finish_phase_four():
 
     self.end_phase_button.pressed.disconnect(self._finish_phase_four)
     self.end_phase_button.disabled = true
+    self.end_phase_button.visible = false
 
     # TODO
 
