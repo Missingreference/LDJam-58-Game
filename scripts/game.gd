@@ -19,6 +19,7 @@ extends Control
 @onready var collection: Collection = $Collection
 @onready var stone_decorations: Control = $"Stone Decorations"
 @onready var sky: TextureRect = $Sky
+@onready var win_label: Label = $WinLabel
 
 var game_data = GameData.new()
 
@@ -95,6 +96,7 @@ func _ready():
 
 func _start_phase_one():
     print("Starting phase one")
+
     
     game_data.day_count += 1
     day_count_label.text = "Day " + str(game_data.day_count)
@@ -327,6 +329,14 @@ func _start_phase_four(hired_customer: Customer):
         await expedition_loot.finished
         self.remove_child(expedition_loot)
 
+    # Check win condition
+    if (collection.remaining_collectables_a.is_empty() and
+        collection.remaining_collectables_b.is_empty() and 
+        collection.remaining_collectables_c.is_empty()
+    ):
+        print("All collectables received")
+        self.win_label.visible = true
+
     self.end_phase_button.pressed.connect(self._finish_phase_four)
     self.end_phase_button.disabled = false
     self.end_phase_button.visible = true
@@ -443,3 +453,18 @@ func _input(event):
         elif event.keycode == KEY_C:
             get_viewport().set_input_as_handled()
             self._collectables_button_pressed()
+
+
+var _win_label_hue: float = 0.0
+
+func _process(_delta):
+    # Win label tastes the rainbow
+    self.win_label.modulate = Color.from_hsv(_win_label_hue, 1.0, 1.0, 1.0)
+    _win_label_hue += 0.005
+    if _win_label_hue >= 1.0:
+        _win_label_hue = 0.0
+
+
+func _on_win_label_gui_input(event: InputEvent):
+    if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
+        self.win_label.visible = false

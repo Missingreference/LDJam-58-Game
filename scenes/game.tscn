@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=38 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://c2groaajqg8e" path="res://assets/sprites/Stone_BG_Decoration.png" id="2_1kice"]
@@ -81,6 +81,14 @@ texture = ExtResource("3_lbhrr")
 modulate_color = Color(0.5, 0.5, 0.5, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gee14"]
+
+[sub_resource type="Theme" id="Theme_5newe"]
+default_font = ExtResource("2_kvpfn")
+default_font_size = 16
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 8
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("7_0tnpc")
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -365,6 +373,24 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
+[node name="WinLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme = SubResource("Theme_5newe")
+theme_override_font_sizes/font_size = 118
+text = "Congratulations! You've completed all collections!
+
+Thanks for playing!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [connection signal="mouse_entered" from="InventoryButton" to="." method="_inventory_button_enter"]
 [connection signal="mouse_exited" from="InventoryButton" to="." method="_inventory_button_exit"]
 [connection signal="pressed" from="InventoryButton" to="." method="_inventory_button_pressed"]
@@ -374,3 +400,4 @@ layout_mode = 1
 [connection signal="mouse_entered" from="SettingsButton" to="." method="_settings_button_enter"]
 [connection signal="mouse_exited" from="SettingsButton" to="." method="_settings_button_exit"]
 [connection signal="pressed" from="SettingsButton" to="." method="_settings_button_pressed"]
+[connection signal="gui_input" from="WinLabel" to="." method="_on_win_label_gui_input"]
