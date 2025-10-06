@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dujk33uae8p5"]
+[gd_scene load_steps=10 format=3 uid="uid://dujk33uae8p5"]
 
 [ext_resource type="Script" uid="uid://dnehyuqmk00o2" path="res://scripts/collection.gd" id="1_mldy4"]
+[ext_resource type="StyleBox" uid="uid://c0vifw63ph43u" path="res://assets/themes/exit_button_hover.tres" id="3_2ukpw"]
 [ext_resource type="Texture2D" uid="uid://dm57w6kcxx1tf" path="res://assets/sprites/inventory_tex_2.png" id="3_m8hiy"]
 [ext_resource type="Texture2D" uid="uid://bt61d61ke3cw6" path="res://assets/sprites/decline.png" id="3_tdt8g"]
+[ext_resource type="StyleBox" uid="uid://gaqhl1koek2g" path="res://assets/themes/exit_button_base.tres" id="4_yhtot"]
+[ext_resource type="StyleBox" uid="uid://4magdr5ebciq" path="res://assets/themes/exit_button_pressed.tres" id="5_p8q5u"]
+[ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="6_04f8q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
+
+[sub_resource type="Theme" id="Theme_sgbrj"]
+Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
+Button/styles/hover = ExtResource("3_2ukpw")
+Button/styles/normal = ExtResource("4_yhtot")
+Button/styles/pressed = ExtResource("5_p8q5u")
 
 [node name="Collection" type="Control"]
 layout_mode = 3
@@ -30,138 +42,163 @@ layout_mode = 2
 texture = ExtResource("3_m8hiy")
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TextureRect"]
+layout_mode = 0
+offset_right = 952.0
+offset_bottom = 448.0
 theme_override_constants/margin_left = 75
 theme_override_constants/margin_top = 48
 theme_override_constants/margin_right = 75
 theme_override_constants/margin_bottom = 48
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TextureRect/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 28
 alignment = 1
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="TextureRect1" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1"]
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 
-[node name="TextureRect1" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 
-[node name="TextureRect1" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
 
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("3_tdt8g")
 stretch_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -123.0
+offset_bottom = 22.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 80
+
+[node name="CloseButton" type="Button" parent="MarginContainer/TextureRect/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_sgbrj")
+theme_override_colors/font_hover_color = Color(0.9254902, 0.15294118, 0.24705882, 1)
+theme_override_constants/line_spacing = -7
+theme_override_fonts/font = ExtResource("6_04f8q")
+theme_override_font_sizes/font_size = 16
+text = "Close"
+
+[connection signal="pressed" from="MarginContainer/TextureRect/MarginContainer2/CloseButton" to="." method="_on_close_button_pressed"]
