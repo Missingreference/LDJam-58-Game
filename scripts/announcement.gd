@@ -1,6 +1,8 @@
 class_name Announcement
 extends Control
 
+signal completed
+
 @onready var color_rect: ColorRect = $ColorRect
 @onready var label: Label = $"ColorRect/CenterContainer/Center Point/Label"
 
@@ -93,3 +95,5 @@ func announce(message1: String, message2: String):
     await tween.finished
     
     visible = false
+    
+    completed.emit()

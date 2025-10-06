@@ -11,7 +11,8 @@ extends Control
 @onready var phase_title: Label = $PhaseTitle
 @onready var day_count_label: Label = $"DayCount Text"
 @onready var phase_texture: TextureRect = $PhaseTexture
-@onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
+@onready var shop_texture_rect: TextureRect = $Shop
+@onready var shop_menu: ShopMenuSmall = $Shop/ShopMenuSmall
 @onready var customer_queue: CustomerQueue = $CustomerQueue
 @onready var expedition_hiring: ExpeditionHiring = $ExpeditionHiring
 @onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
@@ -31,6 +32,8 @@ var phase_1_sprite = preload("res://assets/sprites/phase1_active.png")
 var phase_2_sprite = preload("res://assets/sprites/phase2_active.png")
 var phase_3_sprite = preload("res://assets/sprites/phase3_active.png")
 var phase_4_sprite = preload("res://assets/sprites/phase4_active.png")
+
+const SHOP_OPEN_POSITION_X = 200.0
 
 
 # Internal signal to know the result of the EmptyShopDialog
@@ -84,8 +87,22 @@ func _start_phase_one():
     self.phase_texture.texture = phase_1_sprite
     self.game_data.phase = GameData.GamePhase.one
     
-    await _announcement_overlay.announce("Phase 1", "Preparation")
-
+    _announcement_overlay.announce("Phase 1", "Preparation")
+    
+    #Move stall and small shop menu to center screen as focus
+    await (func():
+        var target_x_position = (get_viewport_rect().size.x / 2.0) - (shop_texture_rect.size.x / 2.0)
+        var tween = create_tween()
+        tween.set_trans(Tween.TRANS_SINE)
+        tween.set_ease(Tween.EASE_OUT)
+        tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        return await tween.finished
+    ).call()
+    
+    #Make sure the announcement is finished
+    if _announcement_overlay.visible:
+        await _announcement_overlay.completed
+    
     end_phase_button.visible = true
     await self.shop_menu.start()
 
@@ -123,7 +140,21 @@ func _start_phase_two():
     self.phase_texture.texture = phase_2_sprite
     self.game_data.phase = GameData.GamePhase.two
     
-    await _announcement_overlay.announce("Phase 2", "Customers")
+    _announcement_overlay.announce("Phase 2", "Customers")
+    
+    #Move stall and small shop menu to left side for customers to walk up to
+    await (func():
+        var target_x_position = SHOP_OPEN_POSITION_X - (shop_texture_rect.size.x / 2.0)
+        var tween = create_tween()
+        tween.set_trans(Tween.TRANS_SINE)
+        tween.set_ease(Tween.EASE_OUT)
+        tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        return await tween.finished
+    ).call()
+    
+    #Make sure the announcement is finished
+    if _announcement_overlay.visible:
+        await _announcement_overlay.completed
 
     self.customer_queue.queue_emptied.connect(self._finish_phase_two)
     await self.customer_queue.start()

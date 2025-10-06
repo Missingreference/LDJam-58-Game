@@ -138,20 +138,20 @@ texture = ExtResource("10_vtaks")
 
 [node name="Shop" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 131.0
+offset_left = 107.805
 offset_top = 185.0
-offset_right = 515.0
+offset_right = 491.80432
 offset_bottom = 569.0
 texture = ExtResource("4_ir15t")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ShopMenuSmall" parent="." instance=ExtResource("2_yqjtg")]
+[node name="ShopMenuSmall" parent="Shop" instance=ExtResource("2_yqjtg")]
 layout_mode = 0
-offset_left = 120.0
-offset_top = 357.0
-offset_right = 200.0
-offset_bottom = 517.0
+offset_left = -11.0
+offset_top = 172.0
+offset_right = 69.0
+offset_bottom = 332.0
 
 [node name="EndPhaseButton" type="TextureButton" parent="."]
 layout_mode = 0
