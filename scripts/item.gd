@@ -134,6 +134,12 @@ func GetSprite() -> Texture:
     var base_name = GetBaseName()
     if base_name == "Potion":
         return POTION_SPRITES[rarity][strength][enchantment.attr]
+    elif base_name == "Sword":
+        return SWORD_SPRITES[strength][rarity]
+    elif base_name == "Bow":
+        return BOW_SPRITES[rarity][strength]
+    elif base_name == "Armor":
+        return ARMOR_SPRITES[rarity][strength]
     
     return ItemDatabase.GetSprite(ID)
 
@@ -250,5 +256,59 @@ const POTION_SPRITES = {
             Customer.Attr.cha: preload("res://assets/sprites/items/potions/legendary_strong_love_potion.png"),
             Customer.Attr.str: preload("res://assets/sprites/items/potions/legendary_strong_strength_potion.png")
         }
+    }
+}
+
+const SWORD_SPRITES = {
+    0: {
+        Rarity.Normal: preload("res://assets/sprites/items/weapon/shortsword_normal.png"),
+        Rarity.Rare: preload("res://assets/sprites/items/weapon/shortsword_rare.png"),
+        Rarity.Legendary: preload("res://assets/sprites/items/weapon/shortsword_legendary.png")
+    },
+    1: {
+        Rarity.Normal: preload("res://assets/sprites/items/weapon/longsword_normal.png"),
+        Rarity.Rare: preload("res://assets/sprites/items/weapon/longsword_rare.png"),
+        Rarity.Legendary: preload("res://assets/sprites/items/weapon/longsword_legendary.png")
+    },
+    2: {
+        Rarity.Normal: preload("res://assets/sprites/items/weapon/greatsword_normal.png"),
+        Rarity.Rare: preload("res://assets/sprites/items/weapon/greatsword_rare.png"),
+        Rarity.Legendary: preload("res://assets/sprites/items/weapon/greatsword_legendary.png")
+    },
+}
+
+const BOW_SPRITES = {
+    Rarity.Normal: {
+        0: preload("res://assets/sprites/items/bow/weak_bow.png"),
+        1: preload("res://assets/sprites/items/bow/bow.png"),
+        2: preload("res://assets/sprites/items/bow/strong_bow.png")
+    },
+    Rarity.Rare: {
+        0: preload("res://assets/sprites/items/bow/rare_weak_bow.png"),
+        1: preload("res://assets/sprites/items/bow/rare_bow.png"),
+        2: preload("res://assets/sprites/items/bow/rare_strong_bow.png")
+    },
+    Rarity.Legendary: {
+        0: preload("res://assets/sprites/items/bow/legendary_weak_bow.png"),
+        1: preload("res://assets/sprites/items/bow/legendary_bow.png"),
+        2: preload("res://assets/sprites/items/bow/legendary_strong_bow.png")
+    }
+}
+
+const ARMOR_SPRITES = {
+    Rarity.Normal: {
+        0: preload("res://assets/sprites/items/armor/weak_armor.png"),
+        1: preload("res://assets/sprites/items/armor/armor.png"),
+        2: preload("res://assets/sprites/items/armor/strong_armor.png")
+    },
+    Rarity.Rare: {
+        0: preload("res://assets/sprites/items/armor/rare_weak_armor.png"),
+        1: preload("res://assets/sprites/items/armor/rare_armor.png"),
+        2: preload("res://assets/sprites/items/armor/rare_strong_armor.png")
+    },
+    Rarity.Legendary: {
+        0: preload("res://assets/sprites/items/armor/legendary_weak_armor.png"),
+        1: preload("res://assets/sprites/items/armor/legendary_armor.png"),
+        2: preload("res://assets/sprites/items/armor/legendary_strong_armor.png")
     }
 }
