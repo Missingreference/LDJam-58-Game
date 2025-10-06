@@ -4,6 +4,7 @@ class_name ItemDatabase
 static var potionSprite = preload("res://assets/sprites/items/potions/healing_potion.png")
 static var swordSprite = preload("res://assets/sprites/items/weapon/shortsword_normal.png")
 static var bowSprite = preload("res://assets/sprites/items/bow/bow.png")
+static var armorSprite = preload("res://assets/sprites/items/armor/armor.png")
 
 static var _allItems: Array[ItemData] = []
 
@@ -11,6 +12,7 @@ static func _static_init() -> void:
     RegisterItem("Potion", Item.ItemType.Consumable, 10, potionSprite)
     RegisterItem("Sword", Item.ItemType.Weapon, 50, swordSprite)
     RegisterItem("Bow", Item.ItemType.Weapon, 30, bowSprite)
+    RegisterItem("Armor", Item.ItemType.Armor, 30, armorSprite)
 
 
 # Query number of items in the database
