@@ -134,13 +134,16 @@ func _start_phase_one():
     await self.shop_menu.start()
     
     _phase_1_warning_check_func = func():
-        if self.game_data.shop_inventory._item_count <= 0:
-            self.empty_shop_dialog.popup_centered()
-            # Wait for confirmation
-            var do_continue = await self._empty_shop_confirm
-            if do_continue:
-                _finish_phase_one()
-        pass
+        if self.game_data.shop_inventory._item_count > 0: 
+            _finish_phase_one()
+            return
+            
+        self.empty_shop_dialog.popup_centered()
+        # Wait for confirmation
+        var do_continue = await self._empty_shop_confirm
+        if do_continue:
+            _finish_phase_one()
+    
     
     self.end_phase_button.pressed.connect(_phase_1_warning_check_func)
     self.end_phase_button.disabled = false
