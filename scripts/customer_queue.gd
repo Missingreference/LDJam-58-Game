@@ -174,7 +174,7 @@ func _do_customer_offer():
     #Show them leaving
     self.add_child(customer)
     _leaving_customers.append(customer)
-    customer.z_index = -(_queue.get_child_count() + 1)
+    customer.z_index = -((_queue.get_child_count()+1)*2)
     customer.animator.play_walk_animation()
     customer.animator.set_flip_horizontal(true)
     
