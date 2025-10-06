@@ -1,8 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://b7hyugc3ib55t"]
+[gd_scene load_steps=20 format=3 uid="uid://b7hyugc3ib55t"]
 
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_51q1o"]
 [ext_resource type="Script" uid="uid://y46wopdtkesi" path="res://scripts/customer_offer_ui.gd" id="1_r1vgh"]
-[ext_resource type="Texture2D" uid="uid://b164xu8lsqjuj" path="res://assets/sprites/haggle_chat_bubble_21.png" id="2_pbm8y"]
+[ext_resource type="Script" uid="uid://bdels5gbnxelr" path="res://scripts/tile_scale_container.gd" id="2_gtb5t"]
 [ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_r1vgh"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="3_fosc4"]
 [ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="5_ep75l"]
@@ -12,6 +12,7 @@
 [ext_resource type="StyleBox" uid="uid://bepxyyuwrxp16" path="res://assets/themes/button_pressed.tres" id="9_c07rq"]
 [ext_resource type="Texture2D" uid="uid://bdmrwqp463mj4" path="res://assets/sprites/haggle.png" id="11_6cg1u"]
 [ext_resource type="Texture2D" uid="uid://bt61d61ke3cw6" path="res://assets/sprites/decline.png" id="12_pbm8y"]
+[ext_resource type="Texture2D" uid="uid://bohn0rfvmkowq" path="res://assets/sprites/haggle_bubble_minimum.png" id="13_gtb5t"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c07rq"]
 
@@ -37,76 +38,65 @@ Button/styles/hover = ExtResource("7_6gpvo")
 Button/styles/normal = ExtResource("7_nr1r6")
 Button/styles/pressed = ExtResource("9_c07rq")
 
-[node name="CustomerOfferUI" type="Node2D"]
+[node name="CustomerOfferUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 404.0
+offset_bottom = 252.0
 script = ExtResource("1_r1vgh")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-clip_contents = true
-custom_minimum_size = Vector2(360, 220)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -80.0
-offset_right = 180.0
-offset_bottom = 80.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.7433094, 0.12752602, 0.94793516, 1)
-
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
-clip_contents = true
-custom_minimum_size = Vector2(360, 220)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -120.0
-offset_right = 180.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_pbm8y")
-
-[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+[node name="TileScaleContainer" type="Container" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 9.0
-offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 4
+script = ExtResource("2_gtb5t")
+tile_scale = 4.0
+metadata/_custom_type_script = "uid://bdels5gbnxelr"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="TileScaleContainer"]
+layout_mode = 2
+texture = ExtResource("13_gtb5t")
+region_rect = Rect2(0, 0, 10, 12)
+patch_margin_left = 6
+patch_margin_top = 5
+patch_margin_right = 6
+patch_margin_bottom = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 7
 
-[node name="CustomerNameLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="CustomerNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("3_fosc4")
 text = "Customer name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CustomerIcon" type="TextureRect" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CustomerIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("1_51q1o")
 stretch_mode = 2
 
-[node name="FlavorLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="FlavorLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -117,12 +107,12 @@ theme_override_font_sizes/font_size = 16
 text = "Let me take a look at your wares...fjadsadjflakdjf fjalkdsjf a dflkjad fad asdf ajdfasdflja sdflkadsfj asdlfjalsdfjalsdk fjaldjfalksdjflaksdjfalkd ksjfalsd fjladsfj aldkfj aldfj asdf"
 autowrap_mode = 2
 
-[node name="Line" type="ColorRect" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="Line" type="ColorRect" parent="MarginContainer/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 
-[node name="OfferLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="OfferLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_ep75l")
@@ -130,59 +120,59 @@ theme_override_font_sizes/font_size = 32
 text = "Offer: 100gp"
 horizontal_alignment = 1
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_ep75l")
 theme_override_font_sizes/font_size = 32
 text = "For:"
 
-[node name="ItemIcon" type="TextureRect" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 texture = ExtResource("2_r1vgh")
 expand_mode = 2
 
-[node name="ItemName" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="ItemName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_ep75l")
 theme_override_font_sizes/font_size = 32
 text = "Sword"
 
-[node name="ValueLabel" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("5_ep75l")
 theme_override_font_sizes/font_size = 16
 text = "(value: 125gp)"
 
-[node name="ButtonsContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="ButtonsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="AcceptButton" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+[node name="AcceptButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_c07rq")
 theme_override_constants/icon_max_width = 32
 icon = ExtResource("8_6gpvo")
 
-[node name="HaggleButton" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+[node name="HaggleButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme = SubResource("Theme_pbm8y")
 theme_override_constants/icon_max_width = 32
 icon = ExtResource("11_6cg1u")
 
-[node name="DeclineButton" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/ButtonsContainer"]
+[node name="DeclineButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme = SubResource("Theme_vnj1d")
 theme_override_constants/icon_max_width = 32
 icon = ExtResource("12_pbm8y")
 
-[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/ButtonsContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
-[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/ButtonsContainer/DeclineButton" to="." method="_on_decline_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonsContainer/DeclineButton" to="." method="_on_decline_button_pressed"]

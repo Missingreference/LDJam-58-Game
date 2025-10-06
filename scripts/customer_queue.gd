@@ -58,6 +58,7 @@ func _process(delta: float):
             iterator += 1
 
 func _ready():
+    _customer_offer_ui.visible = false
 
     if get_tree().current_scene == self:
         # Center in view
@@ -107,7 +108,8 @@ func _on_customer_ready(queue_index: int):
     var customer: Customer = _queue.get_child(queue_index)
     customer.animator.play_idle3_animation()
     if queue_index == 0:
-        _enable_next_customer_selection()
+        #_enable_next_customer_selection()
+        _do_customer_offer()
 
 func _enable_next_customer_selection():
     var queued_customers = self._queue.get_children()
@@ -129,7 +131,7 @@ func _do_customer_offer():
     var customer: Customer = self._queue.get_children().front()
     assert(customer != null)
 
-    customer.selected.disconnect(self._do_customer_offer)
+    #customer.selected.disconnect(self._do_customer_offer)
     customer.disable_selection()
 
     # Pick an item from the shop
