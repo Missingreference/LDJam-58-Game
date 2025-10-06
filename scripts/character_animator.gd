@@ -88,6 +88,11 @@ var _animation_expression_happy = preload("res://animations/character_expression
 @onready var _shoes_animator: AnimatedSprite2D = $Animators/ShoesAnimator
 
 var _all_animators: Array[AnimatedSprite2D]
+var _hair: Hair
+var _facial_hair: FacialHair
+var _eye_expression: EyeExpression
+var _mouth_expression: MouthExpression
+var _shirt: Shirt
 var _current_animation: String = ""
 var _flipped_horizontal = false
 var _flipped_vertical = false
@@ -109,16 +114,17 @@ func _ready() -> void:
     
     #Defaults
     _head_animator.sprite_frames = _animation_head
-    _eyes_animator.sprite_frames = _animation_eyes_neutral
-    _iris_animator.sprite_frames = _animation_iris_neutral
-    _mouth_animator.sprite_frames = _animation_expression_neutral
-    _hair_animator.sprite_frames = _animation_hair_short
-    _pants_animator.sprite_frames = _animation_pants
-    _shirt_animator.sprite_frames = _animation_shirt_short
     _arms_animator.sprite_frames = _animation_arms
     _armor_animator.sprite_frames = _animation_armor_pieces
-    _facial_hair_animator.sprite_frames = _animation_short_beard
+    _pants_animator.sprite_frames = _animation_pants
     _shoes_animator.sprite_frames = _animation_shoes
+    set_eye_expression(EyeExpression.Neutral)
+    set_mouth_expression(MouthExpression.Neutral)
+    set_hair(Hair.None)
+    set_shirt(Shirt.Short)
+    set_facial_hair(FacialHair.None)
+    
+    disable_armor()
     
     CharacterPresets.set_random_character(self)
     self.play_walk_animation()
@@ -222,6 +228,8 @@ func set_hair(hair: Hair):
             _hair_animator.visible = true
             _hair_animator.sprite_frames = _animation_hair_ponytail
             
+    _hair = hair
+            
 func set_facial_hair(facial_hair: FacialHair):
     match facial_hair:
         FacialHair.None:
@@ -235,6 +243,8 @@ func set_facial_hair(facial_hair: FacialHair):
         FacialHair.Mustache:
             _facial_hair_animator.visible = true
             _facial_hair_animator.sprite_frames = _animation_mustache
+            
+    _facial_hair = facial_hair
     
 func set_eye_expression(eye_expression: EyeExpression):
     match eye_expression:
@@ -253,6 +263,8 @@ func set_eye_expression(eye_expression: EyeExpression):
         EyeExpression.Shocked:
             _eyes_animator.sprite_frames = _animation_eyes_shocked
             _iris_animator.sprite_frames = _animation_iris_neutral
+            
+    _eye_expression = eye_expression
     
 func set_mouth_expression(mouth_expression: MouthExpression):
     match mouth_expression:
@@ -262,6 +274,8 @@ func set_mouth_expression(mouth_expression: MouthExpression):
             _mouth_animator.sprite_frames = _animation_expression_happy
         MouthExpression.Sad:
             _mouth_animator.sprite_frames = _animation_expression_sad
+            
+    _mouth_expression = mouth_expression
     
 func set_shirt(shirt: Shirt):
     match shirt:
@@ -271,6 +285,8 @@ func set_shirt(shirt: Shirt):
         Shirt.Long:
             _shirt_animator.get_parent().move_child(_shirt_animator, 7)
             _shirt_animator.sprite_frames = _animation_shirt_long
+            
+    _shirt = shirt
 
 func enable_armor():
     _armor_animator.visible = true
@@ -300,3 +316,21 @@ func set_pants_color(color: Color):
 func set_shoes_color(color: Color):
     _shoes_animator.self_modulate = color
     
+func copy_features(other_animator: CharacterAnimator):
+    if _armor_animator.visible:
+        other_animator.enable_armor()
+    else:
+        other_animator.disable_armor()
+        
+    other_animator.set_hair(_hair)
+    other_animator.set_eye_expression(_eye_expression)
+    other_animator.set_mouth_expression(_mouth_expression)
+    other_animator.set_facial_hair(_facial_hair)
+    other_animator.set_shirt(_shirt)
+    
+    other_animator.set_skin_color(_head_animator.self_modulate)
+    other_animator.set_eye_color(_iris_animator.self_modulate)
+    other_animator.set_hair_color(_hair_animator.self_modulate)
+    other_animator.set_shirt_color(_shirt_animator.self_modulate)
+    other_animator.set_pants_color(_pants_animator.self_modulate)
+    other_animator.set_shoes_color(_shoes_animator.self_modulate)
