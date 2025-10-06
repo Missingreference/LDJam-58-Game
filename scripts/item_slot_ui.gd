@@ -37,6 +37,7 @@ func set_item(item: Item):
         if itemTexture.texture == null:
             placeholderLabel.text = "[debug: " + _item.name + "]"
         else:
+            itemTexture.visible = true
             placeholderLabel.text = ""
         if manageable:
             deleteButton.visible = true

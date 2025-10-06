@@ -15,7 +15,7 @@ var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 
 var itemSlots: Array[ItemSlot] = []
 
-signal itemChosen
+signal itemChosen(Item)
 signal exited
 
 var _inventory: Inventory
@@ -70,17 +70,26 @@ func _ready() -> void:
             debugInventory.AddItem(Item.Create("Potion", Item.Rarity.Normal))
         SetTargetInventory(debugInventory)
 
+
+func EnableExit(enable: bool):
+    self.exitButton.visible = enable
+
+
+func SetTitle(value: String):
+    self.titleLabel.text = value
+
+
 func Refresh():
     var itemCountSoFar = 0
-    var inventoryItems = _inventory.GetItems().values()
-    for itemArray in inventoryItems:
-        for item in itemArray:
-            _get_slot(itemCountSoFar, item)
-            itemCountSoFar += 1
+    for item in _inventory.GetItemsArray():
+        _get_slot(itemCountSoFar, item)
+        itemCountSoFar += 1
 
     while itemCountSoFar < 18: #_inventory.max_item_count:
         _get_slot(itemCountSoFar, null)
         itemCountSoFar += 1
+
+    self._setNoSlotSelect()
 
 func SetMode(mode):
     if mode == Mode.Readonly:
@@ -126,6 +135,11 @@ func _onSlotSelected(slot: ItemSlot):
     chooseButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
+
+func _setNoSlotSelect():
+    _selectedSlot = null
+    chooseButton.disabled = true
+    selectionHighlighter.visible = false
 
 func _onSlotDeleted(slot: ItemSlot):
     if _mode != Mode.Manage || slot.get_item() == null: return

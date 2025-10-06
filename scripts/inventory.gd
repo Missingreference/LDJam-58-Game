@@ -16,9 +16,9 @@ func AddItem(item: Item) -> bool:
     else:
         _items[item.name] = [item]
 
-    changed.emit()
-
     _item_count += 1
+
+    changed.emit()
 
     return true
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0q3k42ssqifo"]
+
+[ext_resource type="Script" uid="uid://bwhtew2ov3qd3" path="res://scripts/expedition_loot.gd" id="1_g2vd6"]
+[ext_resource type="PackedScene" uid="uid://cwasakcao8et1" path="res://scenes/inventory_ui.tscn" id="2_cmsje"]
+
+[node name="ExpeditionLoot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g2vd6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Loot" parent="HBoxContainer" instance=ExtResource("2_cmsje")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Warehouse" parent="HBoxContainer" instance=ExtResource("2_cmsje")]
+layout_mode = 2
+size_flags_horizontal = 3
