@@ -167,6 +167,7 @@ theme_override_constants/icon_max_width = 32
 icon = ExtResource("8_6gpvo")
 
 [node name="HaggleButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonsContainer"]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_pbm8y")
 theme_override_constants/icon_max_width = 32
