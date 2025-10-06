@@ -182,11 +182,12 @@ func _close():
     closed.emit()
 
 func _on_mouse_enter_slot(slot: ItemSlot):
-    if slot.get_item() == null: return
+    var item = slot.get_item()
+    if item == null: return
     _tooltip.visible = true
     _tooltip.move_to_front()
-    _tooltip.item_title.text = slot.get_item().GetName()
-    _tooltip.item_description.text = "Type: " + str(slot.get_item().GetType()) + "\n" + "Rarity: " + str(slot.get_item().rarity) + "\n" + "Value: " + str(20)
+    _tooltip.item_title.text = item.GetName()
+    _tooltip.item_description.text = "Attributes: %s\nValue: %d" % [item.attributes.get_ui_string(), item.GetValue()]
 
 func _on_mouse_exit_slot():
     _tooltip.visible = false

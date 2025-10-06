@@ -17,15 +17,15 @@ static var _c_1_texture = preload("res://assets/sprites/icon_sword.png")
 static var _c_2_texture = preload("res://assets/sprites/icon_sword.png")
 static var _c_3_texture = preload("res://assets/sprites/icon_sword.png")
 
-@onready var _collection_a_1: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect1
-@onready var _collection_a_2: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect2
-@onready var _collection_a_3: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect3
-@onready var _collection_b_1: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect1
-@onready var _collection_b_2: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect2
-@onready var _collection_b_3: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect3
-@onready var _collection_c_1: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect1
-@onready var _collection_c_2: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect2
-@onready var _collection_c_3: TextureRect = $MarginContainer/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect3
+@onready var _collection_a_1: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect1
+@onready var _collection_a_2: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect2
+@onready var _collection_a_3: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect3
+@onready var _collection_b_1: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect1
+@onready var _collection_b_2: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect2
+@onready var _collection_b_3: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer2/TextureRect3
+@onready var _collection_c_1: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect1
+@onready var _collection_c_2: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect2
+@onready var _collection_c_3: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect3
 
 @onready var _collection_a_slots: Array[TextureRect] = [
     _collection_a_1,
@@ -102,14 +102,6 @@ func add_to_collection(collectable: Collectable):
         return
 
 
-func _init():
-    pass
-
-
-func _update_ui():
-    pass
-
-
 func _ready():
     self._collection_a_1.texture = self._collection_a[0].missing_texture
     self._collection_a_2.texture = self._collection_a[1].missing_texture
@@ -120,6 +112,10 @@ func _ready():
     self._collection_c_1.texture = self._collection_c[0].missing_texture
     self._collection_c_2.texture = self._collection_c[1].missing_texture
     self._collection_c_3.texture = self._collection_c[2].missing_texture
+
+
+func _on_close_button_pressed():
+    self.closed.emit()
 
 
 func _input(event):
