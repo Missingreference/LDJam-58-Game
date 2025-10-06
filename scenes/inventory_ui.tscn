@@ -10,10 +10,10 @@
 [ext_resource type="StyleBox" uid="uid://ba0xp0whx5py4" path="res://assets/themes/select_button_pressed.tres" id="6_uwj4j"]
 [ext_resource type="StyleBox" uid="uid://4magdr5ebciq" path="res://assets/themes/exit_button_pressed.tres" id="8_1dxi5"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwj4j"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
 
 [sub_resource type="Theme" id="Theme_1dxi5"]
-Button/styles/focus = SubResource("StyleBoxEmpty_uwj4j")
+Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
 Button/styles/hover = ExtResource("3_2lmnb")
 Button/styles/normal = ExtResource("4_eicjl")
 Button/styles/pressed = ExtResource("6_uwj4j")
@@ -26,10 +26,10 @@ Button/styles/hover = ExtResource("3_2lmnb")
 Button/styles/normal = ExtResource("4_eicjl")
 Button/styles/pressed = ExtResource("6_uwj4j")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ngbl7"]
 
 [sub_resource type="Theme" id="Theme_dqfnd"]
-Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
+Button/styles/focus = SubResource("StyleBoxEmpty_ngbl7")
 Button/styles/hover = ExtResource("3_2lmnb")
 Button/styles/normal = ExtResource("4_eicjl")
 Button/styles/pressed = ExtResource("8_1dxi5")

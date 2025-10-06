@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dujk33uae8p5"]
+[gd_scene load_steps=11 format=3 uid="uid://dujk33uae8p5"]
 
 [ext_resource type="Script" uid="uid://dnehyuqmk00o2" path="res://scripts/collection.gd" id="1_mldy4"]
 [ext_resource type="StyleBox" uid="uid://c0vifw63ph43u" path="res://assets/themes/exit_button_hover.tres" id="3_2ukpw"]
@@ -7,6 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://gaqhl1koek2g" path="res://assets/themes/exit_button_base.tres" id="4_yhtot"]
 [ext_resource type="StyleBox" uid="uid://4magdr5ebciq" path="res://assets/themes/exit_button_pressed.tres" id="5_p8q5u"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="6_04f8q"]
+[ext_resource type="PackedScene" uid="uid://bslos7gu2t634" path="res://scenes/inventory_tooltip.tscn" id="8_yhtot"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
 
@@ -200,5 +201,9 @@ theme_override_constants/line_spacing = -7
 theme_override_fonts/font = ExtResource("6_04f8q")
 theme_override_font_sizes/font_size = 16
 text = "Close"
+
+[node name="InventoryTooltip" parent="." instance=ExtResource("8_yhtot")]
+visible = false
+layout_mode = 0
 
 [connection signal="pressed" from="MarginContainer/TextureRect/MarginContainer2/CloseButton" to="." method="_on_close_button_pressed"]

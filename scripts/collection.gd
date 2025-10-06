@@ -26,6 +26,7 @@ static var _c_3_texture = preload("res://assets/sprites/icon_sword.png")
 @onready var _collection_c_1: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect1
 @onready var _collection_c_2: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect2
 @onready var _collection_c_3: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect3
+@onready var _tooltip: InventoryTooltip = $InventoryTooltip
 
 @onready var _collection_a_slots: Array[TextureRect] = [
     _collection_a_1,
@@ -46,21 +47,21 @@ static var _c_3_texture = preload("res://assets/sprites/icon_sword.png")
 ]
 
 var _collection_a: Array[Collectable] = [
-    Collectable.new("Collectable A1", _a_missing_texture, _a_1_texture),
-    Collectable.new("Collectable A2", _a_missing_texture, _a_2_texture),
-    Collectable.new("Collectable A3", _a_missing_texture, _a_3_texture)
+    Collectable.new("Collectable A1", "A1 Description", _a_missing_texture, _a_1_texture),
+    Collectable.new("Collectable A2", "A2 Description", _a_missing_texture, _a_2_texture),
+    Collectable.new("Collectable A3", "A3 Description", _a_missing_texture, _a_3_texture)
 ]
 
 var _collection_b: Array[Collectable] = [
-    Collectable.new("Collectable B1", _b_missing_texture, _b_1_texture),
-    Collectable.new("Collectable B2", _b_missing_texture, _b_2_texture),
-    Collectable.new("Collectable B3", _b_missing_texture, _b_3_texture)
+    Collectable.new("Collectable B1", "B1 Description", _b_missing_texture, _b_1_texture),
+    Collectable.new("Collectable B2", "B2 Description", _b_missing_texture, _b_2_texture),
+    Collectable.new("Collectable B3", "B3 Description", _b_missing_texture, _b_3_texture)
 ]
 
 var _collection_c: Array[Collectable] = [
-    Collectable.new("Collectable C1", _c_missing_texture, _c_1_texture),
-    Collectable.new("Collectable C2", _c_missing_texture, _c_2_texture),
-    Collectable.new("Collectable C3", _c_missing_texture, _c_3_texture)
+    Collectable.new("Collectable C1", "C1 Description", _c_missing_texture, _c_1_texture),
+    Collectable.new("Collectable C2", "C2 Description", _c_missing_texture, _c_2_texture),
+    Collectable.new("Collectable C3", "C3 Description", _c_missing_texture, _c_3_texture)
 ]
 
 var remaining_collectables_a = _collection_a.duplicate()
@@ -113,6 +114,26 @@ func _ready():
     self._collection_c_2.texture = self._collection_c[1].missing_texture
     self._collection_c_3.texture = self._collection_c[2].missing_texture
 
+    # Connect tooltip signals
+    self._collection_a_1.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_a[0]))
+    self._collection_a_1.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_a_2.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_a[1]))
+    self._collection_a_2.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_a_3.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_a[2]))
+    self._collection_a_3.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_b_1.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_b[0]))
+    self._collection_b_1.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_b_2.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_b[1]))
+    self._collection_b_2.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_b_3.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_b[2]))
+    self._collection_b_3.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_c_1.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_c[0]))
+    self._collection_c_1.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_c_2.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_c[1]))
+    self._collection_c_2.mouse_exited.connect(self._on_mouse_exit)
+    self._collection_c_3.mouse_entered.connect(self._on_mouse_enter.bind(self._collection_c[2]))
+    self._collection_c_3.mouse_exited.connect(self._on_mouse_exit)
+
 
 func _on_close_button_pressed():
     self.closed.emit()
@@ -142,6 +163,20 @@ func _input(event):
         #     var collectable = RandomUtils.pick_random(self.remaining_collectables_c)
         #     if collectable != null:
         #         self.add_to_collection(collectable)
+
+
+func _on_mouse_enter(collectable: Collectable):
+    # TODO Check if found
+    self._tooltip.visible = true
+    self._tooltip.move_to_front()
+    print("Title: %s" %  collectable.collectable_name)
+    self._tooltip.item_title.text = collectable.collectable_name
+    self._tooltip.item_description.text = collectable.description
+
+
+func _on_mouse_exit():
+    _tooltip.visible = false
+
 
 
 enum Type {
