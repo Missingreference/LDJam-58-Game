@@ -202,7 +202,7 @@ func _inventory_button_pressed():
     self.add_child(inventory_ui)
     inventory_ui.SetMode(InventoryUI.Mode.Manage)
     inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
-    await inventory_ui.exited
+    await inventory_ui.closed
     self.remove_child(inventory_ui)
 
     self._enable_controls()

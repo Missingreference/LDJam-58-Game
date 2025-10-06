@@ -18,7 +18,7 @@ var itemSlots: Array[ItemSlot] = []
 
 signal itemChosen(Item)
 signal all_selected
-signal exited
+signal closed
 
 var _inventory: Inventory
 var _mode: Mode
@@ -179,7 +179,7 @@ func _on_select_all_button_pressed():
     self.all_selected.emit()
 
 func _onExitButtonPressed():
-    exited.emit()
+    closed.emit()
 
 func _on_mouse_enter_slot(slot: ItemSlot):
     if slot.get_item() == null: return

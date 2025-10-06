@@ -15,5 +15,9 @@ func _ready():
     self.inventory_ui.SetMode(InventoryUI.Mode.Readonly)
     self.inventory_ui.SetTargetInventory(self._collection)
     self.inventory_ui.SetTitle("Collection")
-    self.inventory_ui.exited.connect(self.closed.emit)
+    self.inventory_ui.closed.connect(self.closed.emit)
         
+
+func _input(event):
+    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+        self.closed.emit()

@@ -46,7 +46,7 @@ func _on_plus_button_pressed():
     inventory_ui.SetMode(InventoryUI.Mode.Picker)
     inventory_ui.SetTargetInventory(self.game_data.warehouse_inventory)
     inventory_ui.itemChosen.connect(self._inventory_item_chosen.bind(inventory_ui))
-    inventory_ui.exited.connect(func():
+    inventory_ui.closed.connect(func():
         self.remove_child(inventory_ui)
         self._enable_controls()
     )
