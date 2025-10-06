@@ -132,6 +132,7 @@ func _do_queue_animation(customers):
         if tweens[i].is_running():
             await tweens[i].finished
         print("%s done moving" % customers[i].customer_name)
+        customers[i].animator.reset()
         customers[i].enable_random_idle_animations()
 
     self.queue_updated.emit()
