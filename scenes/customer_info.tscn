@@ -13,6 +13,7 @@
 custom_minimum_size = Vector2(200, 250)
 offset_right = 200.0
 offset_bottom = 250.0
+mouse_filter = 2
 color = Color(0.16000003, 0.6920001, 1, 0)
 script = ExtResource("1_gp64s")
 

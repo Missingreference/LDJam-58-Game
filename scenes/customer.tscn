@@ -1,53 +1,59 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8pvwlfmfghud"]
+[gd_scene load_steps=4 format=3 uid="uid://b8pvwlfmfghud"]
 
 [ext_resource type="PackedScene" uid="uid://danknk0tngaei" path="res://scenes/customer_info.tscn" id="1_8qg4y"]
 [ext_resource type="Script" uid="uid://dc54a7ltcpkyt" path="res://scripts/customer.gd" id="2_xss0h"]
 [ext_resource type="PackedScene" uid="uid://dov8ppblmkrii" path="res://scenes/character.tscn" id="3_rjbu2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rjbu2"]
-
 [node name="Customer" type="Control"]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(260, 260)
 layout_mode = 3
 anchors_preset = 0
+offset_left = -130.0
+offset_top = -130.0
+offset_right = 130.0
+offset_bottom = 130.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("2_xss0h")
 
 [node name="CustomerInfo" parent="." instance=ExtResource("1_8qg4y")]
-visible = false
 z_index = 10
-layout_mode = 0
-offset_left = -95.0
-offset_top = -419.0
-offset_right = 105.0
-offset_bottom = -169.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = -163.0
+offset_right = 100.00003
+offset_bottom = 87.00012
+grow_horizontal = 2
 
-[node name="CharacterPanel" type="PanelContainer" parent="."]
+[node name="CharacterAnimator" parent="." instance=ExtResource("3_rjbu2")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -61.0
-offset_top = -169.0
-offset_right = 16.989998
-offset_bottom = -31.89
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_rjbu2")
 
-[node name="CharacterAnimator" parent="CharacterPanel" instance=ExtResource("3_rjbu2")]
-layout_mode = 2
-
-[node name="Highlight" type="ColorRect" parent="CharacterPanel/CharacterAnimator"]
+[node name="Highlight" type="ColorRect" parent="CharacterAnimator"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.42800003
+anchor_top = 0.268
+anchor_right = 0.68600005
+anchor_bottom = 0.87500006
+offset_left = -32.280006
+offset_top = 6.3199997
+offset_right = 16.623993
+offset_bottom = 29.499985
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
-[connection signal="gui_input" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_gui_input"]
-[connection signal="mouse_entered" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CharacterPanel/CharacterAnimator/Highlight" to="." method="_on_mouse_exited"]
+[connection signal="gui_input" from="CharacterAnimator/Highlight" to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="CharacterAnimator/Highlight" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterAnimator/Highlight" to="." method="_on_mouse_exited"]

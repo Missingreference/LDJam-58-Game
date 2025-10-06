@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b7hyugc3ib55t"]
+[gd_scene load_steps=21 format=3 uid="uid://b7hyugc3ib55t"]
 
 [ext_resource type="Texture2D" uid="uid://cnw4vn6onibsm" path="res://assets/sprites/adventurer_basic.png" id="1_51q1o"]
 [ext_resource type="Script" uid="uid://y46wopdtkesi" path="res://scripts/customer_offer_ui.gd" id="1_r1vgh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cwxp7f1bi2vd1" path="res://assets/sprites/icon_sword.png" id="2_r1vgh"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="3_fosc4"]
 [ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="5_ep75l"]
+[ext_resource type="PackedScene" uid="uid://dov8ppblmkrii" path="res://scenes/character.tscn" id="5_vnj1d"]
 [ext_resource type="StyleBox" uid="uid://cu8vbrtxmdiek" path="res://assets/themes/button_hover.tres" id="7_6gpvo"]
 [ext_resource type="StyleBox" uid="uid://ckron3xxc2osc" path="res://assets/themes/button_theme.tres" id="7_nr1r6"]
 [ext_resource type="Texture2D" uid="uid://bd54rge5vfdch" path="res://assets/sprites/accept.png" id="8_6gpvo"]
@@ -91,7 +92,11 @@ text = "Customer name"
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="CharacterAnimator" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_vnj1d")]
+layout_mode = 2
+
 [node name="CustomerIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 texture = ExtResource("1_51q1o")
 stretch_mode = 2
