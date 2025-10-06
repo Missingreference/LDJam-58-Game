@@ -96,6 +96,7 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
         self._queue.add_child(customer)
         var spawn_variation = Globals.rng.randf_range(-SPAWN_VARIATION_AMOUNT, SPAWN_VARIATION_AMOUNT)
         customer.position = Vector2(SPAWN_POSITION_X + (CUSTOMER_SPACING * i) + spawn_variation, customer.position.y)
+        customer.disable_random_idle_animations()
         customer.animator.play_walk_animation()
         customer.animator.set_animation_frame(Globals.rng.randi_range(0,6))
         customer.animator.set_flip_horizontal(false)
@@ -106,7 +107,9 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
     
 func _on_customer_ready(queue_index: int):
     var customer: Customer = _queue.get_child(queue_index)
-    customer.animator.play_idle3_animation()
+    #customer.animator.play_idle3_animation()
+    customer.animator.reset()
+    customer.enable_random_idle_animations()
     if queue_index == 0:
         #_enable_next_customer_selection()
         _do_customer_offer()
@@ -177,11 +180,13 @@ func _do_customer_offer():
     self.add_child(customer)
     _leaving_customers.append(customer)
     customer.z_index = -((_queue.get_child_count()+1)*2)
+    customer.disable_random_idle_animations()
     customer.animator.play_walk_animation()
     customer.animator.set_flip_horizontal(true)
     
     #Enable walking animation for all the other customers
     for other_customer: Customer in _queue.get_children():
+        customer.disable_random_idle_animations()
         other_customer.animator.play_walk_animation()
 
 func _on_customer_left(leaving_index: int):
