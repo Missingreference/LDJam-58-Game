@@ -15,6 +15,8 @@ extends Control
 
 var game_data = GameData.new()
 
+var keyboard_input_disabled = false
+
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
 var collection_scene = preload("res://scenes/collection.tscn")
@@ -236,6 +238,8 @@ func _settings_button_exit():
 
 
 func _enable_controls():
+    print("ENABLE CONTROLS")
+    keyboard_input_disabled = false
     inventory_button.disabled = false
     settings_button.disabled = false
     end_phase_button.disabled = false
@@ -244,6 +248,8 @@ func _enable_controls():
 
 
 func _disable_controls():
+    print("DISABLE CONTROLS")
+    keyboard_input_disabled = true
     inventory_button.disabled = true
     settings_button.disabled = true
     end_phase_button.disabled = true
@@ -269,3 +275,19 @@ func _collectables_button_enter() -> void:
 
 func _collectables_button_exit() -> void:
     info_tooltip_label.text = ""
+
+
+func _input(event):
+    if event is InputEventKey and event.pressed:
+        if keyboard_input_disabled:
+            return
+
+        if event.keycode == KEY_ESCAPE:
+            get_viewport().set_input_as_handled()
+            self._settings_button_pressed()
+        elif event.keycode == KEY_I:
+            get_viewport().set_input_as_handled()
+            self._inventory_button_pressed()
+        elif event.keycode == KEY_C:
+            get_viewport().set_input_as_handled()
+            self._collectables_button_pressed()

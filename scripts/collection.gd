@@ -19,5 +19,7 @@ func _ready():
         
 
 func _input(event):
-    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-        self.closed.emit()
+    if event is InputEventKey and event.pressed:
+        if event.keycode == KEY_ESCAPE or event.keycode == KEY_C:
+            get_viewport().set_input_as_handled()
+            self.closed.emit()

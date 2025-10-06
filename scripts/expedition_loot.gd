@@ -23,14 +23,14 @@ func start(game_data: GameData, loot: Inventory):
     # Configure warehouse inventory ui
     self._warehouse_ui.SetMode(InventoryUI.Mode.Picker)
     self._warehouse_ui.SetTargetInventory(game_data.warehouse_inventory)
-    self._warehouse_ui.EnableExit(false)
+    self._warehouse_ui.EnableClose(false)
     self._warehouse_ui.SetTitle("Inventory")
     self._warehouse_ui.itemChosen.connect(self._warehouse_item_chosen.bind(game_data, loot))
 
     # Configure loot inventory ui
     self._loot_ui.SetMode(InventoryUI.Mode.Picker)
     self._loot_ui.SetTargetInventory(loot)
-    self._loot_ui.EnableExit(false)
+    self._loot_ui.EnableClose(false)
     self._loot_ui.SetTitle("Loot")
     self._loot_ui.itemChosen.connect(self._loot_item_chosen.bind(game_data, loot))
     self._loot_ui.EnableSelectAll(true)

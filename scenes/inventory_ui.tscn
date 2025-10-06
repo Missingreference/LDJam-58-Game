@@ -129,14 +129,14 @@ theme_override_fonts/font = ExtResource("6_eicjl")
 theme_override_font_sizes/font_size = 16
 text = "Select All"
 
-[node name="ExitButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_dqfnd")
 theme_override_colors/font_hover_color = Color(0.9254902, 0.15294118, 0.24705882, 1)
 theme_override_constants/line_spacing = -7
 theme_override_fonts/font = ExtResource("6_eicjl")
 theme_override_font_sizes/font_size = 16
-text = "Exit"
+text = "Close"
 
 [node name="ItemSlot1" parent="AspectRatioContainer/AspectLayoutControl" instance=ExtResource("2_ylkvr")]
 layout_mode = 1
@@ -356,4 +356,4 @@ offset_bottom = -0.0064086914
 
 [connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectButton" to="." method="_onSelectButtonPressed"]
 [connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectAllButton" to="." method="_on_select_all_button_pressed"]
-[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/ExitButton" to="." method="_onExitButtonPressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/CloseButton" to="." method="_close"]

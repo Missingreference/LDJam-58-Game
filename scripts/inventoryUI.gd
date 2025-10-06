@@ -10,7 +10,7 @@ var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 @onready var background: TextureRect = $"AspectRatioContainer/AspectLayoutControl/Background"
 @onready var titleLabel: Label = $"AspectRatioContainer/AspectLayoutControl/Background/Title"
 @onready var selectionHighlighter: ColorRect = $"AspectRatioContainer/AspectLayoutControl/Background/Selection Highlighter"
-@onready var exitButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/ExitButton
+@onready var closeButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/CloseButton
 @onready var selectButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectButton
 @onready var selectAllButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectAllButton
 
@@ -73,8 +73,8 @@ func _ready() -> void:
         SetTargetInventory(debugInventory)
 
 
-func EnableExit(enable: bool):
-    self.exitButton.visible = enable
+func EnableClose(enable: bool):
+    self.closeButton.visible = enable
 
 
 func EnableSelectAll(enable: bool):
@@ -178,7 +178,7 @@ func _onSelectButtonPressed():
 func _on_select_all_button_pressed():
     self.all_selected.emit()
 
-func _onExitButtonPressed():
+func _close():
     closed.emit()
 
 func _on_mouse_enter_slot(slot: ItemSlot):
@@ -190,3 +190,12 @@ func _on_mouse_enter_slot(slot: ItemSlot):
 
 func _on_mouse_exit_slot():
     _tooltip.visible = false
+
+
+func _input(event):
+    if event is InputEventKey and event.pressed:
+        if event.keycode == KEY_ESCAPE or event.keycode == KEY_I:
+            # Only if "close" is enabled
+            if self.closeButton.visible:
+                get_viewport().set_input_as_handled()
+                self._close()

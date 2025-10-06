@@ -36,7 +36,6 @@ func _fullscreen_checkbutton_pressed():
 func _close_button_pressed():
     _disable_controls()
     closed.emit()
-    pass
     
 func _quit_button_pressed():
     _disable_controls()
@@ -65,3 +64,9 @@ func _disable_controls():
     volumeSlider.editable = false
     fullscreenCheckButton.disabled = true
     pass
+
+
+func _input(event):
+    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+        get_viewport().set_input_as_handled()
+        self._close_button_pressed()
