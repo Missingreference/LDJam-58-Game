@@ -2,6 +2,7 @@ class_name CustomerQueue
 extends Node2D
 
 signal queue_emptied
+signal customer_left
 
 var _game_data: GameData
 
@@ -14,12 +15,20 @@ var _game_data: GameData
 @onready var _test_add_button = $TestAddButton
 @onready var _accept_dialog: AcceptDialog = $AcceptDialog
 
-const SPAWN_POSITION_X: float = 700.0
-const SPAWN_VARIATION_AMOUNT: float = 50.0
+# Offscreen spawn position range
+const spawn_min_pos = 20.0
+const spawn_max_pos = 300.0
+
+# The size of a customer position in the queue
+const queue_space_size = 80
+
 const CUSTOMER_SPACING: float = 100.0
 const CUSTOMER_MOVE_SPEED: float = 100.0
 
 var _leaving_customers: Array[Customer]
+
+signal _wait_for_dialog
+
 
 func set_game_data(game_data: GameData):
     self._game_data = game_data
@@ -30,35 +39,13 @@ func start():
 
 
 func stop():
-    self._clear()
-    
-func _process(delta: float):
-    if _queue.get_child_count() > 0:
-        var customers = _queue.get_children()
-        for i in customers.size():
-            var customer: Customer = customers[i]
-            var targetXPosition = i * CUSTOMER_SPACING
-            if customer.position.x > targetXPosition:
-                customer.position.x -= CUSTOMER_MOVE_SPEED * delta
-                if customer.position.x <= targetXPosition:
-                    #Customer reached the it's destination
-                    customer.position.x = targetXPosition
-                    _on_customer_ready(i)
-                    
-    if _leaving_customers.size() > 0:
-        var iterator = 0
-        while iterator < _leaving_customers.size():
-            var customer: Customer = _leaving_customers[iterator]
-            customer.position.x += CUSTOMER_MOVE_SPEED * delta
-            if customer.position.x >= SPAWN_POSITION_X:
-                customer.position.x = SPAWN_POSITION_X
-                _on_customer_left(iterator)
-                #_on_customer_left removes the item
-                iterator -= 1
-            iterator += 1
+    await self._clear()
+
 
 func _ready():
     _customer_offer_ui.visible = false
+    self._accept_dialog.confirmed.connect(self._wait_for_dialog.emit)
+    self._accept_dialog.canceled.connect(self._wait_for_dialog.emit)
 
     if get_tree().current_scene == self:
         # Center in view
@@ -86,65 +73,74 @@ func _enqueue_customers(customers: Array[Customer], min_count: int = 3, max_coun
     # Pick N random customers from the pool
     var chosen_customers = RandomUtils.pick_random_count(customers, customer_count)
 
+    # Add to queue node (add in reverse order so node visual order appears in desired way)
+    for i in range(chosen_customers.size() - 1, -1, -1):
+        var customer = chosen_customers[i]
+        self._queue.add_child(customer)
+        # Set initial position (off screen right)
+        customer.global_position.x = get_viewport_rect().size.x + Globals.rng.randf_range(spawn_min_pos, spawn_max_pos)
+        customer.global_position.y = self._queue.global_position.y
+
     var customer_names = chosen_customers.map(func(c): return c.customer_name)
     print("Enqueuing %d customers: %s" % [customer_count, ", ".join(customer_names)])
 
-    # Enqueue
-    
-    for i in chosen_customers.size():
-        var customer: Customer = chosen_customers[i]
-        self._queue.add_child(customer)
-        var spawn_variation = Globals.rng.randf_range(-SPAWN_VARIATION_AMOUNT, SPAWN_VARIATION_AMOUNT)
-        customer.position = Vector2(SPAWN_POSITION_X + (CUSTOMER_SPACING * i) + spawn_variation, customer.position.y)
+    # While there are still customers in the queue
+    while not chosen_customers.is_empty():
+        # Update queue
+        await self._do_queue_animation(chosen_customers)
+
+        # Pop chosen customer
+        var customer = chosen_customers.pop_front()
+
+        # Process customer offer
+        if not await self._do_customer_offer(customer):
+            # Nothing left to offer
+            break
+
+
+    print("No more queued customers")
+    self.queue_emptied.emit()
+
+
+func _do_queue_animation(customers):
+    print("Upating customer queue")
+    # Animate each customer into the screen
+    var tweens: Array[Tween] = []
+    for i in customers.size():
+        var customer: Customer = customers[i]
+
+        # Tween into the position from off screen
         customer.animator.play_walk_animation()
         customer.animator.set_animation_frame(Globals.rng.randi_range(0,6))
         customer.animator.set_flip_horizontal(false)
-        #Further in the queue means behind the guy in front of the queue
-        customer.z_index = -i
+        customer.animator.set_animation_speed_scale(Globals.customer_walk_animate_speed)
 
-    #self._enable_next_customer_selection()
-    
-func _on_customer_ready(queue_index: int):
-    var customer: Customer = _queue.get_child(queue_index)
-    customer.animator.play_idle3_animation()
-    if queue_index == 0:
-        #_enable_next_customer_selection()
-        _do_customer_offer()
+        var end_position = Vector2(self._queue.global_position.x + self.queue_space_size * i, customer.global_position.y)
+        var tween_time = abs(customer.global_position.x - end_position.x) / Globals.customer_walk_tween_speed
 
-# func _enable_next_customer_selection():
-#     var queued_customers = self._queue.get_children()
-#     if queued_customers.size() == 0:
-#         print("No more queued customers")
-#         self.queue_emptied.emit()
-#         return
+        var tween = self.create_tween()
+        tween.tween_property(customer, "global_position", end_position, tween_time)
+        tweens.append(tween)
 
-#     # Connect signals for the customer at the front of the queue
-#     var next_customer: Customer = queued_customers.front()
-#     if next_customer != null:
-#         print("Next customer in queue is '%s'" % next_customer.customer_name)
-#         if not next_customer.selected.is_connected(self._do_customer_offer):
-#             next_customer.selected.connect(self._do_customer_offer)
-#         next_customer.enable_selection()
+    # await tweens in reverse order (the order we expect them to finish)
+    for i in range(tweens.size() - 1, -1, -1):
+        print("waiting for %s" % customers[i].customer_name)
+        if tweens[i].is_running():
+            await tweens[i].finished
+        print("%s done moving" % customers[i].customer_name)
+        customers[i].animator.play_idle3_animation()
 
 
-func _do_customer_offer():
-    var customer: Customer = self._queue.get_children().front()
-    assert(customer != null)
-
-    #customer.selected.disconnect(self._do_customer_offer)
-    customer.disable_selection()
-
+func _do_customer_offer(customer) -> bool:
     # Pick an item from the shop
     var item = self._game_data.shop_inventory.GetRandomItem()
 
     # If we don't have any more items, then notify the user and evacuate the queue
     if item == null:
         self._accept_dialog.popup_centered()
-        if not self._accept_dialog.confirmed.is_connected(self._clear):
-            self._accept_dialog.confirmed.connect(self._clear)
-        if not self._accept_dialog.canceled.is_connected(self._clear):
-            self._accept_dialog.canceled.connect(self._clear)
-        return
+        await self._wait_for_dialog
+        self._clear()
+        return false
 
     # Generate an offer
     var offer = CustomerOffer.create_random_offer(customer, item)
@@ -172,40 +168,57 @@ func _do_customer_offer():
     self._customer_offer_ui.visible = false
 
     self._queue.remove_child(customer)
-    
-    #Show them leaving
+
+    self._do_leave_animate(customer)
+
+    return true
+
+
+func _do_leave_animate(customer: Customer):
     self.add_child(customer)
-    _leaving_customers.append(customer)
-    customer.z_index = -((_queue.get_child_count()+1)*2)
+    self._leaving_customers.append(customer)
+
+    # Temporarily lower z-index so they walk behind other customers
+    customer.z_index -= 1
     customer.animator.play_walk_animation()
     customer.animator.set_flip_horizontal(true)
-    
-    #Enable walking animation for all the other customers
-    for other_customer: Customer in _queue.get_children():
-        other_customer.animator.play_walk_animation()
 
-func _on_customer_left(leaving_index: int):
-    var customer: Customer = _leaving_customers[leaving_index]
-    _leaving_customers.remove_at(leaving_index)
-    
-    #Reset flip just to be nice
-    customer.animator.set_flip_horizontal(false)
-    
-    self.remove_child(customer)
-    
-    if _queue.get_child_count() == 0 && _leaving_customers.size() == 0:
-        #All done!
-        self.queue_emptied.emit()
+    var end_position = Vector2(get_viewport_rect().size.x, customer.global_position.y)
+    var tween_time = abs(customer.global_position.x - end_position.x) / Globals.customer_walk_tween_speed
+    var leave_tween = create_tween()
+    leave_tween.tween_property(customer, "global_position", end_position, tween_time)
+    leave_tween.finished.connect(func():
+        self._leaving_customers.erase(customer)
+        self.remove_child(customer)
+        # Restore z-index
+        customer.z_index += 1
+
+        self.customer_left.emit()
+    )
+
 
 # Clear out any remaining customers waiting in the queue
 func _clear():
-    # TODO: animate
     for child in self._queue.get_children():
-        child.disable_selection()
         self._queue.remove_child(child)
+        self._do_leave_animate(child)
 
-    self.queue_emptied.emit()
+    var customer_left_callback = func():
+        if self._leaving_customers.is_empty():
+            print("QUEUE EMPTY")
+            self.queue_emptied.emit()
 
-func _on_test_add_button_pressed():
-    var available_customers = self._game_data.customers.filter(func(c): return not self._queue.get_children().has(c))
-    self._enqueue_customers(available_customers, 1, 1)
+    self.customer_left.connect(customer_left_callback)
+
+    if not self._leaving_customers.is_empty():
+        await self.queue_emptied
+
+    self.customer_left.disconnect(customer_left_callback)
+
+    print("Customer queue cleared")
+
+
+# FIXME: Broken
+# func _on_test_add_button_pressed():
+#     var available_customers = self._game_data.customers.filter(func(c): return not self._queue.get_children().has(c))
+#     self._enqueue_customers(available_customers, 1, 1)

@@ -1,10 +1,6 @@
 class_name ExpeditionHiring
 extends Control
 
-# Speed used for customers moving into the scene
-const tween_speed = 250  # pixels/s
-const animate_speed = 2.0
-
 # Offscreen spawn position range
 const spawn_min_pos = 20
 const spawn_max_pos = 70
@@ -116,11 +112,11 @@ func _animate_customer_entry():
         customer.animator.play_walk_animation()
         customer.animator.set_animation_frame(Globals.rng.randi_range(0,6))
         customer.animator.set_flip_horizontal(false)
-        customer.animator.set_animation_speed_scale(self.animate_speed)
+        customer.animator.set_animation_speed_scale(Globals.customer_walk_animate_speed)
 
         # print("Positioning customer (%d) '%s', from %s to %s" % [i, customer.customer_name, customer.global_position, end_position])
 
-        var tween_time = abs(customer.global_position.x - end_position.x) / tween_speed
+        var tween_time = abs(customer.global_position.x - end_position.x) / Globals.customer_walk_tween_speed
 
         var tween = self.create_tween()
         tween.tween_property(self._customers[i], "global_position", end_position, tween_time)
