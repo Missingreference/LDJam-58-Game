@@ -119,6 +119,7 @@ func _ready() -> void:
     
     CharacterPresets.set_random_character(self)
     self.play_walk_animation()
+    set_animation_scale(1.0)
     
 func reset():
     for animator in _all_animators:
@@ -160,6 +161,10 @@ func play_walk_animation():
     _set_animation("walk")
     for animator in _all_animators:
         animator.play()
+        
+func set_animation_scale(scale: float):
+    for animator in _all_animators:
+        animator.speed_scale = scale
         
 func stop_animating():
     for animator in _all_animators:
