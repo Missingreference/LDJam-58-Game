@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://wouky70rg5pj" path="res://scenes/shop_menu_small.tscn" id="2_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://bff4i60yrj6w4" path="res://assets/sprites/settings.png" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bet1qdes2tl41" path="res://scenes/customer_queue.tscn" id="3_lnu2h"]
-[ext_resource type="Texture2D" uid="uid://cou7lo23d2fln" path="res://assets/sprites/new_stall.png" id="4_ir15t"]
-[ext_resource type="PackedScene" uid="uid://bvs76ubk1qndx" path="res://scenes/expedition_hiring.tscn" id="4_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://dv5061378tqy5" path="res://assets/sprites/new_stall.png" id="4_ir15t"]
+[ext_resource type="PackedScene" path="res://scenes/expedition_hiring.tscn" id="4_lbhrr"]
 [ext_resource type="FontFile" uid="uid://5lde8h0tgdoy" path="res://assets/fonts/RedeemGold.otf" id="6_gee14"]
 [ext_resource type="Texture2D" uid="uid://bb7yhfydxm0g4" path="res://assets/sprites/end_phase_base.png" id="6_ir15t"]
 [ext_resource type="FontFile" uid="uid://4vmy2vkr5x4s" path="res://assets/fonts/HopeGold.otf" id="7_0tnpc"]
@@ -92,16 +92,33 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -93.0
-offset_top = 160.0
-offset_right = 93.0
-offset_bottom = 187.0
+offset_left = -251.0
+offset_top = 140.0
+offset_right = -53.0
+offset_bottom = 154.0
 grow_horizontal = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_kvpfn")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 16
 text = "[PHASE TITLE]"
-horizontal_alignment = 1
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DayCount Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 59.0
+offset_top = 139.0
+offset_right = 257.0
+offset_bottom = 153.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_kvpfn")
+theme_override_font_sizes/font_size = 16
+text = "[Day Count]"
+vertical_alignment = 1
 
 [node name="PhaseTexture" type="TextureRect" parent="."]
 layout_mode = 1

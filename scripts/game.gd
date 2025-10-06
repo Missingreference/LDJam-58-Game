@@ -7,6 +7,7 @@ extends Control
 @onready var gold_label: Label = $GoldLabel
 @onready var end_phase_button: TextureButton = $EndPhaseButton
 @onready var phase_title: Label = $PhaseTitle
+@onready var day_count_label: Label = $"DayCount Text"
 @onready var phase_texture: TextureRect = $PhaseTexture
 @onready var shop_menu: ShopMenuSmall = $ShopMenuSmall
 @onready var customer_queue: CustomerQueue = $CustomerQueue
@@ -58,7 +59,10 @@ func _ready():
 
 func _start_phase_one():
     print("Starting phase one")
-
+    
+    game_data.day_count += 1
+    day_count_label.text = "Day " + str(game_data.day_count)
+    
     self.phase_title.text = "Preparation"
     self.phase_texture.texture = phase_1_sprite
     self.game_data.phase = GameData.GamePhase.one

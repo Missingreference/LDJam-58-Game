@@ -27,6 +27,8 @@ var phase: GamePhase = GamePhase.one
 # If tutorial mode is enabled
 var is_tutorial: bool = true
 
+var day_count: int = 0
+
 
 func get_gold() -> int:
     return _gold
