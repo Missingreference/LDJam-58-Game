@@ -4,6 +4,7 @@ extends Control
 @onready var _announcement_overlay: Announcement = $Announcement
 @onready var inventory_button: Button = $InventoryButton
 @onready var settings_button: Button = $SettingsButton
+@onready var collection_button: Button = $CollectionButton
 @onready var info_tooltip_label: Label = $InfoTooltip
 @onready var gold_label: Label = $GoldLabel
 @onready var end_phase_button: TextureButton = $EndPhaseButton
@@ -273,6 +274,7 @@ func _enable_controls():
     keyboard_input_disabled = false
     inventory_button.disabled = false
     settings_button.disabled = false
+    collection_button.disabled = false
     end_phase_button.disabled = false
     if game_data.phase == GameData.GamePhase.one:
         self.shop_menu.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -283,6 +285,7 @@ func _disable_controls():
     keyboard_input_disabled = true
     inventory_button.disabled = true
     settings_button.disabled = true
+    collection_button.disabled = true
     end_phase_button.disabled = true
     self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
