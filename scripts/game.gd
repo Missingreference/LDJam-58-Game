@@ -17,6 +17,7 @@ var game_data = GameData.new()
 
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
+var collection_scene = preload("res://scenes/collection.tscn")
 var expedition_result_scene = preload("res://scenes/expedition_result.tscn")
 var expedition_loot_scene = preload("res://scenes/expedition_loot.tscn")
 
@@ -195,17 +196,16 @@ func _update_gold_label(value: int):
 
 
 func _inventory_button_pressed():
-    _disable_controls()
+    self._disable_controls()
 
     var inventory_ui: InventoryUI = inventory_ui_scene.instantiate()
     self.add_child(inventory_ui)
-    #inventory_ui.global_position = get_viewport_rect().size / 2.0
     inventory_ui.SetMode(InventoryUI.Mode.Manage)
     inventory_ui.SetTargetInventory(game_data.warehouse_inventory)
-    inventory_ui.exited.connect(func():
-        self.remove_child(inventory_ui)
-        _enable_controls()
-    )
+    await inventory_ui.exited
+    self.remove_child(inventory_ui)
+
+    self._enable_controls()
 
 
 func _inventory_button_enter():
@@ -217,14 +217,14 @@ func _inventory_button_exit():
 
 
 func _settings_button_pressed():
-    _disable_controls()
+    self._disable_controls()
 
     var settingsMenu: SettingsMenu = settings_menu_scene.instantiate()
     self.add_child(settingsMenu)
-    settingsMenu.closed.connect(func():
-        self.remove_child(settingsMenu)
-        _enable_controls()
-    )
+    await settingsMenu.closed
+    self.remove_child(settingsMenu)
+
+    self._enable_controls()
 
 
 func _settings_button_enter():
@@ -248,3 +248,24 @@ func _disable_controls():
     settings_button.disabled = true
     end_phase_button.disabled = true
     self.shop_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func _collectables_button_pressed() -> void:
+    self._disable_controls()
+
+    var collection: Collection = collection_scene.instantiate()
+    collection.set_collection(self.game_data.collection)
+    self.add_child(collection)
+
+    await collection.closed
+    self.remove_child(collection)
+
+    self._enable_controls()
+
+
+func _collectables_button_enter() -> void:
+    info_tooltip_label.text = "Collection"
+
+
+func _collectables_button_exit() -> void:
+    info_tooltip_label.text = ""

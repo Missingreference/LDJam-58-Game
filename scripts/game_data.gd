@@ -15,6 +15,9 @@ var warehouse_inventory = Inventory.create_default_inventory()
 # Items available in the shop
 var shop_inventory = Inventory.new()
 
+# The players collection
+var collection = Inventory.new()
+
 # Players gold
 var _gold: int = 100
 

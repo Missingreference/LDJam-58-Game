@@ -92,13 +92,13 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_font_sizes/font_size = 16
-text = "Select"
+text = "Take"
 
 [node name="SelectAllButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
-text = "Select All"
+text = "Take All"
 
 [node name="ItemSlot1" parent="AspectRatioContainer/AspectLayoutControl" instance=ExtResource("2_ylkvr")]
 layout_mode = 1

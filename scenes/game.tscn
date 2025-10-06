@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=32 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://b5mg5iobu8p6f" path="res://assets/sprites/end_phase_clicked.png" id="7_ca42v"]
 [ext_resource type="Texture2D" uid="uid://cjax7my1cppyd" path="res://assets/sprites/end_phase_hover.png" id="8_rysoc"]
 [ext_resource type="Texture2D" uid="uid://vbxq3gvv2cad" path="res://assets/sprites/inventory_box_colored.png" id="9_ca42v"]
+[ext_resource type="Texture2D" uid="uid://bksuj82bu8nlq" path="res://assets/sprites/collection_log_colored.png" id="10_ca42v"]
 [ext_resource type="Texture2D" uid="uid://bhbp05ppupij7" path="res://assets/sprites/phase_all_active.png" id="10_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cw2lawhpldv63" path="res://assets/sprites/gold_colored.png" id="11_ir15t"]
 
@@ -35,6 +36,26 @@ texture = ExtResource("9_ca42v")
 modulate_color = Color(0.5, 0.5, 0.5, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p57ef"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rysoc"]
+texture = ExtResource("10_ca42v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ca42v"]
+texture = ExtResource("10_ca42v")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ssvqc"]
+texture = ExtResource("10_ca42v")
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+modulate_color = Color(1.1638972, 1.1638972, 1.1638972, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_264po"]
+texture = ExtResource("10_ca42v")
+modulate_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kice"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p57ef"]
 texture = ExtResource("3_lbhrr")
@@ -137,6 +158,23 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_dinhu")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_trtic")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p57ef")
 
+[node name="CollectionButton" type="Button" parent="."]
+z_index = 20
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -257.0
+offset_top = 18.0
+offset_right = -193.0
+offset_bottom = 82.0
+grow_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_rysoc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ca42v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ssvqc")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_264po")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1kice")
+
 [node name="SettingsButton" type="Button" parent="."]
 z_index = 20
 layout_mode = 1
@@ -210,6 +248,9 @@ cancel_button_text = "Back"
 [connection signal="mouse_entered" from="InventoryButton" to="." method="_inventory_button_enter"]
 [connection signal="mouse_exited" from="InventoryButton" to="." method="_inventory_button_exit"]
 [connection signal="pressed" from="InventoryButton" to="." method="_inventory_button_pressed"]
+[connection signal="mouse_entered" from="CollectionButton" to="." method="_collectables_button_enter"]
+[connection signal="mouse_exited" from="CollectionButton" to="." method="_collectables_button_exit"]
+[connection signal="pressed" from="CollectionButton" to="." method="_collectables_button_pressed"]
 [connection signal="mouse_entered" from="SettingsButton" to="." method="_settings_button_enter"]
 [connection signal="mouse_exited" from="SettingsButton" to="." method="_settings_button_exit"]
 [connection signal="pressed" from="SettingsButton" to="." method="_settings_button_pressed"]
