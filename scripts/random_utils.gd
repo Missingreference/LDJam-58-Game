@@ -38,3 +38,11 @@ static func pick_random_count(array: Array, count: int):
         available_indexes.remove_at(j)
 
     return result
+
+#Pass in an enum type and get a random valid enum
+static func pick_random_enum(enum_type):
+    #enums are treated like dictionaries in godot
+    if enum_type.is_empty():
+        return null
+        
+    return pick_random(enum_type.values())
