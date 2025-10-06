@@ -122,7 +122,7 @@ func GetName() -> String:
         _name = _name + " of " + self.enchantment.name
 
     return _name
-    
+
 
 func GetBaseName() -> String:
     return ItemDatabase.GetName(ID)
@@ -140,7 +140,7 @@ func GetSprite() -> Texture:
         return BOW_SPRITES[rarity][strength]
     elif base_name == "Armor":
         return ARMOR_SPRITES[rarity][strength]
-    
+
     return ItemDatabase.GetSprite(ID)
 
 func GetBaseValue() -> int:
@@ -176,7 +176,7 @@ class Enchantment:
         self.name = _name
         self.attr = _attr
         self.value = _value
-        
+
 # The nested dictionary storing all potion sprites
 const POTION_SPRITES = {
     Rarity.Normal: {

@@ -148,7 +148,7 @@ func _ready():
         self.customer_name = "Long John Silver"
         self.gold = 9999999
         self._weapon = Item.Create("Sword")
-        self._small_item_2 = Item.Create("Potion")
+        self._small_item_2 = Item.Create("Potion", Item.Rarity.Normal, 1, Item.enchantments[0])
         self.enable_selection()
 
     self.info_changed.connect(self._customer_info.set_customer_info)

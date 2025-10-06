@@ -46,7 +46,7 @@ static var events: Array[Dungeon.Event] = [
         "A dead body, ew..",
         Customer.Attr.con,
         10,
-        Dungeon.Outcome.new().flavor("Oooh, they had a potion").gain_item(Item.Create("Potion")),
+        Dungeon.Outcome.new().flavor("Oooh, they had a potion").gain_item(Item.Create("Potion", Item.Rarity.Normal, 1, RandomUtils.pick_random(Item.enchantments))),
         Dungeon.Outcome.new().flavor("There goes my lunch").resolve(-1)
     ),
 ]
