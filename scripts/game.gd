@@ -168,7 +168,7 @@ func _start_phase_four(hired_customer: Customer):
     self.remove_child(expedition_result)
 
     var loot = expedition_report.get_loot()
-    if loot != null:
+    if loot.GetUniqueItemCount() > 0:
         # Display loot scene
         var expedition_loot: ExpeditionLoot = self.expedition_loot_scene.instantiate()
         self.add_child(expedition_loot)
