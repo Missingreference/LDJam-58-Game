@@ -25,7 +25,8 @@ func set_expedition_report(report: ExpeditionReport):
         return
 
     # Populate customer info
-    self.customer_texture.texture = report.customer.texture
+    # TODO: display visual of character
+    # self.customer_texture.texture = report.customer.texture
     self.customer_name_label.text = report.customer.customer_name
 
     # Populate detailed log

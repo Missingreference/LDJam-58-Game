@@ -75,6 +75,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="CustomerTexture" type="TextureRect" parent="NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 texture = ExtResource("4_n5ycx")
 
