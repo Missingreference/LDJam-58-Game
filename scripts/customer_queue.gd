@@ -3,6 +3,7 @@ extends Node2D
 
 signal queue_emptied
 signal customer_left
+signal queue_updated
 
 var _game_data: GameData
 
@@ -36,6 +37,8 @@ func set_game_data(game_data: GameData):
 
 func start():
     self._enqueue_customers(self._game_data.customers)
+    # Wait for first queue update
+    await self.queue_updated
 
 
 func stop():
@@ -130,6 +133,8 @@ func _do_queue_animation(customers):
             await tweens[i].finished
         print("%s done moving" % customers[i].customer_name)
         customers[i].enable_random_idle_animations()
+
+    self.queue_updated.emit()
 
 
 func _do_customer_offer(customer) -> bool:
