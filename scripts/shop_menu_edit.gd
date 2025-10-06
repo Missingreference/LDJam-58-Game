@@ -97,7 +97,7 @@ func _add_edit_item_node(item: Item):
     else:
         edit_item = shop_menu_edit_item.instantiate()
         edit_item.item_name = item.name
-        edit_item.price = 10
+        edit_item.price = item.GetValue()
         edit_item.quantity = 1
         edit_item.quantity_changed.connect(self._item_quantity_changed.bind(edit_item, item))
         self._edit_item_list.add_child(edit_item)
