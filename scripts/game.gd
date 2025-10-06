@@ -53,6 +53,7 @@ const SKY_POSITION_X_4 = -60
 # Internal signal to know the result of the EmptyShopDialog
 signal _empty_shop_confirm(bool)
 
+var _phase_1_warning_check_func
 
 func _ready():
     info_tooltip_label.text = ""
@@ -114,12 +115,10 @@ func _start_phase_one():
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
         
         target_x_position = stone_decorations.position.x + 150
-        print("Stone Pos: " + str(target_x_position))
         target_x_position = STONE_DECORATIONS_POSITION_X_1
         tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
         target_x_position = sky.position.x + 20
         target_x_position = SKY_POSITION_X_1
-        print("Sky Pos: " + str(target_x_position))
         tween.tween_property(sky, "position:x", target_x_position, 2.0)
         tween.tween_property(sky, "self_modulate", SKY_DAWN_COLOR, 2.0)
         
@@ -133,30 +132,28 @@ func _start_phase_one():
     
     end_phase_button.visible = true
     await self.shop_menu.start()
-
-    self.end_phase_button.pressed.connect(self._finish_phase_one)
+    
+    _phase_1_warning_check_func = func():
+        if self.game_data.shop_inventory._item_count <= 0:
+            self.empty_shop_dialog.popup_centered()
+            # Wait for confirmation
+            var do_continue = await self._empty_shop_confirm
+            if do_continue:
+                _finish_phase_one()
+        pass
+    
+    self.end_phase_button.pressed.connect(_phase_1_warning_check_func)
     self.end_phase_button.disabled = false
 
 
 func _finish_phase_one():
     print("Finishing phase one")
     
-    self.end_phase_button.pressed.disconnect(self._finish_phase_one)
+    self.end_phase_button.pressed.disconnect(_phase_1_warning_check_func)
     self.end_phase_button.visible = false
     self.end_phase_button.disabled = true
 
     await self.shop_menu.stop()
-
-    # If shop inventory is empty, warn the user
-    if self.game_data.shop_inventory._item_count <= 0:
-        self.empty_shop_dialog.popup_centered()
-
-        # Wait for confirmation
-        var do_continue = await self._empty_shop_confirm
-        if not do_continue:
-            # stay in phase one, redo setup
-            self._start_phase_one()
-            return
 
     self._start_phase_two()
 
@@ -180,11 +177,9 @@ func _start_phase_two():
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
         target_x_position = stone_decorations.position.x - 150
         target_x_position = STONE_DECORATIONS_POSITION_X_2
-        print("Stone Pos: " + str(target_x_position))
         tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
         target_x_position = sky.position.x - 20
         target_x_position = SKY_POSITION_X_2
-        print("Sky Pos: " + str(target_x_position))
         tween.tween_property(sky, "position:x", target_x_position, 2.0)
         tween.tween_property(sky, "self_modulate", SKY_DAY_COLOR, 2.0)
         return await tween.finished
@@ -235,11 +230,9 @@ func _start_phase_three():
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
         target_x_position = stone_decorations.position.x - 150
         target_x_position = STONE_DECORATIONS_POSITION_X_3
-        print("Stone Pos: " + str(target_x_position))
         tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
         target_x_position = sky.position.x - 20
         target_x_position = SKY_POSITION_X_3
-        print("Sky Pos: " + str(target_x_position))
         tween.tween_property(sky, "position:x", target_x_position, 2.0)
         tween.tween_property(sky, "self_modulate", SKY_DUSK_COLOR, 2.0)
         return await tween.finished
@@ -295,11 +288,9 @@ func _start_phase_four(hired_customer: Customer):
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
         target_x_position = stone_decorations.position.x - 150
         target_x_position = STONE_DECORATIONS_POSITION_X_4
-        print("Stone Pos: " + str(target_x_position))
         tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
         target_x_position = sky.position.x - 20
         target_x_position = SKY_POSITION_X_4
-        print("Sky Pos: " + str(target_x_position))
         tween.tween_property(sky, "position:x", target_x_position, 2.0)
         tween.tween_property(sky, "self_modulate", SKY_NIGHT_COLOR, 2.0)
         return await tween.finished
