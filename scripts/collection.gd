@@ -148,11 +148,11 @@ func _input(event):
             get_viewport().set_input_as_handled()
             self.closed.emit()
         # DEBUG, find a random collectable
-        # elif event.keycode == KEY_A:
-        #     get_viewport().set_input_as_handled()
-        #     var collectable = RandomUtils.pick_random(self.remaining_collectables_a)
-        #     if collectable != null:
-        #         self.add_to_collection(collectable)
+        elif event.keycode == KEY_A:
+            get_viewport().set_input_as_handled()
+            var collectable = RandomUtils.pick_random(self.remaining_collectables_a)
+            if collectable != null:
+                self.add_to_collection(collectable)
         # elif event.keycode == KEY_B:
         #     get_viewport().set_input_as_handled()
         #     var collectable = RandomUtils.pick_random(self.remaining_collectables_b)
@@ -166,12 +166,20 @@ func _input(event):
 
 
 func _on_mouse_enter(collectable: Collectable):
-    # TODO Check if found
+    if (self.remaining_collectables_a.has(collectable) or
+        self.remaining_collectables_b.has(collectable) or
+        self.remaining_collectables_c.has(collectable)
+    ):
+        # Not found
+        self._tooltip.item_title.text = "???"
+        self._tooltip.item_description.text = "?????"
+    else:
+        # Found, populate details
+        self._tooltip.item_title.text = collectable.collectable_name
+        self._tooltip.item_description.text = collectable.description
+
     self._tooltip.visible = true
     self._tooltip.move_to_front()
-    print("Title: %s" %  collectable.collectable_name)
-    self._tooltip.item_title.text = collectable.collectable_name
-    self._tooltip.item_description.text = collectable.description
 
 
 func _on_mouse_exit():
