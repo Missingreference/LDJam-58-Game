@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwasakcao8et1"]
+[gd_scene load_steps=16 format=3 uid="uid://cwasakcao8et1"]
 
 [ext_resource type="Script" uid="uid://dgh7sv6nu6ab3" path="res://scripts/inventoryUI.gd" id="1_tahbm"]
 [ext_resource type="Texture2D" uid="uid://dm57w6kcxx1tf" path="res://assets/sprites/inventory_tex_2.png" id="2_mdwe3"]
@@ -8,6 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://gaqhl1koek2g" path="res://assets/themes/exit_button_base.tres" id="4_eicjl"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="6_eicjl"]
 [ext_resource type="StyleBox" uid="uid://ba0xp0whx5py4" path="res://assets/themes/select_button_pressed.tres" id="6_uwj4j"]
+[ext_resource type="StyleBox" uid="uid://4magdr5ebciq" path="res://assets/themes/exit_button_pressed.tres" id="8_1dxi5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwj4j"]
 
@@ -31,7 +32,7 @@ Button/styles/pressed = ExtResource("6_uwj4j")
 Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
 Button/styles/hover = ExtResource("3_2lmnb")
 Button/styles/normal = ExtResource("4_eicjl")
-Button/styles/pressed = ExtResource("6_uwj4j")
+Button/styles/pressed = ExtResource("8_1dxi5")
 
 [node name="Inventory Menu" type="Control"]
 z_index = 20
