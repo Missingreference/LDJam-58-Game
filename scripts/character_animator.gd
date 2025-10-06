@@ -255,7 +255,6 @@ func set_eye_expression(eye_expression: EyeExpression):
             _iris_animator.sprite_frames = _animation_iris_neutral
     
 func set_mouth_expression(mouth_expression: MouthExpression):
-    _mouth_animator.visible = true
     match mouth_expression:
         MouthExpression.Neutral:
             _mouth_animator.sprite_frames = _animation_expression_neutral
@@ -265,7 +264,6 @@ func set_mouth_expression(mouth_expression: MouthExpression):
             _mouth_animator.sprite_frames = _animation_expression_sad
     
 func set_shirt(shirt: Shirt):
-    _shirt_animator.visible = true
     match shirt:
         Shirt.Short:
             _shirt_animator.get_parent().move_child(_shirt_animator, 6)
