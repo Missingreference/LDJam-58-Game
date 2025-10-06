@@ -54,8 +54,8 @@ static func CreateRandom() -> Item:
     # 10% change for Strong
     if strength_roll >= 90:
         item_strength = 2
-    # 30% change for Normal
-    elif strength_roll >= 70:
+    # 30% change for Normal (or 100% if rarity is Rare or Legendary)
+    elif strength_roll >= 70 or item_rarity != Rarity.Normal:
         item_strength = 1
 
     # If item is a potion, it must have an enchantment
@@ -103,7 +103,8 @@ func GetName() -> String:
     if self.strength == 0:
         _name = "Weak " + _name
     elif self.strength == 1:
-        _name = "Normal " + _name
+        # No name modifier for "normal" items
+        _name = _name
     else:
         _name = "Strong " + _name
 

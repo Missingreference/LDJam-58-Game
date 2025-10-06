@@ -99,12 +99,9 @@ static func create_default_inventory() -> Inventory:
     inventory.AddItem(Item.Create("Sword"))
     inventory.AddItem(Item.Create("Bow"))
     inventory.AddItem(Item.Create("Bow"))
-    inventory.AddItem(Item.Create("Bow"))
-
-    var potions = []
-    potions.resize(5)
-    potions.fill(Item.Create("Potion"))
-    for pot in potions:
-        inventory.AddItem(pot)
+    inventory.AddItem(Item.Create("Potion", Item.Rarity.Normal, 0, Item.enchantments[0]))
+    inventory.AddItem(Item.Create("Potion", Item.Rarity.Normal, 0, Item.enchantments[0]))
+    inventory.AddItem(Item.Create("Potion", Item.Rarity.Normal, 0, Item.enchantments[1]))
+    inventory.AddItem(Item.Create("Potion", Item.Rarity.Normal, 0, Item.enchantments[1]))
 
     return inventory
