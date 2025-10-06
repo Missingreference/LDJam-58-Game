@@ -148,11 +148,11 @@ func _input(event):
             get_viewport().set_input_as_handled()
             self.closed.emit()
         # DEBUG, find a random collectable
-        elif event.keycode == KEY_A:
-            get_viewport().set_input_as_handled()
-            var collectable = RandomUtils.pick_random(self.remaining_collectables_a)
-            if collectable != null:
-                self.add_to_collection(collectable)
+        # elif event.keycode == KEY_A:
+        #     get_viewport().set_input_as_handled()
+        #     var collectable = RandomUtils.pick_random(self.remaining_collectables_a)
+        #     if collectable != null:
+        #         self.add_to_collection(collectable)
         # elif event.keycode == KEY_B:
         #     get_viewport().set_input_as_handled()
         #     var collectable = RandomUtils.pick_random(self.remaining_collectables_b)
