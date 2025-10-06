@@ -10,9 +10,9 @@ var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 @onready var background: TextureRect = $"AspectRatioContainer/AspectLayoutControl/Background"
 @onready var titleLabel: Label = $"AspectRatioContainer/AspectLayoutControl/Background/Title"
 @onready var selectionHighlighter: ColorRect = $"AspectRatioContainer/AspectLayoutControl/Background/Selection Highlighter"
-@onready var exitButton: Button = $"AspectRatioContainer/AspectLayoutControl/Background/Exit Button"
-@onready var selectButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectButton
-@onready var selectAllButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectAllButton
+@onready var exitButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/ExitButton
+@onready var selectButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectButton
+@onready var selectAllButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectAllButton
 
 var itemSlots: Array[ItemSlot] = []
 

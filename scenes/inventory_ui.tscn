@@ -9,14 +9,6 @@
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="6_eicjl"]
 [ext_resource type="StyleBox" uid="uid://ba0xp0whx5py4" path="res://assets/themes/select_button_pressed.tres" id="6_uwj4j"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
-
-[sub_resource type="Theme" id="Theme_dqfnd"]
-Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
-Button/styles/hover = ExtResource("3_2lmnb")
-Button/styles/normal = ExtResource("4_eicjl")
-Button/styles/pressed = ExtResource("6_uwj4j")
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwj4j"]
 
 [sub_resource type="Theme" id="Theme_1dxi5"]
@@ -29,6 +21,14 @@ Button/styles/pressed = ExtResource("6_uwj4j")
 
 [sub_resource type="Theme" id="Theme_ngbl7"]
 Button/styles/focus = SubResource("StyleBoxEmpty_dqfnd")
+Button/styles/hover = ExtResource("3_2lmnb")
+Button/styles/normal = ExtResource("4_eicjl")
+Button/styles/pressed = ExtResource("6_uwj4j")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1dxi5"]
+
+[sub_resource type="Theme" id="Theme_dqfnd"]
+Button/styles/focus = SubResource("StyleBoxEmpty_1dxi5")
 Button/styles/hover = ExtResource("3_2lmnb")
 Button/styles/normal = ExtResource("4_eicjl")
 Button/styles/pressed = ExtResource("6_uwj4j")
@@ -94,39 +94,24 @@ offset_right = 85.0
 offset_bottom = 85.0
 color = Color(0, 0, 1, 0.49019608)
 
-[node name="Exit Button" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background"]
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer/AspectLayoutControl/Background"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -79.79993
-offset_top = 2.3997345
-offset_right = -53.799927
-offset_bottom = 24.399734
+offset_left = -93.0
+offset_bottom = 40.0
 grow_horizontal = 0
-theme = SubResource("Theme_dqfnd")
-theme_override_colors/font_hover_color = Color(0.9254902, 0.15294118, 0.24705882, 1)
-theme_override_constants/line_spacing = -7
-theme_override_fonts/font = ExtResource("6_eicjl")
-theme_override_font_sizes/font_size = 16
-text = "Exit"
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 50
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/AspectLayoutControl/Background"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 270.99954
-offset_top = -458.39972
-offset_right = 370.99954
-offset_bottom = -436.39972
-grow_horizontal = 2
-grow_vertical = 0
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="SelectButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer"]
+[node name="SelectButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 theme = SubResource("Theme_1dxi5")
@@ -134,7 +119,7 @@ theme_override_fonts/font = ExtResource("6_eicjl")
 theme_override_font_sizes/font_size = 16
 text = "Select"
 
-[node name="SelectAllButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer"]
+[node name="SelectAllButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
@@ -142,6 +127,15 @@ theme = SubResource("Theme_ngbl7")
 theme_override_fonts/font = ExtResource("6_eicjl")
 theme_override_font_sizes/font_size = 16
 text = "Select All"
+
+[node name="ExitButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_dqfnd")
+theme_override_colors/font_hover_color = Color(0.9254902, 0.15294118, 0.24705882, 1)
+theme_override_constants/line_spacing = -7
+theme_override_fonts/font = ExtResource("6_eicjl")
+theme_override_font_sizes/font_size = 16
+text = "Exit"
 
 [node name="ItemSlot1" parent="AspectRatioContainer/AspectLayoutControl" instance=ExtResource("2_ylkvr")]
 layout_mode = 1
@@ -359,6 +353,6 @@ offset_top = 0.055999756
 offset_right = -0.11199951
 offset_bottom = -0.0064086914
 
-[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/Exit Button" to="." method="_onExitButtonPressed"]
-[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectButton" to="." method="_onSelectButtonPressed"]
-[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectAllButton" to="." method="_on_select_all_button_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectButton" to="." method="_onSelectButtonPressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/SelectAllButton" to="." method="_on_select_all_button_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/MarginContainer/HBoxContainer/ExitButton" to="." method="_onExitButtonPressed"]
