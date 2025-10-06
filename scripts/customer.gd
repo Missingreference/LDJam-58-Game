@@ -102,9 +102,9 @@ func persist_customer_info(enable: bool):
 func get_skill(attribute: Attr) -> int:
     var value = self.base_attr.get_attr(attribute)
     if self._weapon != null:
-        value += self._weapon._base_attributes.get_attr(attribute)
+        value += self._weapon.attributes.get_attr(attribute)
     if self._armor != null:
-        value += self._armor._base_attributes.get_attr(attribute)
+        value += self._armor.attributes.get_attr(attribute)
     return value
 
 
@@ -135,7 +135,7 @@ func _to_string() -> String:
 func _ready():
     #Set default visiblity
     self._customer_info.visible = false
-    
+
     self._highlight_animation = create_tween()
     self._highlight_animation.tween_property(self._highlight, "color:a", 0.1, 1.0)
     self._highlight_animation.tween_property(self._highlight, "color:a", 0.5, 1.0)
@@ -162,7 +162,7 @@ func _on_mouse_entered():
 
     if not self._persist_customer_info:
         self._customer_info.visible = true
-        
+
 
 
 func _on_mouse_exited():
@@ -248,9 +248,9 @@ class Attributes:
             result_strings.append("CHA %d" % cha_value)
 
         return " ".join(result_strings)
- 
-            
- 
+
+
+
 
 
 enum Attr {
@@ -264,7 +264,7 @@ enum Attr {
 
 func enable_random_idle_animations():
     if _random_idle_timer != null: return
-    
+
     _random_idle_timer = Timer.new()
     _random_idle_timer.wait_time = Globals.rng.randf_range(MIN_RANDOM_IDLE_PLAY_TIME, MAX_RANDOM_IDLE_PLAY_TIME)
     _random_idle_timer.one_shot = true
@@ -279,7 +279,7 @@ func enable_random_idle_animations():
             animator.play_idle3_animation()
         elif idle_index == 3:
             animator.play_idle4_animation()
-            
+
         _random_idle_timer.start()
     )
     self.add_child(_random_idle_timer)
