@@ -4,18 +4,18 @@ extends Control
 signal closed
 
 # TODO Change all of these preload to be the actual textures we want
-static var _a_missing_texture = preload("res://assets/sprites/customer_info_sword_placeholder.png")
-static var _b_missing_texture = preload("res://assets/sprites/customer_info_armor_placeholder.png")
-static var _c_missing_texture = preload("res://assets/sprites/customer_info_potion_placeholder.png")
-static var _a_1_texture = preload("res://assets/sprites/icon_sword.png")
-static var _a_2_texture = preload("res://assets/sprites/icon_sword.png")
-static var _a_3_texture = preload("res://assets/sprites/icon_sword.png")
-static var _b_1_texture = preload("res://assets/sprites/icon_sword.png")
-static var _b_2_texture = preload("res://assets/sprites/icon_sword.png")
-static var _b_3_texture = preload("res://assets/sprites/icon_sword.png")
-static var _c_1_texture = preload("res://assets/sprites/icon_sword.png")
-static var _c_2_texture = preload("res://assets/sprites/icon_sword.png")
-static var _c_3_texture = preload("res://assets/sprites/icon_sword.png")
+static var _a_missing_texture = preload("res://assets/sprites/unknown_collectible_icon.png")
+static var _b_missing_texture = preload("res://assets/sprites/unknown_collectible_icon.png")
+static var _c_missing_texture = preload("res://assets/sprites/unknown_collectible_icon.png")
+static var _a_1_texture = preload("res://assets/sprites/items/collectibles/collectible_pearpod.png")
+static var _a_2_texture = preload("res://assets/sprites/items/collectibles/collectible_resume.png")
+static var _a_3_texture = preload("res://assets/sprites/items/collectibles/collectible_pocketpal.png")
+static var _b_1_texture = preload("res://assets/sprites/items/collectibles/collectible_oldcoin.png")
+static var _b_2_texture = preload("res://assets/sprites/items/collectibles/collectible_mirror.png")
+static var _b_3_texture = preload("res://assets/sprites/items/collectibles/collectible_bluepartyhat.png")
+static var _c_1_texture = preload("res://assets/sprites/items/collectibles/collectible_moonrock.png")
+static var _c_2_texture = preload("res://assets/sprites/items/collectibles/collectible_potionofimmortality.png")
+static var _c_3_texture = preload("res://assets/sprites/items/collectibles/collectible_foot.png")
 
 @onready var _collection_a_1: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect1
 @onready var _collection_a_2: TextureRect = $MarginContainer/TextureRect/MarginContainer/VBoxContainer/HBoxContainer1/TextureRect2
@@ -47,21 +47,21 @@ static var _c_3_texture = preload("res://assets/sprites/icon_sword.png")
 ]
 
 var _collection_a: Array[Collectable] = [
-    Collectable.new("Collectable A1", "A1 Description", _a_missing_texture, _a_1_texture),
-    Collectable.new("Collectable A2", "A2 Description", _a_missing_texture, _a_2_texture),
-    Collectable.new("Collectable A3", "A3 Description", _a_missing_texture, _a_3_texture)
+    Collectable.new("PearPod", "A green metal rectangle with clicky buttons, doesn't seem to do anything though.", _a_missing_texture, _a_1_texture),
+    Collectable.new("Fine Paper", "A fine piece of paper with someones work experience, education, and skill proficiencies listed out.", _a_missing_texture, _a_2_texture),
+    Collectable.new("Holographic Card", "A colorfully printed piece of cardboard that features a holographic lizard breathing fire.", _a_missing_texture, _a_3_texture)
 ]
 
 var _collection_b: Array[Collectable] = [
-    Collectable.new("Collectable B1", "B1 Description", _b_missing_texture, _b_1_texture),
-    Collectable.new("Collectable B2", "B2 Description", _b_missing_texture, _b_2_texture),
-    Collectable.new("Collectable B3", "B3 Description", _b_missing_texture, _b_3_texture)
+    Collectable.new("Old Coin", "An old coin minted with the iconography of a large bird named Gil.", _b_missing_texture, _b_1_texture),
+    Collectable.new("Mirror", "A fancy mirror with gemstones inlaid in it, the words, Belongs to Kalandra, is written on the back.", _b_missing_texture, _b_2_texture),
+    Collectable.new("Blue Partyhat", "A fanciful hat meant for parties!", _b_missing_texture, _b_3_texture)
 ]
 
 var _collection_c: Array[Collectable] = [
-    Collectable.new("Collectable C1", "C1 Description", _c_missing_texture, _c_1_texture),
-    Collectable.new("Collectable C2", "C2 Description", _c_missing_texture, _c_2_texture),
-    Collectable.new("Collectable C3", "C3 Description", _c_missing_texture, _c_3_texture)
+    Collectable.new("A rock... from the Moon?", "Supposedly this rock is from the Moon. How it got here nobody knows, but its qualities do look extraterrestrial.", _c_missing_texture, _c_1_texture),
+    Collectable.new("Old Adventurer's Foot", "A fresh foot taken from an adventurer who was likely in their early to mid-70s.", _c_missing_texture, _c_2_texture),
+    Collectable.new("Potion of Immortality", "It's this potion will give you immortality... or wings.", _c_missing_texture, _c_3_texture)
 ]
 
 var remaining_collectables_a = _collection_a.duplicate()
