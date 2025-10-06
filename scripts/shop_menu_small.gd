@@ -16,6 +16,8 @@ var shop_menu_edit_scene = preload("res://scenes/shop_menu_edit.tscn")
 @onready var item_label_4: Label = $MarginContainer/VBoxContainer/Item4/Label
 @onready var item_label_5: Label = $MarginContainer/VBoxContainer/Item5/Label
 
+@onready var _floating_title_container: PanelContainer = $PanelContainer
+
 @onready var display_items = [
     item_1,
     item_2,
@@ -37,6 +39,7 @@ var shop_menu_edit_scene = preload("res://scenes/shop_menu_edit.tscn")
 var _game_data: GameData
 var _shop_edit: ShopMenuEdit
 var _highlight_animation: Tween
+const FLOATING_TITLE_MOVE_AMOUNT: float = 10.0
 
 
 func set_game_data(game_data: GameData):
@@ -48,6 +51,9 @@ func start():
     self.mouse_filter = Control.MOUSE_FILTER_STOP
     self._highlight.color.a = 0.5
     self._highlight_animation.play()
+    
+    # Show floating title
+    self._floating_title_container.visible = true
 
 
 func stop():
@@ -55,15 +61,29 @@ func stop():
     self._close_shop_menu_edit()
     self._highlight_animation.stop()
     self._highlight.color.a = 0.0
-
+    
+    # Hide floating title
+    self._floating_title_container.visible = false
 
 func _ready():
     assert(display_items.size() == display_labels.size())
-
+    
+    # Animate Floating Title
+    var floating_title_initial_pos_y = _floating_title_container.position.y
+    var floating_title_tween = create_tween()
+    floating_title_tween.set_loops()
+    floating_title_tween.set_trans(Tween.TRANS_SINE)
+    floating_title_tween.set_ease(Tween.EASE_IN_OUT)
+    floating_title_tween.tween_property(_floating_title_container, "position:y", floating_title_initial_pos_y - FLOATING_TITLE_MOVE_AMOUNT, 0.8)
+    floating_title_tween.chain()
+    floating_title_tween.tween_property(_floating_title_container, "position:y", floating_title_initial_pos_y, 0.8)
+    # Hide for now
+    self._floating_title_container.visible = false
+    
     # Initialize the passive animation
     self._highlight_animation = create_tween()
-    self._highlight_animation.tween_property(self._highlight, "color:a", 0.1, 1.0)
-    self._highlight_animation.tween_property(self._highlight, "color:a", 0.5, 1.0)
+    self._highlight_animation.tween_property(self._highlight, "color:a", 0.05, 1.0)
+    self._highlight_animation.tween_property(self._highlight, "color:a", 0.3, 1.0)
     self._highlight_animation.set_loops()
     self._highlight_animation.stop()
 
@@ -131,6 +151,9 @@ func _open_shop_menu_edit():
     self.mouse_exited.disconnect(self._on_mouse_exited)
     self.gui_input.disconnect(self._on_gui_input)
     self._highlight.color.a = 0.0
+    
+    # Hide floating title
+    self._floating_title_container.visible = false
 
     # Open shop edit scene
     self._shop_edit = self.shop_menu_edit_scene.instantiate()
@@ -147,7 +170,10 @@ func _close_shop_menu_edit():
     # Close shop edit scene
     self.remove_child(self._shop_edit)
     self._shop_edit = null
-
+    
+    # Reenable floating title
+    self._floating_title_container.visible = true
+    
     # Start animation
     self._highlight.color.a = 0.5
     self._highlight_animation.play()
