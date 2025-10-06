@@ -77,7 +77,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.9529412, 0.65882355, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_3yc3u")
+theme_override_font_sizes/font_size = 16
 text = "Potion: 10"
 clip_text = true
 
@@ -94,7 +97,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item3"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.9529412, 0.65882355, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_3yc3u")
+theme_override_font_sizes/font_size = 16
 text = "Armor: 10"
 clip_text = true
 
@@ -111,7 +117,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item4"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.9529412, 0.65882355, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_3yc3u")
+theme_override_font_sizes/font_size = 16
 text = "Bow: 3"
 clip_text = true
 
@@ -129,7 +138,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Item5"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.9529412, 0.65882355, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_3yc3u")
+theme_override_font_sizes/font_size = 16
 text = "HP Potion: 13"
 clip_text = true
 
