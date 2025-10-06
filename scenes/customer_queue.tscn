@@ -19,6 +19,7 @@ offset_bottom = 132.0
 text = "Add"
 
 [node name="CustomerOfferUI" parent="." instance=ExtResource("3_106ch")]
+visible = false
 offset_left = -238.0
 offset_top = -399.0
 offset_right = 239.0
