@@ -111,20 +111,20 @@ func _on_customer_ready(queue_index: int):
         #_enable_next_customer_selection()
         _do_customer_offer()
 
-func _enable_next_customer_selection():
-    var queued_customers = self._queue.get_children()
-    if queued_customers.size() == 0:
-        print("No more queued customers")
-        self.queue_emptied.emit()
-        return
+# func _enable_next_customer_selection():
+#     var queued_customers = self._queue.get_children()
+#     if queued_customers.size() == 0:
+#         print("No more queued customers")
+#         self.queue_emptied.emit()
+#         return
 
-    # Connect signals for the customer at the front of the queue
-    var next_customer: Customer = queued_customers.front()
-    if next_customer != null:
-        print("Next customer in queue is '%s'" % next_customer.customer_name)
-        if not next_customer.selected.is_connected(self._do_customer_offer):
-            next_customer.selected.connect(self._do_customer_offer)
-        next_customer.enable_selection()
+#     # Connect signals for the customer at the front of the queue
+#     var next_customer: Customer = queued_customers.front()
+#     if next_customer != null:
+#         print("Next customer in queue is '%s'" % next_customer.customer_name)
+#         if not next_customer.selected.is_connected(self._do_customer_offer):
+#             next_customer.selected.connect(self._do_customer_offer)
+#         next_customer.enable_selection()
 
 
 func _do_customer_offer():
@@ -195,7 +195,7 @@ func _on_customer_left(leaving_index: int):
     
     if _queue.get_child_count() == 0 && _leaving_customers.size() == 0:
         #All done!
-        pass
+        self.queue_emptied.emit()
 
 # Clear out any remaining customers waiting in the queue
 func _clear():
