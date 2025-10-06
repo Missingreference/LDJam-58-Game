@@ -77,7 +77,9 @@ func _ready():
         var game_data = GameData.new()
         set_game_data(game_data)
 
-        var potion = game_data.warehouse_inventory.RemoveItem(Item.Create("Potion"))
+        
+        #var potion = game_data.warehouse_inventory.RemoveItem(Item.Create("Potion"))
+        var potion = Item.Create("Potion")
         print("Adding shop item")
         game_data.shop_inventory.AddItem(potion)
 
