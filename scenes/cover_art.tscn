@@ -1,0 +1,134 @@
+[gd_scene load_steps=9 format=3 uid="uid://bqjds7fekc25h"]
+
+[ext_resource type="Texture2D" uid="uid://c2groaajqg8e" path="res://assets/sprites/Stone_BG_Decoration.png" id="1_f0vax"]
+[ext_resource type="Texture2D" uid="uid://clfblt1g5tqhk" path="res://assets/sprites/Stone_BG_Base.png" id="2_7xaew"]
+[ext_resource type="FontFile" uid="uid://5lde8h0tgdoy" path="res://assets/fonts/RedeemGold.otf" id="3_ft060"]
+[ext_resource type="Texture2D" uid="uid://bqwcuqdm6g1bj" path="res://assets/sprites/items/potions/legendary_healing_potion.png" id="4_bwloa"]
+[ext_resource type="Texture2D" uid="uid://c52q0au256fh0" path="res://assets/sprites/items/weapon/shortsword_normal.png" id="4_nrgqf"]
+[ext_resource type="Texture2D" uid="uid://begu48fivqoey" path="res://assets/sprites/items/potions/knowing_potion.png" id="5_nrgqf"]
+[ext_resource type="PackedScene" uid="uid://dov8ppblmkrii" path="res://scenes/character.tscn" id="6_rrjov"]
+[ext_resource type="Texture2D" uid="uid://b3ijbcvmv6sgx" path="res://assets/sprites/sky.png" id="9_ggoqo"]
+
+[node name="CoverArt" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stone Decorations" type="Control" parent="."]
+modulate = Color(0.57, 0.57, 0.57, 1)
+z_index = -1000
+anchors_preset = 0
+offset_left = -145.0
+offset_top = 204.0
+offset_right = -104.999756
+offset_bottom = 244.0
+scale = Vector2(0.64, 0.64)
+
+[node name="Stone Decorations5" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 182.0
+offset_right = 1237.5
+offset_bottom = 527.0
+texture = ExtResource("1_f0vax")
+
+[node name="Stone Decorations6" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 182.0
+offset_right = 1237.5
+offset_bottom = 527.0
+texture = ExtResource("1_f0vax")
+
+[node name="Stone Decorations3" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -564.0
+offset_top = 180.0
+offset_right = -46.5
+offset_bottom = 525.0
+texture = ExtResource("2_7xaew")
+
+[node name="Stone Decorations2" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 182.0
+offset_right = 733.5
+offset_bottom = 527.0
+texture = ExtResource("2_7xaew")
+flip_h = true
+
+[node name="Stone Decorations7" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 182.0
+offset_right = 733.5
+offset_bottom = 527.0
+texture = ExtResource("2_7xaew")
+flip_h = true
+
+[node name="Stone Decorations" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -161.0
+offset_top = 180.0
+offset_right = 356.5
+offset_bottom = 525.0
+texture = ExtResource("2_7xaew")
+
+[node name="Stone Decorations8" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -161.0
+offset_top = 180.0
+offset_right = 356.5
+offset_bottom = 525.0
+texture = ExtResource("2_7xaew")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.640015
+offset_top = 231.0
+offset_right = 1099.64
+offset_bottom = 401.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 29
+theme_override_fonts/font = ExtResource("3_ft060")
+theme_override_font_sizes/font_size = 100
+text = "Dungeon Depot"
+
+[node name="LegendaryHealingPotion" type="Sprite2D" parent="."]
+position = Vector2(576.0001, 182.99998)
+rotation = 0.55152404
+scale = Vector2(3.35, 3.35)
+texture = ExtResource("4_bwloa")
+
+[node name="KnowingPotion" type="Sprite2D" parent="LegendaryHealingPotion"]
+position = Vector2(-12, -1)
+rotation = -0.55152404
+texture = ExtResource("5_nrgqf")
+
+[node name="ShortswordNormal2" type="Sprite2D" parent="LegendaryHealingPotion"]
+position = Vector2(-23.905502, 14.665844)
+rotation = -2.5534165
+scale = Vector2(1.8584272, 1.8584272)
+texture = ExtResource("4_nrgqf")
+
+[node name="Character" parent="." instance=ExtResource("6_rrjov")]
+layout_mode = 0
+offset_left = 227.0
+offset_top = -13.999998
+offset_right = 279.0
+offset_bottom = 38.0
+scale = Vector2(-4.82, 4.82)
+
+[node name="Sky" type="TextureRect" parent="."]
+self_modulate = Color(0.41834012, 0.56590796, 0.6260393, 1)
+z_index = -4096
+layout_mode = 0
+offset_left = -39.0
+offset_top = -88.0
+offset_right = 1230.0084
+offset_bottom = 766.0
+scale = Vector2(1.945, 1.945)
+texture = ExtResource("9_ggoqo")
