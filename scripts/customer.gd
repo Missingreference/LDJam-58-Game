@@ -130,6 +130,9 @@ func _to_string() -> String:
 
 
 func _ready():
+    #Set default visiblity
+    self._customer_info.visible = false
+    
     self._highlight_animation = create_tween()
     self._highlight_animation.tween_property(self._highlight, "color:a", 0.1, 1.0)
     self._highlight_animation.tween_property(self._highlight, "color:a", 0.5, 1.0)
