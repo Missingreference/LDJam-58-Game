@@ -11,11 +11,13 @@ var item_slot_scene =  preload("res://scenes/item_slot.tscn")
 @onready var titleLabel: Label = $"AspectRatioContainer/AspectLayoutControl/Background/Title"
 @onready var selectionHighlighter: ColorRect = $"AspectRatioContainer/AspectLayoutControl/Background/Selection Highlighter"
 @onready var exitButton: Button = $"AspectRatioContainer/AspectLayoutControl/Background/Exit Button"
-@onready var chooseButton: Button = $"AspectRatioContainer/AspectLayoutControl/Background/Choose Button"
+@onready var selectButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectButton
+@onready var selectAllButton: Button = $AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectAllButton
 
 var itemSlots: Array[ItemSlot] = []
 
 signal itemChosen(Item)
+signal all_selected
 signal exited
 
 var _inventory: Inventory
@@ -75,6 +77,10 @@ func EnableExit(enable: bool):
     self.exitButton.visible = enable
 
 
+func EnableSelectAll(enable: bool):
+    self.selectAllButton.visible = enable
+
+
 func SetTitle(value: String):
     self.titleLabel.text = value
 
@@ -94,14 +100,18 @@ func Refresh():
 func SetMode(mode):
     if mode == Mode.Readonly:
         titleLabel.text = "Inventory"
-        chooseButton.visible = false
+        selectButton.visible = false
+        selectAllButton.visible = false
     elif mode == Mode.Picker:
         titleLabel.text = "Select an Item"
-        chooseButton.visible = true
-        chooseButton.disabled = true
+        selectButton.visible = true
+        selectButton.disabled = true
+        # select all button is disabled by default
+        selectAllButton.visible = false
     elif mode == Mode.Manage:
         titleLabel.text = "Inventory"
-        chooseButton.visible = false
+        selectButton.visible = false
+        selectAllButton.visible = false
 
     _mode = mode
 
@@ -132,13 +142,13 @@ func _get_slot(slotIndex: int, item: Item) -> ItemSlot:
 func _onSlotSelected(slot: ItemSlot):
     if _mode != Mode.Picker || slot.get_item() == null: return
     _selectedSlot = slot
-    chooseButton.disabled = false
+    selectButton.disabled = false
     selectionHighlighter.visible = true
     selectionHighlighter.global_position = slot.global_position + (-(selectionHighlighter.size / 2)) + (slot.size / 2)
 
 func _setNoSlotSelect():
     _selectedSlot = null
-    chooseButton.disabled = true
+    selectButton.disabled = true
     selectionHighlighter.visible = false
 
 func _onSlotDeleted(slot: ItemSlot):
@@ -159,11 +169,14 @@ func _onSlotDeleted(slot: ItemSlot):
 func _on_slot_chosen(slot: ItemSlot):
     if _mode != Mode.Picker || slot.get_item() == null: return
     _onSlotSelected(slot)
-    _onChooseButtonPressed()
+    _onSelectButtonPressed()
 
-func _onChooseButtonPressed():
-    chooseButton.disabled = true
+func _onSelectButtonPressed():
+    selectButton.disabled = true
     itemChosen.emit(_selectedSlot.get_item())
+
+func _on_select_all_button_pressed():
+    self.all_selected.emit()
 
 func _onExitButtonPressed():
     exited.emit()

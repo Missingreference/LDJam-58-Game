@@ -74,19 +74,31 @@ theme_override_constants/line_spacing = -7
 theme_override_font_sizes/font_size = 10
 text = "Exit"
 
-[node name="Choose Button" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background"]
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/AspectLayoutControl/Background"]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -79.0
-offset_top = -31.0
-grow_horizontal = 0
+offset_left = -151.0
+offset_top = -40.0
+offset_right = 151.0
+grow_horizontal = 2
 grow_vertical = 0
+alignment = 1
+
+[node name="SelectButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
 theme_override_font_sizes/font_size = 16
-text = "Choose..."
+text = "Select"
+
+[node name="SelectAllButton" type="Button" parent="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Select All"
 
 [node name="ItemSlot1" parent="AspectRatioContainer/AspectLayoutControl" instance=ExtResource("2_ylkvr")]
 layout_mode = 1
@@ -305,4 +317,5 @@ offset_right = -0.11199951
 offset_bottom = -0.0064086914
 
 [connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/Exit Button" to="." method="_onExitButtonPressed"]
-[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/Choose Button" to="." method="_onChooseButtonPressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectButton" to="." method="_onSelectButtonPressed"]
+[connection signal="pressed" from="AspectRatioContainer/AspectLayoutControl/Background/HBoxContainer/SelectAllButton" to="." method="_on_select_all_button_pressed"]

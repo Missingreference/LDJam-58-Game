@@ -41,6 +41,9 @@ func _ready():
     self.game_data.gold_changed.connect(self._update_gold_label)
     self._update_gold_label(self.game_data.get_gold())
 
+    # Artificially constrain warehouse inventory to 18 slots (this is all InventoryUI can handle)
+    self.game_data.warehouse_inventory.max_item_count = 18
+
     # Pass game data to children that need it
     self.shop_menu.set_game_data(self.game_data)
     self.customer_queue.set_game_data(self.game_data)
@@ -165,7 +168,7 @@ func _start_phase_four(hired_customer: Customer):
 
     var loot = expedition_report.get_loot()
     if loot != null:
-        # Display loot scene 
+        # Display loot scene
         var expedition_loot: ExpeditionLoot = self.expedition_loot_scene.instantiate()
         self.add_child(expedition_loot)
         expedition_loot.start(self.game_data, loot)

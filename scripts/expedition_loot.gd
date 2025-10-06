@@ -24,7 +24,7 @@ func start(game_data: GameData, loot: Inventory):
     self._warehouse_ui.SetMode(InventoryUI.Mode.Picker)
     self._warehouse_ui.SetTargetInventory(game_data.warehouse_inventory)
     self._warehouse_ui.EnableExit(false)
-    self._loot_ui.SetTitle("Inventory")
+    self._warehouse_ui.SetTitle("Inventory")
     self._warehouse_ui.itemChosen.connect(self._warehouse_item_chosen.bind(game_data, loot))
 
     # Configure loot inventory ui
@@ -33,6 +33,8 @@ func start(game_data: GameData, loot: Inventory):
     self._loot_ui.EnableExit(false)
     self._loot_ui.SetTitle("Loot")
     self._loot_ui.itemChosen.connect(self._loot_item_chosen.bind(game_data, loot))
+    self._loot_ui.EnableSelectAll(true)
+    self._loot_ui.all_selected.connect(self._all_loot_selected.bind(game_data, loot))
 
 
 func _warehouse_item_chosen(item: Item, game_data: GameData, loot: Inventory):
@@ -51,6 +53,20 @@ func _loot_item_chosen(item: Item, game_data: GameData, loot: Inventory):
 
     loot.RemoveItem(item)
     print("Moved %s from loot inventory to warehouse" % item.name)
+
+
+func _all_loot_selected(game_data: GameData, loot: Inventory):
+    # Sort all loot by value
+    var loot_items = loot.GetItemsArray()
+    loot_items.sort_custom(func(a, b): return a.GetValue() > b.GetValue())
+
+    for item in loot_items:
+        if not game_data.warehouse_inventory.AddItem(item):
+            print("Warehouse inventory is full")
+            break
+
+        loot.RemoveItem(item)
+        print("Moved %s from loot inventory to warehouse" % item.name)
 
 
 func _on_accept_button_pressed():
