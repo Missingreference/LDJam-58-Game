@@ -31,4 +31,4 @@ theme_override_constants/margin_bottom = 5
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.79, 0.79, 0.79, 1)
-autowrap_mode = 1
+autowrap_mode = 3
