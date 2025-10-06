@@ -1,3 +1,4 @@
+class_name Announcement
 extends Control
 
 @onready var color_rect: ColorRect = $ColorRect
@@ -7,15 +8,20 @@ var background_animate_time = 0.75
 var text_animate_time = 0.75
 var background_size = 250.0
 
-func _ready() -> void:    
+func _ready() -> void:
+    if get_tree().current_scene == self:
+        announce("[Debug Message 1]", "[Debug Message 2]")
     pass
 
 func announce(message1: String, message2: String):
+    visible = true
+    
     #init label
     label.modulate.a = 0
     
     var vertical_center = get_viewport_rect().size.y / 2
-    color_rect.size.y = 0.0
+    #Use set_deferred to hide warning of setting size
+    color_rect.set_deferred("size", Vector2(color_rect.size.x, 0))
     
     color_rect.global_position.x = 0
     color_rect.global_position.y = vertical_center
@@ -85,3 +91,5 @@ func announce(message1: String, message2: String):
     tween.tween_property(color_rect, "position:y", vertical_center, background_animate_time)
     
     await tween.finished
+    
+    visible = false

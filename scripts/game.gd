@@ -1,6 +1,7 @@
 class_name Game
 extends Control
 
+@onready var _announcement_overlay: Announcement = $Announcement
 @onready var inventory_button: Button = $InventoryButton
 @onready var settings_button: Button = $SettingsButton
 @onready var info_tooltip_label: Label = $InfoTooltip
@@ -53,7 +54,7 @@ func _ready():
     self.shop_menu.set_game_data(self.game_data)
     self.customer_queue.set_game_data(self.game_data)
     self.expedition_hiring.set_game_data(self.game_data)
-
+    
     self._start_phase_one()
 
 
@@ -66,6 +67,8 @@ func _start_phase_one():
     self.phase_title.text = "Preparation"
     self.phase_texture.texture = phase_1_sprite
     self.game_data.phase = GameData.GamePhase.one
+    
+    await _announcement_overlay.announce("Phase 1", "Preparation")
 
     await self.shop_menu.start()
 
@@ -75,8 +78,9 @@ func _start_phase_one():
 
 func _finish_phase_one():
     print("Finishing phase one")
-
+    
     self.end_phase_button.pressed.disconnect(self._finish_phase_one)
+    self.end_phase_button.visible = false
     self.end_phase_button.disabled = true
 
     await self.shop_menu.stop()
@@ -101,6 +105,8 @@ func _start_phase_two():
     self.phase_title.text = "Customers"
     self.phase_texture.texture = phase_2_sprite
     self.game_data.phase = GameData.GamePhase.two
+    
+    await _announcement_overlay.announce("Phase 2", "Customers")
 
     self.customer_queue.queue_emptied.connect(self._finish_phase_two)
     await self.customer_queue.start()
@@ -127,6 +133,8 @@ func _start_phase_three():
     self.phase_title.text = "Hire Adventurers"
     self.phase_texture.texture = phase_3_sprite
     self.game_data.phase = GameData.GamePhase.three
+    
+    await _announcement_overlay.announce("Phase 3", "Hire Adventurers")
 
     self.expedition_hiring.customer_hired.connect(self._finish_phase_three)
     await self.expedition_hiring.start()
@@ -158,6 +166,8 @@ func _start_phase_four(hired_customer: Customer):
     self.phase_title.text = "End Day Report"
     self.phase_texture.texture = phase_4_sprite
     self.game_data.phase = GameData.GamePhase.four
+    
+    await _announcement_overlay.announce("Phase 3", "End Day Report")
 
     var expedition_report: ExpeditionReport
     if hired_customer != null:

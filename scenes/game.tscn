@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=34 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bhbp05ppupij7" path="res://assets/sprites/phase_all_active.png" id="10_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cw2lawhpldv63" path="res://assets/sprites/gold_colored.png" id="11_ir15t"]
 [ext_resource type="PackedScene" uid="uid://dujk33uae8p5" path="res://scenes/collection.tscn" id="17_rysoc"]
+[ext_resource type="PackedScene" uid="uid://3i04vik33gbn" path="res://scenes/announcement.tscn" id="18_ssvqc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtaks"]
 texture = ExtResource("9_ca42v")
@@ -83,6 +84,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uwrxv")
@@ -264,6 +267,10 @@ dialog_text = "Warning: your shop has no inventory!"
 cancel_button_text = "Back"
 
 [node name="Collection" parent="." instance=ExtResource("17_rysoc")]
+visible = false
+layout_mode = 1
+
+[node name="Announcement" parent="." instance=ExtResource("18_ssvqc")]
 visible = false
 layout_mode = 1
 
