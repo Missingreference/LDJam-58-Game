@@ -1,6 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://4p6h7hifm24w"]
+[gd_scene load_steps=10 format=3 uid="uid://4p6h7hifm24w"]
 
 [ext_resource type="Script" uid="uid://c4k2ja4kv2heh" path="res://scripts/shop_menu_edit_item.gd" id="1_8ketc"]
+[ext_resource type="FontFile" uid="uid://quoywp2m68kn" path="res://assets/fonts/CompassGold.otf" id="2_i5up3"]
+[ext_resource type="StyleBox" uid="uid://b14017sqtic88" path="res://assets/themes/shop_menu_button_hover.tres" id="3_8m3b0"]
+[ext_resource type="StyleBox" uid="uid://dsjn1hrkex38y" path="res://assets/themes/shop_menu_button_base.tres" id="4_tveyi"]
+[ext_resource type="StyleBox" uid="uid://dvs23gaahopc1" path="res://assets/themes/shop_menu_button_pressed.tres" id="5_gh26y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8m3b0"]
+
+[sub_resource type="Theme" id="Theme_tveyi"]
+Button/styles/focus = SubResource("StyleBoxEmpty_8m3b0")
+Button/styles/hover = ExtResource("3_8m3b0")
+Button/styles/normal = ExtResource("4_tveyi")
+Button/styles/pressed = ExtResource("5_gh26y")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2wn1d"]
+
+[sub_resource type="Theme" id="Theme_hrc1y"]
+Button/styles/focus = SubResource("StyleBoxEmpty_2wn1d")
+Button/styles/hover = ExtResource("3_8m3b0")
+Button/styles/normal = ExtResource("4_tveyi")
+Button/styles/pressed = ExtResource("5_gh26y")
 
 [node name="ShopMenuEditItem" type="HBoxContainer"]
 anchors_preset = 15
@@ -13,25 +33,39 @@ script = ExtResource("1_8ketc")
 
 [node name="MinusButton" type="Button" parent="."]
 layout_mode = 2
+theme = SubResource("Theme_tveyi")
+theme_override_colors/font_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_colors/font_focus_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
 text = "-"
 
 [node name="QtyLabel" type="Label" parent="."]
 layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_i5up3")
 text = "1"
 horizontal_alignment = 1
 
 [node name="PlusButton" type="Button" parent="."]
 layout_mode = 2
+theme = SubResource("Theme_hrc1y")
+theme_override_colors/font_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
+theme_override_colors/font_focus_color = Color(0.43137255, 0.29803923, 0.1882353, 1)
 text = "+"
 
 [node name="NameLabel" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_i5up3")
+theme_override_font_sizes/font_size = 16
 text = "Potion of Healing"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="."]
 layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_i5up3")
 text = "25"
 horizontal_alignment = 1
 
