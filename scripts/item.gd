@@ -79,13 +79,14 @@ func _init(id, _rarity, _strength, _enchantment) -> void:
     self.strength = _strength
     self.enchantment = _enchantment
 
-    # Adjust attributes based on item type and rarity
+    # Adjust attributes based on rarity
     var attr_modifier = 1
     if rarity == Rarity.Rare:
         attr_modifier = 3
     if rarity == Rarity.Legendary:
         attr_modifier = 6
 
+    # Adjust attributes based on item type
     var base_name = self.GetBaseName()
     if base_name == "Sword":
         self.attributes.add_attr(Customer.Attr.str, attr_modifier)
@@ -93,6 +94,10 @@ func _init(id, _rarity, _strength, _enchantment) -> void:
         self.attributes.add_attr(Customer.Attr.dex, attr_modifier)
     elif base_name == "Armor":
         self.attributes.add_attr(Customer.Attr.con, attr_modifier)
+
+    # Adjust attributes based on enchantment
+    if self.enchantment != null:
+        self.attributes.add_attr(self.enchantment.attr, self.enchantment.value)
 
     self.name = GetName()
 

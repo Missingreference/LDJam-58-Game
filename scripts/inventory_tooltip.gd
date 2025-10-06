@@ -6,10 +6,6 @@ extends PanelContainer
 
 var offset : Vector2 = Vector2(20, 20)
 
-func _ready() -> void:
-    #self.visibility_changed.connect(_on_visibility_changed)
-    pass
-
 
 func _input(event: InputEvent) -> void:
     if visible && event is InputEventMouseMotion:
@@ -23,7 +19,3 @@ func _input(event: InputEvent) -> void:
         else:
             global_position.y = home_position.y
     pass
-
-#func _on_visibility_changed():
- #   if visible :
-  #      global_position = get_global_mouse_position() +

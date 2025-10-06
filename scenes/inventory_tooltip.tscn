@@ -5,6 +5,8 @@
 [node name="Inventory Tooltip" type="PanelContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 2
 script = ExtResource("1_3d63a")
 
@@ -29,5 +31,4 @@ theme_override_constants/margin_bottom = 5
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.79, 0.79, 0.79, 1)
-text = "asdasdasdasdasdasdasdasdasdASDASDASDASDASDasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
 autowrap_mode = 1

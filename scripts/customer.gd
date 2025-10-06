@@ -102,9 +102,9 @@ func persist_customer_info(enable: bool):
 func get_skill(attribute: Attr) -> int:
     var value = self.base_attr.get_attr(attribute)
     if self._weapon != null:
-        value += self._weapon.attributes.get_attr(attribute)
+        value += self._weapon._base_attributes.get_attr(attribute)
     if self._armor != null:
-        value += self._armor.attributes.get_attr(attribute)
+        value += self._armor._base_attributes.get_attr(attribute)
     return value
 
 
@@ -218,6 +218,39 @@ class Attributes:
     func add_attr(attribute: Attr, value: int):
         self._values[attribute] += value
         self._values[attribute] = max(self._values[attribute], 0)
+
+    # E.g. used by item tooltips
+    func get_ui_string() -> String:
+        var result_strings: Array[String] = []
+
+        var str_value = get_attr(Attr.str)
+        if str_value > 0:
+            result_strings.append("STR %d" % str_value)
+
+        var con_value = get_attr(Attr.con)
+        if con_value > 0:
+            result_strings.append("CON %d" % con_value)
+
+        var dex_value = get_attr(Attr.dex)
+        if dex_value > 0:
+            result_strings.append("DEX %d" % dex_value)
+
+        var int_value = get_attr(Attr.int)
+        if int_value > 0:
+            result_strings.append("INT %d" % int_value)
+
+        var wis_value = get_attr(Attr.wis)
+        if wis_value > 0:
+            result_strings.append("WIS %d" % wis_value)
+
+        var cha_value = get_attr(Attr.cha)
+        if cha_value > 0:
+            result_strings.append("CHA %d" % cha_value)
+
+        return " ".join(result_strings)
+ 
+            
+ 
 
 
 enum Attr {
