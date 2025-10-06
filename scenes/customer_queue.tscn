@@ -33,6 +33,7 @@ size = Vector2i(203, 100)
 dialog_text = "Shop inventory is empty"
 
 [node name="Reference Ground" type="ColorRect" parent="."]
+visible = false
 offset_left = -500.0
 offset_right = 500.0
 offset_bottom = 40.0

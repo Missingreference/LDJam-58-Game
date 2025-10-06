@@ -1,6 +1,9 @@
-[gd_scene load_steps=34 format=3 uid="uid://dj68fhn7ya04l"]
+[gd_scene load_steps=37 format=3 uid="uid://dj68fhn7ya04l"]
 
 [ext_resource type="Script" uid="uid://dvy1gimmql8pa" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://c2groaajqg8e" path="res://assets/sprites/Stone_BG_Decoration.png" id="2_1kice"]
+[ext_resource type="Texture2D" uid="uid://b3ijbcvmv6sgx" path="res://assets/sprites/sky.png" id="2_5newe"]
+[ext_resource type="Texture2D" uid="uid://clfblt1g5tqhk" path="res://assets/sprites/Stone_BG_Base.png" id="2_264po"]
 [ext_resource type="FontFile" uid="uid://wmid7cbtl5br" path="res://assets/fonts/RulerGold.otf" id="2_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://wouky70rg5pj" path="res://scenes/shop_menu_small.tscn" id="2_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://bff4i60yrj6w4" path="res://assets/sprites/settings.png" id="3_lbhrr"]
@@ -91,6 +94,91 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uwrxv")
+
+[node name="Sky" type="TextureRect" parent="."]
+self_modulate = Color(0, 0.5982992, 0.7277769, 1)
+z_index = -1000
+layout_mode = 0
+offset_left = -20.0
+offset_top = -5.0
+offset_right = 1249.0084
+offset_bottom = 849.0
+texture = ExtResource("2_5newe")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1000
+layout_mode = 0
+offset_left = -960.0
+offset_top = 400.0
+offset_right = 2239.0
+offset_bottom = 2206.0
+color = Color(0.63, 0.63, 0.63, 1)
+
+[node name="Stone Decorations" type="Control" parent="."]
+modulate = Color(0.57, 0.57, 0.57, 1)
+z_index = -1000
+anchors_preset = 0
+offset_left = 350.0
+offset_right = 390.00024
+offset_bottom = 40.0
+
+[node name="Stone Decorations5" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 182.0
+offset_right = 1237.5
+offset_bottom = 527.0
+texture = ExtResource("2_1kice")
+
+[node name="Stone Decorations6" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 182.0
+offset_right = 1237.5
+offset_bottom = 527.0
+texture = ExtResource("2_1kice")
+
+[node name="Stone Decorations3" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -564.0
+offset_top = 180.0
+offset_right = -46.5
+offset_bottom = 525.0
+texture = ExtResource("2_264po")
+
+[node name="Stone Decorations2" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 182.0
+offset_right = 733.5
+offset_bottom = 527.0
+texture = ExtResource("2_264po")
+flip_h = true
+
+[node name="Stone Decorations7" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 182.0
+offset_right = 733.5
+offset_bottom = 527.0
+texture = ExtResource("2_264po")
+flip_h = true
+
+[node name="Stone Decorations" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -161.0
+offset_top = 180.0
+offset_right = 356.5
+offset_bottom = 525.0
+texture = ExtResource("2_264po")
+
+[node name="Stone Decorations8" type="TextureRect" parent="Stone Decorations"]
+layout_mode = 0
+offset_left = -161.0
+offset_top = 180.0
+offset_right = 356.5
+offset_bottom = 525.0
+texture = ExtResource("2_264po")
 
 [node name="PhaseTitle" type="Label" parent="."]
 layout_mode = 1

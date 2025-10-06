@@ -17,6 +17,8 @@ extends Control
 @onready var expedition_hiring: ExpeditionHiring = $ExpeditionHiring
 @onready var empty_shop_dialog: ConfirmationDialog = $EmptyShopDialog
 @onready var collection: Collection = $Collection
+@onready var stone_decorations: Control = $"Stone Decorations"
+@onready var sky: TextureRect = $Sky
 
 var game_data = GameData.new()
 
@@ -35,6 +37,18 @@ var phase_4_sprite = preload("res://assets/sprites/phase4_active.png")
 
 const SHOP_OPEN_POSITION_X = 250.0
 
+const SKY_DAWN_COLOR = Color("#D0B071")
+const SKY_DAY_COLOR = Color("#6BB1E0")
+const SKY_DUSK_COLOR = Color("c67f74ff")
+const SKY_NIGHT_COLOR = Color("#223249")
+const STONE_DECORATIONS_POSITION_X_1 = 500
+const STONE_DECORATIONS_POSITION_X_2 = 300
+const STONE_DECORATIONS_POSITION_X_3 = 100
+const STONE_DECORATIONS_POSITION_X_4 = -50
+const SKY_POSITION_X_1 = 0
+const SKY_POSITION_X_2 = -20
+const SKY_POSITION_X_3 = -40
+const SKY_POSITION_X_4 = -60
 
 # Internal signal to know the result of the EmptyShopDialog
 signal _empty_shop_confirm(bool)
@@ -42,6 +56,7 @@ signal _empty_shop_confirm(bool)
 
 func _ready():
     info_tooltip_label.text = ""
+    sky.self_modulate = SKY_NIGHT_COLOR
     
     # Setup empty shop dialog signals
     self.empty_shop_dialog.canceled.connect(func(): self._empty_shop_confirm.emit(false))
@@ -93,9 +108,22 @@ func _start_phase_one():
     await (func():
         var target_x_position = (get_viewport_rect().size.x / 2.0) - (shop_texture_rect.size.x / 2.0)
         var tween = create_tween()
+        tween.set_parallel(true)
         tween.set_trans(Tween.TRANS_SINE)
         tween.set_ease(Tween.EASE_OUT)
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        
+        target_x_position = stone_decorations.position.x + 150
+        print("Stone Pos: " + str(target_x_position))
+        target_x_position = STONE_DECORATIONS_POSITION_X_1
+        tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
+        target_x_position = sky.position.x + 20
+        target_x_position = SKY_POSITION_X_1
+        print("Sky Pos: " + str(target_x_position))
+        tween.tween_property(sky, "position:x", target_x_position, 2.0)
+        tween.tween_property(sky, "self_modulate", SKY_DAWN_COLOR, 2.0)
+        
+        
         return await tween.finished
     ).call()
     
@@ -146,9 +174,19 @@ func _start_phase_two():
     await (func():
         var target_x_position = SHOP_OPEN_POSITION_X - (shop_texture_rect.size.x / 2.0)
         var tween = create_tween()
+        tween.set_parallel(true)
         tween.set_trans(Tween.TRANS_SINE)
         tween.set_ease(Tween.EASE_OUT)
         tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        target_x_position = stone_decorations.position.x - 150
+        target_x_position = STONE_DECORATIONS_POSITION_X_2
+        print("Stone Pos: " + str(target_x_position))
+        tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
+        target_x_position = sky.position.x - 20
+        target_x_position = SKY_POSITION_X_2
+        print("Sky Pos: " + str(target_x_position))
+        tween.tween_property(sky, "position:x", target_x_position, 2.0)
+        tween.tween_property(sky, "self_modulate", SKY_DAY_COLOR, 2.0)
         return await tween.finished
     ).call()
     
@@ -184,7 +222,32 @@ func _start_phase_three():
     self.phase_texture.texture = phase_3_sprite
     self.game_data.phase = GameData.GamePhase.three
     
-    await _announcement_overlay.announce("Phase 3", "Hire Adventurers")
+    _announcement_overlay.announce("Phase 3", "Hire Adventurers")
+    
+    #Move stall and small shop menu to left side for customers to walk up to
+    await (func():
+        var tween = create_tween()
+        tween.set_parallel(true)
+        tween.set_trans(Tween.TRANS_SINE)
+        tween.set_ease(Tween.EASE_OUT)
+        
+        var target_x_position = -(get_viewport_rect().size.x / 4) - (shop_texture_rect.size.x / 2.0)
+        tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        target_x_position = stone_decorations.position.x - 150
+        target_x_position = STONE_DECORATIONS_POSITION_X_3
+        print("Stone Pos: " + str(target_x_position))
+        tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
+        target_x_position = sky.position.x - 20
+        target_x_position = SKY_POSITION_X_3
+        print("Sky Pos: " + str(target_x_position))
+        tween.tween_property(sky, "position:x", target_x_position, 2.0)
+        tween.tween_property(sky, "self_modulate", SKY_DUSK_COLOR, 2.0)
+        return await tween.finished
+    ).call()
+    
+    #Make sure the announcement is finished
+    if _announcement_overlay.visible:
+        await _announcement_overlay.completed
 
     self.expedition_hiring.customer_hired.connect(self._finish_phase_three)
     await self.expedition_hiring.start()
@@ -219,7 +282,32 @@ func _start_phase_four(hired_customer: Customer):
     self.phase_texture.texture = phase_4_sprite
     self.game_data.phase = GameData.GamePhase.four
     
-    await _announcement_overlay.announce("Phase 3", "End Day Report")
+    _announcement_overlay.announce("Phase 4", "End Day Report")
+    
+    #Move stall and small shop menu to left side for customers to walk up to
+    await (func():
+        var tween = create_tween()
+        tween.set_parallel(true)
+        tween.set_trans(Tween.TRANS_SINE)
+        tween.set_ease(Tween.EASE_OUT)
+        
+        var target_x_position = -(get_viewport_rect().size.x / 2) - (shop_texture_rect.size.x / 2.0)
+        tween.tween_property(shop_texture_rect, "position:x", target_x_position, 2.0)
+        target_x_position = stone_decorations.position.x - 150
+        target_x_position = STONE_DECORATIONS_POSITION_X_4
+        print("Stone Pos: " + str(target_x_position))
+        tween.tween_property(stone_decorations, "position:x", target_x_position, 2.0)
+        target_x_position = sky.position.x - 20
+        target_x_position = SKY_POSITION_X_4
+        print("Sky Pos: " + str(target_x_position))
+        tween.tween_property(sky, "position:x", target_x_position, 2.0)
+        tween.tween_property(sky, "self_modulate", SKY_NIGHT_COLOR, 2.0)
+        return await tween.finished
+    ).call()
+    
+    #Make sure the announcement is finished
+    if _announcement_overlay.visible:
+        await _announcement_overlay.completed
 
     var expedition_report: ExpeditionReport
     if hired_customer != null:
