@@ -7,7 +7,7 @@ static func run(dungeon: Dungeon, customer: Customer, collection: Collection) ->
     var report = ExpeditionReport.new()
     report.customer = customer
 
-    var customer_resolve: int = 10
+    var customer_resolve: int = 5
 
     for event in dungeon.events:
         # Evaluate the event
