@@ -33,7 +33,7 @@ var phase_2_sprite = preload("res://assets/sprites/phase2_active.png")
 var phase_3_sprite = preload("res://assets/sprites/phase3_active.png")
 var phase_4_sprite = preload("res://assets/sprites/phase4_active.png")
 
-const SHOP_OPEN_POSITION_X = 200.0
+const SHOP_OPEN_POSITION_X = 250.0
 
 
 # Internal signal to know the result of the EmptyShopDialog
