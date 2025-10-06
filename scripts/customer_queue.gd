@@ -82,9 +82,10 @@ func _enable_next_customer_selection():
     # Connect signals for the customer at the front of the queue
     var next_customer: Customer = queued_customers.front()
     if next_customer != null:
+        print("Next customer in queue is '%s'" % next_customer.customer_name)
         if not next_customer.selected.is_connected(self._do_customer_offer):
             next_customer.selected.connect(self._do_customer_offer)
-            next_customer.enable_selection()
+        next_customer.enable_selection()
 
 
 func _do_customer_offer():

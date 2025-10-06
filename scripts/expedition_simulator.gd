@@ -24,7 +24,7 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
         print("    %s %s: %s" % [success_string, event.description, event_outcome])
 
         # Log the event and outcome
-        report.log(event, event_outcome) 
+        report.log(event, event_outcome)
 
         # Update resolve
         customer_resolve += event_outcome.get_resolve()
@@ -42,27 +42,20 @@ static func run(dungeon: Dungeon, customer: Customer) -> ExpeditionReport:
 
         report.result = ExpeditionReport.Result.success
 
-        var complete_event = Dungeon.Event.new(
-            "Dungeon complete",
-            Customer.Attr.wis, 0, Dungeon.Outcome.new(), Dungeon.Outcome.new()
-        )
-
-        # Gain three items
+        # Gain reward for completing dungeon
         var bonus_outcome = Dungeon.Outcome.new()
         bonus_outcome.gain_item(Item.CreateRandom())
         bonus_outcome.gain_item(Item.CreateRandom())
         bonus_outcome.gain_item(Item.CreateRandom())
+        var complete_event = Dungeon.Event.new(
+            "Dungeon complete",
+            Customer.Attr.wis, 0,
+            bonus_outcome,
+            Dungeon.Outcome.new()
+        )
+        report.log(complete_event, bonus_outcome)
 
         # TODO: consider modifying character stats (e.g. level up or gain traits)
 
-        report.log(complete_event, bonus_outcome)
-
-
-
     print("End expedition")
     return report
-
-
-
-
-

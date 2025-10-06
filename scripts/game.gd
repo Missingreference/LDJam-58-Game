@@ -18,6 +18,7 @@ var game_data = GameData.new()
 var inventory_ui_scene = preload("res://scenes/inventory_ui.tscn")
 var settings_menu_scene = preload("res://scenes/settings_menu.tscn")
 var expedition_result_scene = preload("res://scenes/expedition_result.tscn")
+var expedition_loot_scene = preload("res://scenes/expedition_loot.tscn")
 
 var phase_1_sprite = preload("res://assets/sprites/phase1_active.png")
 var phase_2_sprite = preload("res://assets/sprites/phase2_active.png")
@@ -159,12 +160,17 @@ func _start_phase_four(hired_customer: Customer):
     var expedition_result: ExpeditionResult = self.expedition_result_scene.instantiate()
     self.add_child(expedition_result)
     expedition_result.set_expedition_report(expedition_report)
-
     await expedition_result.finished
     self.remove_child(expedition_result)
 
-    # TODO: Display loot scene 
-
+    var loot = expedition_report.get_loot()
+    if loot != null:
+        # Display loot scene 
+        var expedition_loot: ExpeditionLoot = self.expedition_loot_scene.instantiate()
+        self.add_child(expedition_loot)
+        expedition_loot.start(self.game_data, loot)
+        await expedition_loot.finished
+        self.remove_child(expedition_loot)
 
     self.end_phase_button.pressed.connect(self._finish_phase_four)
     self.end_phase_button.disabled = false

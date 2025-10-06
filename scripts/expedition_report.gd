@@ -19,6 +19,16 @@ func log(event: Dungeon.Event, outcome: Dungeon.Outcome):
     self.events.append(event)
     self.outcomes.append(outcome)
 
+func get_loot() -> Inventory:
+    # Loop over outcomes to collect looted items
+    var inventory = Inventory.new()
+    for outcome in self.outcomes:
+        for item in outcome.get_items_gained():
+            inventory.AddItem(item)
+
+    return inventory
+    
+
 enum Result {
     success,
     failure,

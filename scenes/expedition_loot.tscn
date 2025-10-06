@@ -1,29 +1,65 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0q3k42ssqifo"]
+[gd_scene load_steps=11 format=3 uid="uid://c0q3k42ssqifo"]
 
 [ext_resource type="Script" uid="uid://bwhtew2ov3qd3" path="res://scripts/expedition_loot.gd" id="1_g2vd6"]
 [ext_resource type="PackedScene" uid="uid://cwasakcao8et1" path="res://scenes/inventory_ui.tscn" id="2_cmsje"]
+[ext_resource type="Theme" uid="uid://ds8hcehsxq50d" path="res://scenes/title.tres" id="2_leupg"]
+[ext_resource type="Theme" uid="uid://bs46eli71xw45" path="res://scenes/info.tres" id="3_syf2h"]
+[ext_resource type="StyleBox" uid="uid://cu8vbrtxmdiek" path="res://assets/themes/button_hover.tres" id="3_uyjt5"]
+[ext_resource type="StyleBox" uid="uid://ckron3xxc2osc" path="res://assets/themes/button_theme.tres" id="4_jffrd"]
+[ext_resource type="StyleBox" uid="uid://bepxyyuwrxp16" path="res://assets/themes/button_pressed.tres" id="5_leupg"]
+[ext_resource type="Texture2D" uid="uid://bd54rge5vfdch" path="res://assets/sprites/accept.png" id="6_syf2h"]
 
-[node name="ExpeditionLoot" type="Control"]
-layout_mode = 3
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c07rq"]
+
+[sub_resource type="Theme" id="Theme_8c75q"]
+Button/styles/focus = SubResource("StyleBoxEmpty_c07rq")
+Button/styles/hover = ExtResource("3_uyjt5")
+Button/styles/normal = ExtResource("4_jffrd")
+Button/styles/pressed = ExtResource("5_leupg")
+
+[node name="ExpeditionLoot" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 4
+alignment = 1
 script = ExtResource("1_g2vd6")
 
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("2_leupg")
+text = "Loot"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+theme = ExtResource("3_syf2h")
+text = "Move loot you want to keep into your inventory"
+horizontal_alignment = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="Loot" parent="HBoxContainer" instance=ExtResource("2_cmsje")]
+custom_minimum_size = Vector2(500, 300)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="Warehouse" parent="HBoxContainer" instance=ExtResource("2_cmsje")]
+custom_minimum_size = Vector2(500, 300)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="AcceptButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = SubResource("Theme_8c75q")
+theme_override_constants/icon_max_width = 32
+icon = ExtResource("6_syf2h")
+
+[connection signal="pressed" from="AcceptButton" to="." method="_on_accept_button_pressed"]
